@@ -4,6 +4,6 @@ public class Main {
     private Schedule schedule;
 
     public void run() {
-
+        System.out.println("First print...");
     }
 }
