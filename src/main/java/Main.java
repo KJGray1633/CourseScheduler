@@ -3,7 +3,11 @@ public class Main {
     private User user;
     private Schedule schedule;
 
-    public void run() {
+    public static void run() {
         System.out.println("First print...");
+    }
+
+    public static void main(String[] args) {
+        run();
     }
 }
