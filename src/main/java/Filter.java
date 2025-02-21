@@ -2,6 +2,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 public class Filter {
+    // completed Days enum
     public enum Days {
         MWF,
         TR
