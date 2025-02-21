@@ -29,6 +29,21 @@ public class Main {
         return sb.toString();
     }
 
+    private static String getHomeString() {
+        // TODO: Implement the creation of a view for the home page
+        return "Home...";
+    }
+
+    private static String getSearchCoursesString() {
+        // TODO: Implement the creation of a view for the search courses page
+        return "Search...";
+    }
+
+    private static String getCalendarString() {
+        // TODO: Implement the creation of a view for the calendar page
+        return "Calendar...";
+    }
+
     /**
      * Get a string to be printed as output for a specific page
      * Get a string to be printed as output for a specific page
@@ -36,8 +51,17 @@ public class Main {
      * @return a string containing the desired view for the selected page
      */
     private static String getPageString(String menuItem) {
-        //TODO: Implement this method for the different pages
-        return "";
+        // Home
+        if (menuItem.toLowerCase().strip().equals(menu[0].toLowerCase()))
+            return getHomeString();
+        // Search Courses
+        if (menuItem.toLowerCase().strip().equals(menu[1].toLowerCase()))
+            return getSearchCoursesString();
+        // Calendar
+        if (menuItem.toLowerCase().strip().equals(menu[2].toLowerCase()))
+            return getCalendarString();
+        // Nothing found
+        return "No page found for '" + menuItem + "' . Please try again...";
     }
 
     private static void run() {
@@ -51,7 +75,7 @@ public class Main {
             System.out.println(getPageString(input));
 
             // Get user's input and make it lower case and remove outer whitespace
-            System.out.print("Please enter the name of the page you would like to navigate to or 'exit' to quit: ");
+            System.out.print("\nPlease enter the name of the page you would like to navigate to or 'exit' to quit: ");
             input = scan.nextLine().toLowerCase().strip();
 
             // Make extra space
