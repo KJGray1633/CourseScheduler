@@ -1,5 +1,9 @@
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
+    private Search search;
+    private User user;
+    private Schedule schedule;
+
+    public void run() {
+
     }
 }

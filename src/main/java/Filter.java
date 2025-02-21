@@ -1,0 +1,63 @@
+import java.sql.Time;
+import java.util.ArrayList;
+
+public class Filter {
+    public enum Days {
+        MWF,
+        TR
+    }
+
+    private Time startTime;
+    private Time endTime;
+    private String prof;
+    private Days days;
+    private String department;
+
+    public Filter() {
+
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getProf() {
+        return prof;
+    }
+
+    public void setProf(String prof) {
+        this.prof = prof;
+    }
+
+    public Days getDays() {
+        return days;
+    }
+
+    public void setDays(Days days) {
+        this.days = days;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public ArrayList<Course> filterSearch(ArrayList<Course> searchResults) {
+        return null;
+    }
+}
