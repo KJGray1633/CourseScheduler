@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,7 +8,8 @@ public class Main {
         SEARCH,
         CALENDAR,
         EXIT,
-        INVALID
+        INVALID,
+        SAME
     }
 
     private static Search search;
@@ -41,7 +43,6 @@ public class Main {
         // Add the current courses to the schedule
         StringBuilder sb = new StringBuilder();
         sb.append("Current Courses:\n");
-        schedule = new Schedule(user.getUid());
         ArrayList<Course> courses = schedule.getCourses();
         // Add all the courses to the string builder
         for (Course course : courses) {
@@ -118,10 +119,10 @@ public class Main {
             // Second part of input was not an integer
             return false;
         }
-
         for (Course c : schedule.getCourses()) {
             if (c.getCid() == removeCid) {
                 schedule.dropCourse(c);
+                return true;
             }
         }
 
@@ -144,16 +145,19 @@ public class Main {
         switch (currPage) {
             case HOME: {
                 insidePageInput = parseHomeInput(input);
+                break;
             }
             case SEARCH: {
                 insidePageInput = parseSearchInput(input);
+                break;
             }
             case CALENDAR: {
                 insidePageInput = parseCalendarInput(input);
+                break;
             }
         }
         if (insidePageInput)
-            return currPage;
+            return Page.SAME;
         // If it was not used inside a page, it is probably for switching pages
         return getNextPage(input);
     }
@@ -181,7 +185,7 @@ public class Main {
                     System.out.println("'" + input + "' is an invalid input for the current page. Please try again.");
                 }
             // Keep looping if invalid or still on the same page
-            } while (pageStatus.equals(Page.INVALID) || pageStatus.equals(currPage));
+            } while (pageStatus.equals(Page.INVALID) || pageStatus.equals(Page.SAME));
 
             // Change the current page to a new page
             currPage = pageStatus;
@@ -194,6 +198,7 @@ public class Main {
 
     public static void main(String[] args) {
         user = new User(1);
+        schedule = new Schedule(user.getUid());
         run();
     }
 }
