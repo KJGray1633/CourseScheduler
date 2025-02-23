@@ -6,7 +6,9 @@ public class MeetingTime {
     private String day;
 
     public MeetingTime(Time startTime, Time endTime, String day) {
-
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.day = day;
     }
 
     public Time getStartTime() {
@@ -21,5 +23,3 @@ public class MeetingTime {
         return day;
     }
 }
-
-// Meeting time branch check
