@@ -1,9 +1,9 @@
 import java.sql.Time;
 
 public class MeetingTime {
-    private Time startTime;
-    private Time endTime;
-    private String day;
+    private final Time startTime;
+    private final Time endTime;
+    private final String day;
 
     /**
      *

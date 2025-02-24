@@ -6,7 +6,7 @@ public class Course {
     private String courseCode;
     private String description;
     private String professor;
-    private ArrayList<MeetingTime> times;
+    protected ArrayList<MeetingTime> times;
     private int referenceNum;
 
     public Course(int cid) {
@@ -36,7 +36,9 @@ public class Course {
         return description;
     }
 
-    public String getProfessor() {return professor;}
+    public String getProfessor() {
+        return professor;
+    }
 
     public ArrayList<MeetingTime> getTimes() {
         return times;
@@ -47,6 +49,31 @@ public class Course {
     }
 
     public boolean isOverlap(Course course) {
+        // get the list of times of the other course
+        ArrayList<MeetingTime> otherTimes = course.getTimes();
+        // compare each time
+        for (MeetingTime otherTime : otherTimes) {
+            for (MeetingTime time : times) {
+                // if both times are on the same day, compare times
+                if (time.getDay().equals(otherTime.getDay())) {
+                    // if this time completely overlaps with the other, return true
+                    if (time.getStartTime().getTime() <= otherTime.getStartTime().getTime()
+                            && time.getEndTime().getTime() >= otherTime.getEndTime().getTime()) {
+                        return true;
+                    }
+                    // if this time finishes during the other, return true
+                    if (time.getEndTime().getTime() > otherTime.getStartTime().getTime()
+                            && time.getEndTime().getTime() < otherTime.getEndTime().getTime()) {
+                        return true;
+                    }
+                    // if this time starts during the other, return true
+                    if (time.getStartTime().getTime() > otherTime.getStartTime().getTime()
+                            && time.getStartTime().getTime() < otherTime.getEndTime().getTime()) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 }
