@@ -2,9 +2,11 @@ import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+//import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,15 +19,34 @@ public class Search {
     private String query;
     private ArrayList<Course> searchResults;
 
-    public List<Course> parseJSON() {
+    public static List<Course> parseJSON() {
         ArrayList<Course> courses = new ArrayList<>();
-       try{
-           String content = new String(Files.readAllBytes(Paths.get("data_wolfe.json")));
-           List<JSONObject> jsonObjects = extractJsonObjects(content);
-       } catch(IOException e){
-           System.out.println(e.getMessage());
-       }
-       return courses;
+        String content = "";
+        try {
+            content = new String(Files.readAllBytes(Paths.get("data_wolfe.json")));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        JSONObject json = new JSONObject(content);
+        JSONArray classes = json.getJSONArray("classes");
+        for (int i = 0; i < classes.length(); i++) {
+            JSONObject c = classes.getJSONObject(i);
+            String num = c.getString("location");
+            System.out.println(num);
+        }
+
+        return null;
+//       try{
+//           String content = new String(Files.readAllBytes(Paths.get("data_wolfe.json")));
+//           List<JSONObject> jsonObjects = extractJsonObjects(content);
+//       } catch(IOException e){
+//           System.out.println(e.getMessage());
+//       }
+//       return courses;
+    }
+
+    public static void main(String[] args) {
+        parseJSON();
     }
 
     public static List<JSONObject> extractJsonObjects(String content){
