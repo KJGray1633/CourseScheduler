@@ -6,7 +6,7 @@ public class Course {
     private String name;
     private String courseCode;
     private String description;
-    private ArrayList<MeetingTime> times;
+    protected ArrayList<MeetingTime> times;
     private int referenceNum;
 
     public Course(int cid) {
