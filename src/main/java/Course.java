@@ -13,6 +13,13 @@ public class Course {
 
     }
 
+    public Course(int cid, String name, String courseCode, String professor) {
+        this.cid = cid;
+        this.name = name;
+        this.courseCode = courseCode;
+        this.professor = professor;
+    }
+
     public int getCid() {
         return cid;
     }
@@ -27,6 +34,10 @@ public class Course {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getProfessor() {
+        return professor;
     }
 
     public ArrayList<MeetingTime> getTimes() {
