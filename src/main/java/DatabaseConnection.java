@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class DatabaseConnection {
     public boolean addCourse(int uid, int cid) {
+        // added new branch for dbCourse
         return false;
     }
 
