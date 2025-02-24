@@ -1,8 +1,20 @@
 import java.util.ArrayList;
 
 public class DatabaseConnection {
+
+    private ArrayList<Integer> uCourses = new ArrayList<Integer>();
+
     public boolean addCourse(int uid, int cid) {
-        // added new branch for dbCourse
+
+        if (getCourse(cid) == null) {
+            return false;
+        }
+        else {
+            //database call: UPDATE user SET cid = cid WHERE uid = uid
+
+            // without db call
+            uCourses.add(cid);
+        }
         return false;
     }
 
