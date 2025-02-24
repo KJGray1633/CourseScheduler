@@ -39,4 +39,16 @@ public class Course {
     public boolean isOverlap(Course course) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "cid=" + cid +
+                ", name='" + name + '\'' +
+                ", courseCode='" + courseCode + '\'' +
+                ", description='" + description + '\'' +
+                ", times=" + times +
+                ", referenceNum=" + referenceNum +
+                '}';
+    }
 }
