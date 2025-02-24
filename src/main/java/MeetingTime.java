@@ -5,8 +5,16 @@ public class MeetingTime {
     private Time endTime;
     private String day;
 
+    /**
+     *
+     * @param startTime
+     * @param endTime
+     * @param day
+     */
     public MeetingTime(Time startTime, Time endTime, String day) {
-
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.day = day;
     }
 
     public Time getStartTime() {
