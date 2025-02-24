@@ -5,6 +5,12 @@ public class MeetingTime {
     private final Time endTime;
     private final String day;
 
+    /**
+     *
+     * @param startTime
+     * @param endTime
+     * @param day
+     */
     public MeetingTime(Time startTime, Time endTime, String day) {
         this.startTime = startTime;
         this.endTime = endTime;
