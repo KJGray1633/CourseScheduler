@@ -1,95 +1,90 @@
+import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Time;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+//import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Search {
     private String query;
     private ArrayList<Course> searchResults;
-//
+
     public static List<Course> parseJSON() {
-        int id = 0;
         ArrayList<Course> courses = new ArrayList<>();
         String content = "";
-
         try {
             content = new String(Files.readAllBytes(Paths.get("data_wolfe.json")));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
         JSONObject json = new JSONObject(content);
         JSONArray classes = json.getJSONArray("classes");
-
         for (int i = 0; i < classes.length(); i++) {
             JSONObject c = classes.getJSONObject(i);
-            int credits = c.getInt("credits");
-            JSONArray fac = c.getJSONArray("faculty");
-            for (int j = 0; j < fac.length(); j++) {
-                String faculty = fac.getString(j);
-                //add to list of the course
-            }
-            boolean isLab = c.getBoolean("is_lab");
-            boolean isOpen = c.getBoolean("is_open");
-            String location = c.getString("location");
-            String name = c.getString("name");
-            int number = c.getInt("number");
-            int open_seats = c.getInt("open_seats");
-            String section = c.getString("section");
-            String semester = c.getString("semester");
-            String subject = c.getString("subject");
-
-            Course currCourse = new Course(id);
-            id++;
-            currCourse.setName(name);
-            currCourse.setCourseCode(number);
-
-            JSONArray times = c.getJSONArray("times");
-            for (int j = 0; j < times.length(); j++) {
-                JSONObject js = times.getJSONObject(j);
-                String day = js.getString("day");
-
-                String end_time = js.getString("end_time");
-                Time et = scanTime(end_time);
-
-                String start_time = js.getString("start_time");
-                Time st = scanTime(start_time);
-                MeetingTime mt = new MeetingTime(st, et, day);
-                currCourse.getTimes().add(mt);
-                System.out.println(currCourse);
-            }
-
-            int total_seats = c.getInt("total_seats");
+            String num = c.getString("location");
+            System.out.println(num);
         }
 
-        return courses;
-
-    }
-
-    public static Time scanTime(String t){
-        Scanner scan = new Scanner(t);
-        scan.useDelimiter(":");
-        int hours = scan.nextInt();
-        int mins = scan.nextInt();
-        int secs = scan.nextInt();
-        long ms = 0;
-        ms += (3600000*hours);
-        ms += (60000*mins);
-        ms += (1000*secs);
-        Time time = new Time(ms);
-        return time;
+        return null;
+//       try{
+//           String content = new String(Files.readAllBytes(Paths.get("data_wolfe.json")));
+//           List<JSONObject> jsonObjects = extractJsonObjects(content);
+//       } catch(IOException e){
+//           System.out.println(e.getMessage());
+//       }
+//       return courses;
     }
 
     public static void main(String[] args) {
         parseJSON();
     }
 
+    public static List<JSONObject> extractJsonObjects(String content){
+        List<JSONObject> jsonObjects = new ArrayList<>();
+        String jsonString = "";
+        boolean inWord = false;
+        int i = 0;
+
+        while(i < content.length() - 2){
+            if((content.charAt(i) == '{' && content.charAt(i+2) == 'r') || inWord){
+                i++;
+                jsonString += content.charAt(i);
+                inWord = true;
+            }
+            if(content.charAt(i) == '}'){
+                inWord = false;
+                JSONObject jsonObject = new JSONObject(jsonString);
+                jsonObjects.add(jsonObject);
+                System.out.println(jsonString);
+                jsonString = "";
+                i++;
+            }
+        }
+
+        // string contains
+
+
+//        while (matcher.find()) {
+//            String jsonString = matcher.group();
+//            try {
+
+//                System.out.println(jsonObject);
+//            } catch (Exception e) {
+//                System.out.println(e.getMessage());
+//            }
+//        }
+        return jsonObjects;
+    }
 
     public Search() {
     }
