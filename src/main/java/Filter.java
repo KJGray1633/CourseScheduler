@@ -10,7 +10,7 @@ public class Filter {
 
     private Time startTime;
     private Time endTime;
-    private String prof;
+    private ArrayList<String> prof;
     private Days days;
     private String department;
     //Hello
@@ -34,13 +34,13 @@ public class Filter {
         this.endTime = endTime;
     }
 
-    public String getProf() {
+    public ArrayList<String> getProf() {
         return prof;
     }
 
-    public void setProf(String prof) {
-        this.prof = prof;
-    }
+//    public void setProf(String prof) {
+//        this.prof = prof;
+//    }
 
     public Days getDays() {
         return days;

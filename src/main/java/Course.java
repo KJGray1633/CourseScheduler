@@ -5,7 +5,7 @@ public class Course {
     private String name;
     private int courseCode;
     private String description;
-    private String professor;
+    private ArrayList<String> professor;
     protected ArrayList<MeetingTime> times;
     private int referenceNum;
 
@@ -15,11 +15,11 @@ public class Course {
 
     }
 
-    public Course(int cid, String name, int courseCode, String professor) {
+    public Course(int cid, String name, int courseCode) {
         this.cid = cid;
         this.name = name;
         this.courseCode = courseCode;
-        this.professor = professor;
+        this.professor = new ArrayList<>();
     }
 
     public int getCid() {
@@ -38,7 +38,7 @@ public class Course {
         return description;
     }
 
-    public String getProfessor() {
+    public ArrayList<String> getProfessor() {
         return professor;
     }
 
