@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Search {
     private String query;
     private ArrayList<Course> searchResults;
-
+//
     public static List<Course> parseJSON() {
         int id = 0;
         ArrayList<Course> courses = new ArrayList<>();
