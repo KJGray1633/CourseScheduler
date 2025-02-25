@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 public class DatabaseConnection {
 
-    private ArrayList<Integer> uCourses = new ArrayList<Integer>();
-
     public boolean addCourse(int uid, int cid) {
+        JSONObject jsonObject = new JSONObject();
 
+        // user id = 1
         if (getCourse(cid) == null) {
             return false;
         }
@@ -13,9 +14,10 @@ public class DatabaseConnection {
             //database call: UPDATE user SET cid = cid WHERE uid = uid
 
             // without db call
-            uCourses.add(cid);
+           jsonObject.put("userID", uid);
+           jsonObject.put("courseID", cid);
         }
-        return false;
+        return true;
     }
 
     public boolean dropCourse(int uid, int cid) {
