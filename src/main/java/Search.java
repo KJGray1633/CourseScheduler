@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-
+// pish
 public class Search {
     private String query;
     private ArrayList<Course> searchResults;
