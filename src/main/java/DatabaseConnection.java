@@ -5,11 +5,11 @@ import org.json.JSONObject;
 
 public class DatabaseConnection {
 
+    private JSONArray jsonArray = new JSONArray();
+
+    private JSONObject jsonObject = new JSONObject();
+
     public boolean addCourse(int uid, int cid) {
-
-        JSONArray jsonArray = new JSONArray();
-
-        JSONObject jsonObject = new JSONObject();
 
         // user id = 1
 //        if (getCourse(cid) == null) {
@@ -30,6 +30,14 @@ public class DatabaseConnection {
     }
 
     public boolean dropCourse(int uid, int cid) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject user = jsonArray.getJSONObject(i);
+            if (user.getInt("userID") == uid && user.getInt("courseID") == cid) {
+                user.remove("courseID");
+                System.out.println(jsonArray);
+                return true;
+            }
+        }
         return false;
     }
 

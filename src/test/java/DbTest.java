@@ -12,5 +12,15 @@ public class DbTest {
         } else {
             System.out.println("Course could not be added.");
         }
+
+
+        // drop course test
+        boolean result2 = db.dropCourse(1, 1234);
+
+        if (result2) {
+            System.out.println("Course dropped successfully.");
+        } else {
+            System.out.println("Course could not be dropped.");
+        }
     }
 }
