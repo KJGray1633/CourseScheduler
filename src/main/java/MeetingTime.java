@@ -17,6 +17,15 @@ public class MeetingTime {
         this.day = day;
     }
 
+    @Override
+    public String toString() {
+        return "MeetingTime{" +
+                "startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", day='" + day + '\'' +
+                '}';
+    }
+
     public Time getStartTime() {
         return startTime;
     }
