@@ -18,7 +18,7 @@ public class Search {
         int id = 0;
         List<Course> courses = new ArrayList<>();
         String content = "";
-
+        // push
         try {
             content = new String(Files.readAllBytes(Paths.get("data_wolfe.json")));
         } catch (Exception e) {
