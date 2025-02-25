@@ -6,6 +6,10 @@ public class MeetingTime {
     private String day;
 
     public MeetingTime(Time startTime, Time endTime, String day) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.day = day;
+
 
     }
 
@@ -19,5 +23,14 @@ public class MeetingTime {
 
     public String getDay() {
         return day;
+    }
+
+    @Override
+    public String toString() {
+        return "MeetingTime{" +
+                "startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", day='" + day + '\'' +
+                '}';
     }
 }
