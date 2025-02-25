@@ -1,19 +1,12 @@
-import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-//import com.google.gson.Gson;
-//import com.google.gson.reflect.TypeToken;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class Search {
     private String query;
