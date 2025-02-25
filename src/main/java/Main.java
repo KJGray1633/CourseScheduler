@@ -1,5 +1,6 @@
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -197,8 +198,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        user = new User(1);
-        schedule = new Schedule(user.getUid());
-        run();
+//        user = new User(1);
+//        schedule = new Schedule(user.getUid());
+//        run();
+        Search s = new Search();
+        List<Course> c =s.parseJSON();
+
+
     }
 }

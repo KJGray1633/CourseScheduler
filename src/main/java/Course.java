@@ -3,17 +3,19 @@ import java.util.ArrayList;
 public class Course {
     private int cid;
     private String name;
-    private String courseCode;
+    private int courseCode;
     private String description;
     private String professor;
     protected ArrayList<MeetingTime> times;
     private int referenceNum;
 
     public Course(int cid) {
+        this.cid = cid;
+        times = new ArrayList<>();
 
     }
 
-    public Course(int cid, String name, String courseCode, String professor) {
+    public Course(int cid, String name, int courseCode, String professor) {
         this.cid = cid;
         this.name = name;
         this.courseCode = courseCode;
@@ -28,7 +30,7 @@ public class Course {
         return name;
     }
 
-    public String getCourseCode() {
+    public int getCourseCode() {
         return courseCode;
     }
 
@@ -42,6 +44,10 @@ public class Course {
 
     public ArrayList<MeetingTime> getTimes() {
         return times;
+    }
+
+    public void setCourseCode(int courseCode) {
+        this.courseCode = courseCode;
     }
 
     public int getReferenceNum() {
@@ -75,5 +81,25 @@ public class Course {
             }
         }
         return false;
+    }
+
+    public void setTimes(ArrayList<MeetingTime> times) {
+        this.times = times;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "cid=" + cid +
+                ", name='" + name + '\'' +
+                ", courseCode='" + courseCode + '\'' +
+                ", description='" + description + '\'' +
+                ", times=" + times +
+                ", referenceNum=" + referenceNum +
+                '}';
     }
 }
