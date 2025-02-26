@@ -120,6 +120,16 @@ public class Search {
             }
 
             // Check day, end and start times
+            if(filter.getCourseCode() != c.getCourseCode()){
+                searchResults.remove(c);
+            }
+            for(MeetingTime t: c.getTimes()){
+                boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
+                if(!isDay){
+                    c.getTimes().remove(t);
+                    searchResults.remove(c);
+                }
+            }
 
 
         }

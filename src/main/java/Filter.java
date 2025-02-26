@@ -13,6 +13,16 @@ public class Filter {
     private ArrayList<String> prof;
     private Days days;
     private String department;
+    private int courseCode;
+
+    public int getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(int courseCode) {
+        this.courseCode = courseCode;
+    }
+
     //Hello
     public Filter() {
 

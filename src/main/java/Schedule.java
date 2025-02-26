@@ -5,9 +5,9 @@ public class Schedule {
 
     public Schedule(int uid) {
         courses = new ArrayList<>();
-        courses.add(new Course(1,"Programming 1", 0,"Programming Prof 1"));
-        courses.add(new Course(2,"Foundations of Academic Discourse", 2,"English Prof 1"));
-        courses.add(new Course(3,"Principles of Accounting",2,"Accounting Prof 1"));
+//        courses.add(new Course(1,"Programming 1", 0,"Programming Prof 1"));
+//        courses.add(new Course(2,"Foundations of Academic Discourse", 2,"English Prof 1"));
+//        courses.add(new Course(3,"Principles of Accounting",2,"Accounting Prof 1"));
     }
 
     public ArrayList<Course> getCourses() {

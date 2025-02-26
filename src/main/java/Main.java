@@ -201,7 +201,7 @@ public class Main {
 //        user = new User(1);
 //        schedule = new Schedule(user.getUid());
 //        run();
-        Search s = new Search();
+        Search s = new Search("");
         List<Course> c =s.parseJSON();
 
 
