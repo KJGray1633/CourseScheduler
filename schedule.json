@@ -1,0 +1,23 @@
+{"courses": [
+  {
+    "referenceNum": 0,
+    "professor": "Programming Prof 1",
+    "courseCode": 0,
+    "name": "Programming 1",
+    "cid": 1
+  },
+  {
+    "referenceNum": 0,
+    "professor": "English Prof 1",
+    "courseCode": 1,
+    "name": "Foundations of Academic Discourse",
+    "cid": 2
+  },
+  {
+    "referenceNum": 0,
+    "professor": "Accounting Prof 1",
+    "courseCode": 2,
+    "name": "Principles of Accounting",
+    "cid": 3
+  }
+]}
