@@ -198,11 +198,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        user = new User(1);
-        schedule = new Schedule(user.getUid());
-        run();
-//        Search s = new Search();
-//        List<Course> c = s.parseJSON();
+//        user = new User(1);
+//        schedule = new Schedule(user.getUid());
+//        run();
+        Search s = new Search();
+        List<Course> c =s.parseJSON();
 
 
     }
