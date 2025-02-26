@@ -4,10 +4,10 @@ public class Schedule {
     private ArrayList<Course> courses;
 
     public Schedule(int uid) {
-//        courses = new ArrayList<>();
-//        courses.add(new Course(1,"Programming 1", "COMP141","Programming Prof 1"));
-//        courses.add(new Course(2,"Foundations of Academic Discourse", "WRIT101","English Prof 1"));
-//        courses.add(new Course(3,"Principles of Accounting","ACCT201","Accounting Prof 1"));
+        courses = new ArrayList<>();
+        courses.add(new Course(1,"Programming 1", 0,"Programming Prof 1"));
+        courses.add(new Course(2,"Foundations of Academic Discourse", 2,"English Prof 1"));
+        courses.add(new Course(3,"Principles of Accounting",2,"Accounting Prof 1"));
     }
 
     public ArrayList<Course> getCourses() {
