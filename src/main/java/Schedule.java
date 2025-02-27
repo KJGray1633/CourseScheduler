@@ -36,8 +36,8 @@ public class Schedule {
             int courseCode = jsonCourse.getInt("courseCode");
             String name = jsonCourse.getString("name");
             int cid = jsonCourse.getInt("cid");
-            Course course = new Course(cid, name, courseCode, professor);
-            courses.add(course);
+            //Course course = new Course(cid, name, courseCode, professor);
+            //courses.add(course);
         }
     }
 
