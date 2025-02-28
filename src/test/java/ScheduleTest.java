@@ -24,7 +24,7 @@ public class ScheduleTest {
 
     @Test
     void testScheduleFromJSON() {
-        Schedule loadSchedule = new Schedule("schedule.json");
+        Schedule loadSchedule = new Schedule(0);
         for (int i = 0; i < loadSchedule.courses.size(); i++) {
             assertEquals(loadSchedule.courses.get(i).getCid(), schedule.courses.get(i).getCid());
         }

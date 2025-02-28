@@ -1,7 +1,5 @@
 import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     enum Page {
@@ -67,10 +65,54 @@ public class Main {
         return sb.toString();
     }
 
+    private static void sortClassDay(ArrayList<Map.Entry<MeetingTime, Course>> meetingList) {
+        Collections.sort(meetingList, new Comparator<Map.Entry<MeetingTime, Course>>() {
+            @Override
+            public int compare(Map.Entry<MeetingTime, Course> entry1, Map.Entry<MeetingTime, Course> entry2) {
+                return entry1.getKey().getStartTime().compareTo(entry2.getKey().getStartTime());
+            }
+        });
+    }
+
     private static String getCalendarString() {
         // TODO: Implement the creation of a view for the calendar page
         StringBuilder sb = new StringBuilder();
         sb.append("--Calendar--\n\n");
+        // Dictionary with class times for every day
+        Dictionary<Day, ArrayList<Map.Entry<MeetingTime, Course>>> classTimes = new Hashtable<>();
+
+        // Loop through all the different classes and their meeting times
+        for (Course course : schedule.getCourses()) {
+            for (MeetingTime meetingTime : course.getTimes()) {
+                // Add the meeting time to the correct dictionary entry
+                switch (meetingTime.getDay()) {
+                    case MONDAY:
+                        classTimes.get(Day.MONDAY).add(Map.entry(meetingTime,course));
+                        break;
+                    case TUESDAY:
+                        classTimes.get(Day.TUESDAY).add(Map.entry(meetingTime,course));
+                        break;
+                    case WEDNESDAY:
+                        classTimes.get(Day.WEDNESDAY).add(Map.entry(meetingTime,course));
+                        break;
+                    case THURSDAY:
+                        classTimes.get(Day.THURSDAY).add(Map.entry(meetingTime,course));
+                        break;
+                    case FRIDAY:
+                        classTimes.get(Day.FRIDAY).add(Map.entry(meetingTime,course));
+                        break;
+                }
+            }
+        }
+
+        Enumeration<Day> classKeys = classTimes.keys();
+
+        // Sort all the day array lists by when they start
+        while (classKeys.hasMoreElements()) {
+            Day key = classKeys.nextElement();
+            sortClassDay(classTimes.get(key));
+        }
+
         return sb.toString();
     }
 
