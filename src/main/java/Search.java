@@ -152,14 +152,18 @@ public class Search {
     }
 
     public String spellCheck(String s) {
-        String dif;
-        for(Course c : searchResults){
-            dif = StringUtils.difference(c.getName(), s);
-            if(dif.length() < 4){
-                return c.getName();
-            }
-
-        }
-        return "Could not find match for " + s;
+        /**
+         * Needs to be tested
+        * */
+//        String dif;
+//        for(Course c : searchResults){
+//            dif = StringUtils.difference(c.getName(), s);
+//            if(dif.length() < 4){
+//                return c.getName();
+//            }
+//
+//        }
+//        return "Could not find match for " + s;
+        return "";
     }
 }
