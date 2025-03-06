@@ -111,31 +111,31 @@ public class Search {
         // Account for situations where filter fields are null
         for (Course c : searchResults) {
             for (String prof : c.getProfessor()) {
-                if (!filter.getProf().contains(prof)) {
+                if (filter.getProf() != null && !filter.getProf().contains(prof)) {
                     searchResults.remove(c);
                 }
             }
 
-            if (!filter.getDepartment().equals(c.getName())) {
+            if (filter.getDepartment() != null && !filter.getDepartment().equals(c.getName())) {
                 searchResults.remove(c);
             }
 
             // Check day, end and start times
-            if (filter.getCourseCode() != c.getCourseCode()) {
+            if (filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
                 searchResults.remove(c);
             }
             for (MeetingTime t : c.getTimes()) {
                 boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
-                if (!isDay) {
+                if (filter.getDays() != null && !isDay) {
                     c.getTimes().remove(t);
                     searchResults.remove(c);
                 }
             }
-            if (!c.getName().equals(filter.getName())) {
+            if (filter.getName() != null && !c.getName().equals(filter.getName())) {
                 searchResults.remove(c);
             }
 
-            if (c.getReferenceNum() != filter.getReferenceCode()) {
+            if (filter.getReferenceCode() != 0 && c.getReferenceNum() != filter.getReferenceCode()) {
                 searchResults.remove(c);
             }
         }
