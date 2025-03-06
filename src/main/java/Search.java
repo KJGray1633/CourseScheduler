@@ -71,25 +71,25 @@ public class Search {
             int total_seats = c.getInt("total_seats");
         }
         return courses;
-        }
+    }
 
-    public static Time scanTime(String t){
+    public static Time scanTime(String t) {
         Scanner scan = new Scanner(t);
         scan.useDelimiter(":");
         int hours = scan.nextInt();
         int mins = scan.nextInt();
         int secs = scan.nextInt();
         long ms = 0;
-        ms += (3600000*hours);
-        ms += (60000*mins);
-        ms += (1000*secs);
+        ms += (3600000 * hours);
+        ms += (60000 * mins);
+        ms += (1000 * secs);
         Time time = new Time(ms);
         return time;
     }
 
-        public static void main (String[]args){
-            parseJSON();
-        }
+    public static void main(String[] args) {
+        parseJSON();
+    }
 
     public Search(String query) {
         this.query = query;
@@ -107,41 +107,41 @@ public class Search {
         return searchResults;
     }
 
-    public ArrayList<Course> filter (Filter filter){
-        for(Course c : searchResults){
-            for(String prof: c.getProfessor()){
-                if(!filter.getProf().contains(prof)){
+    public void filter(Filter filter) {
+        // Account for situations where filter fields are null
+        for (Course c : searchResults) {
+            for (String prof : c.getProfessor()) {
+                if (!filter.getProf().contains(prof)) {
                     searchResults.remove(c);
                 }
             }
 
-            if(!filter.getDepartment().equals(c.getName())){
+            if (!filter.getDepartment().equals(c.getName())) {
                 searchResults.remove(c);
             }
 
             // Check day, end and start times
-            if(filter.getCourseCode() != c.getCourseCode()){
+            if (filter.getCourseCode() != c.getCourseCode()) {
                 searchResults.remove(c);
             }
-            for(MeetingTime t: c.getTimes()){
+            for (MeetingTime t : c.getTimes()) {
                 boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
-                if(!isDay){
+                if (!isDay) {
                     c.getTimes().remove(t);
                     searchResults.remove(c);
                 }
             }
+            if (!c.getName().equals(filter.getName())) {
+                searchResults.remove(c);
+            }
 
-
-
-            // Implement checks for name and reference code
-
-
-
-        }
-            return null;
-        }
-
-        public String spellCheck (String s){
-            return null;
+            if (c.getReferenceNum() != filter.getReferenceCode()) {
+                searchResults.remove(c);
+            }
         }
     }
+
+    public String spellCheck(String s) {
+        return null;
+    }
+}

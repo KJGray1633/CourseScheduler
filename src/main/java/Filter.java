@@ -14,14 +14,9 @@ public class Filter {
     private Days days;
     private String department;
     private int courseCode;
+    private int referenceCode;
+    private String name;
 
-    public int getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(int courseCode) {
-        this.courseCode = courseCode;
-    }
 
     //Hello
     public Filter() {
@@ -67,6 +62,31 @@ public class Filter {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    public int getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(int courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public int getReferenceCode() {
+        return referenceCode;
+    }
+
+    public void setReferenceCode(int referenceCode) {
+        this.referenceCode = referenceCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public ArrayList<Course> filterSearch(ArrayList<Course> searchResults) {
         return null;
