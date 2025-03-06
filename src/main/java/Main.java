@@ -202,7 +202,7 @@ public class Main {
 //        schedule = new Schedule(user.getUid());
 //        run();
         Search s = new Search("");
-        List<Course> c =s.parseJSON();
+        List<Course> c = s.parseJSON();
 
 
     }

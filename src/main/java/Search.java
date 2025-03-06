@@ -31,6 +31,8 @@ public class Search {
             JSONObject c = classes.getJSONObject(i);
             Course currCourse = new Course(id);
             int credits = c.getInt("credits");
+            currCourse.setCredits(credits);
+
             JSONArray fac = c.getJSONArray("faculty");
             for (int j = 0; j < fac.length(); j++) {
                 String faculty = fac.getString(j);
@@ -38,20 +40,26 @@ public class Search {
             }
             boolean isLab = c.getBoolean("is_lab");
             boolean isOpen = c.getBoolean("is_open");
+            currCourse.setLab(isLab);
+            currCourse.setOpen(isOpen);
 
             String location = c.getString("location");
             String name = c.getString("name");
+            currCourse.setLocation(location);
+            currCourse.setName(name);
 
             int number = c.getInt("number");
             int open_seats = c.getInt("open_seats");
+            currCourse.setCourseCode(number);
+            currCourse.setOpenSeats(open_seats);
 
             String section = c.getString("section");
             String semester = c.getString("semester");
             String subject = c.getString("subject");
-
+            currCourse.setSection(section);
+            currCourse.setSemester(semester);
+            currCourse.setSubject(subject);
             id++;
-            currCourse.setName(name);
-            currCourse.setCourseCode(number);
 
             JSONArray times = c.getJSONArray("times");
             for (int j = 0; j < times.length(); j++) {
@@ -69,6 +77,7 @@ public class Search {
             }
 
             int total_seats = c.getInt("total_seats");
+            currCourse.setTotalSeats(total_seats);
         }
         return courses;
     }
