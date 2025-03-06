@@ -98,6 +98,7 @@ public class Course {
     public Course(int cid) {
         this.cid = cid;
         times = new ArrayList<>();
+        professor = new ArrayList<>();
     }
 
     public Course(int cid, String name, int courseCode) {
