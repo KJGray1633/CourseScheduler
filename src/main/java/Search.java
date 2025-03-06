@@ -3,6 +3,7 @@ import java.nio.file.Paths;
 import java.sql.Time;
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -151,6 +152,14 @@ public class Search {
     }
 
     public String spellCheck(String s) {
-        return null;
+        String dif;
+        for(Course c : searchResults){
+            dif = StringUtils.difference(c.getName(), s);
+            if(dif.length() < 4){
+                return c.getName();
+            }
+
+        }
+        return "Could not find match for " + s;
     }
 }
