@@ -10,9 +10,14 @@ public class Filter {
 
     private Time startTime;
     private Time endTime;
-    private String prof;
+    private ArrayList<String> prof;
     private Days days;
     private String department;
+    private int courseCode;
+    private int referenceCode;
+    private String name;
+
+
     //Hello
     public Filter() {
 
@@ -34,13 +39,13 @@ public class Filter {
         this.endTime = endTime;
     }
 
-    public String getProf() {
+    public ArrayList<String> getProf() {
         return prof;
     }
 
-    public void setProf(String prof) {
-        this.prof = prof;
-    }
+//    public void setProf(String prof) {
+//        this.prof = prof;
+//    }
 
     public Days getDays() {
         return days;
@@ -57,6 +62,31 @@ public class Filter {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    public int getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(int courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public int getReferenceCode() {
+        return referenceCode;
+    }
+
+    public void setReferenceCode(int referenceCode) {
+        this.referenceCode = referenceCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public ArrayList<Course> filterSearch(ArrayList<Course> searchResults) {
         return null;

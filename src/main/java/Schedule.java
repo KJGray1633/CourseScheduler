@@ -12,9 +12,9 @@ public class Schedule {
 
     public Schedule(int uid) {
         courses = new ArrayList<>();
-        courses.add(new Course(1,"Programming 1", 0,"Programming Prof 1"));
-        courses.add(new Course(2,"Foundations of Academic Discourse", 2,"English Prof 1"));
-        courses.add(new Course(3,"Principles of Accounting",2,"Accounting Prof 1"));
+//        courses.add(new Course(1,"Programming 1", 0,"Programming Prof 1"));
+//        courses.add(new Course(2,"Foundations of Academic Discourse", 2,"English Prof 1"));
+//        courses.add(new Course(3,"Principles of Accounting",2,"Accounting Prof 1"));
     }
 
     public Schedule(String fileName) {
@@ -36,8 +36,8 @@ public class Schedule {
             int courseCode = jsonCourse.getInt("courseCode");
             String name = jsonCourse.getString("name");
             int cid = jsonCourse.getInt("cid");
-            Course course = new Course(cid, name, courseCode, professor);
-            courses.add(course);
+            //Course course = new Course(cid, name, courseCode, professor);
+            //courses.add(course);
         }
     }
 

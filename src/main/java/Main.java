@@ -43,7 +43,6 @@ public class Main {
     private static String getHomeString() {
         // Add the current courses to the schedule
         StringBuilder sb = new StringBuilder();
-        sb.append("--Home--\n\n");
         sb.append("Current Courses:\n");
         ArrayList<Course> courses = schedule.getCourses();
         // Add all the courses to the string builder
@@ -61,14 +60,13 @@ public class Main {
     }
 
     private static String getSearchCoursesString() {
-        // TODO: Implement the creation of a view for the search courses page
         StringBuilder sb = new StringBuilder();
         sb.append("--Search--\n\n");
         return sb.toString();
+
     }
 
     private static String getCalendarString() {
-        // TODO: Implement the creation of a view for the calendar page
         StringBuilder sb = new StringBuilder();
         sb.append("--Calendar--\n\n");
         return sb.toString();
@@ -206,5 +204,9 @@ public class Main {
         user = new User(1);
         schedule = new Schedule(user.getUid());
         run();
+
+        Search s = new Search("");
+        List<Course> c = s.parseJSON();
+
     }
 }
