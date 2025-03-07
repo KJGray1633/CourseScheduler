@@ -60,13 +60,16 @@ public class Main {
     }
 
     private static String getSearchCoursesString() {
-        // TODO: Implement the creation of a view for the search courses page
-        return "Search...";
+        StringBuilder sb = new StringBuilder();
+        sb.append("--Search--\n\n");
+        return sb.toString();
+
     }
 
     private static String getCalendarString() {
-        // TODO: Implement the creation of a view for the calendar page
-        return "Calendar...";
+        StringBuilder sb = new StringBuilder();
+        sb.append("--Calendar--\n\n");
+        return sb.toString();
     }
 
     /**
@@ -178,7 +181,7 @@ public class Main {
             Page pageStatus;
             do {
                 // Get user's input and make it lower case and remove outer whitespace
-                System.out.print("Please enter the name of the page you would like to navigate or the command you would like to execute or 'exit' to quit: ");
+                System.out.print("Please enter the name of the page you would like to navigate to or the command you would like to execute or 'exit' to quit: ");
                 input = scan.nextLine().toLowerCase().strip();
                 pageStatus = parsePageInput(input);
 
@@ -198,12 +201,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
-//        user = new User(1);
-//        schedule = new Schedule(user.getUid());
-//        run();
+        user = new User(1);
+        schedule = new Schedule(user.getUid());
+        run();
+
         Search s = new Search("");
         List<Course> c = s.parseJSON();
-
 
     }
 }
