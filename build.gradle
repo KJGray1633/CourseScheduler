@@ -14,6 +14,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.json:json:20250107'
 
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
 }
 
 test {
