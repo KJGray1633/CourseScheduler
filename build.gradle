@@ -15,6 +15,8 @@ dependencies {
     implementation 'org.json:json:20250107'
     // https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
     implementation group: 'com.google.firebase', name: 'firebase-admin', version: '9.4.3'
+    // https://mvnrepository.com/artifact/org.springframework/spring-context
+    implementation 'org.springframework:spring-context:7.0.0-M2'
 }
 
 test {
