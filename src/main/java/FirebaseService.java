@@ -25,5 +25,6 @@ public class FirebaseService {
         // Check if the document exists in Firestore
         return documentSnapshot.exists();
     }
-
 }
+
+// trying to commit these changes
