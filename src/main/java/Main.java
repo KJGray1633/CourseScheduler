@@ -2,7 +2,7 @@ import java.sql.SQLOutput;
 import java.util.*;
 
 public class Main {
-    enum Page {
+    public enum Page {
         HOME,
         SEARCH,
         CALENDAR,
@@ -41,7 +41,6 @@ public class Main {
     private static String getHomeString() {
         // Add the current courses to the schedule
         StringBuilder sb = new StringBuilder();
-        sb.append("--Home--\n\n");
         sb.append("Current Courses:\n");
         ArrayList<Course> courses = schedule.getCourses();
         // Add all the courses to the string builder
@@ -59,10 +58,10 @@ public class Main {
     }
 
     private static String getSearchCoursesString() {
-        // TODO: Implement the creation of a view for the search courses page
         StringBuilder sb = new StringBuilder();
         sb.append("--Search--\n\n");
         return sb.toString();
+
     }
 
     private static void sortClassDay(ArrayList<Map.Entry<MeetingTime, Course>> meetingList) {
@@ -75,7 +74,6 @@ public class Main {
     }
 
     private static String getCalendarString() {
-        // TODO: Implement the creation of a view for the calendar page
         StringBuilder sb = new StringBuilder();
         sb.append("--Calendar--\n\n");
         // Dictionary with class times for every day

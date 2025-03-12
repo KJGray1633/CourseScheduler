@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -9,24 +8,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Schedule {
-    protected ArrayList<Course> courses;
+    public ArrayList<Course> courses;
 
     public Schedule(int uid) {
-//        courses = new ArrayList<>();
-//        courses.add(new Course(1,"Programming 1", 0,"Programming Prof 1"));
-//        courses.add(new Course(2,"Foundations of Academic Discourse", 2,"English Prof 1"));
-//        courses.add(new Course(3,"Principles of Accounting",2,"Accounting Prof 1"));
-        courses = loadSchedule();
+        courses = new ArrayList<>();
+        courses.add(new Course(1,"Programming 1", 141));
+        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
+        courses.add(new Course(3,"Principles of Accounting",201));
     }
 
-    public ArrayList<Course> loadSchedule() {
-        ArrayList<Course> tempCourses = new ArrayList<>();
+    public Schedule(String fileName) {
+        courses = new ArrayList<>();
         String content = "";
         try {
             content = new String(Files.readAllBytes(Paths.get("schedule.json")));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return;
         }
 
         JSONObject json = new JSONObject(content);
@@ -38,11 +36,9 @@ public class Schedule {
             int courseCode = jsonCourse.getInt("courseCode");
             String name = jsonCourse.getString("name");
             int cid = jsonCourse.getInt("cid");
-            Course course = new Course(cid, name, courseCode, professor);
-            tempCourses.add(course);
+            //Course course = new Course(cid, name, courseCode, professor);
+            //courses.add(course);
         }
-
-        return tempCourses;
     }
 
     public ArrayList<Course> getCourses() {
