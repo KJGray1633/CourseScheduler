@@ -17,6 +17,8 @@ dependencies {
     implementation group: 'com.google.firebase', name: 'firebase-admin', version: '9.4.3'
     // https://mvnrepository.com/artifact/org.springframework/spring-context
     implementation 'org.springframework:spring-context:7.0.0-M2'
+
+    implementation 'org.apache.directory.studio:org.apache.commons.lang:2.6'
 }
 
 test {
