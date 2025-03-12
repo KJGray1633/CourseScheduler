@@ -8,13 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Schedule {
-    protected ArrayList<Course> courses;
+    public ArrayList<Course> courses;
 
     public Schedule(int uid) {
         courses = new ArrayList<>();
-//        courses.add(new Course(1,"Programming 1", 0,"Programming Prof 1"));
-//        courses.add(new Course(2,"Foundations of Academic Discourse", 2,"English Prof 1"));
-//        courses.add(new Course(3,"Principles of Accounting",2,"Accounting Prof 1"));
+        courses.add(new Course(1,"Programming 1", 141));
+        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
+        courses.add(new Course(3,"Principles of Accounting",201));
     }
 
     public Schedule(String fileName) {

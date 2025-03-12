@@ -13,9 +13,9 @@ public class ScheduleTest {
     void setup() {
         schedule = new Schedule(0);
         schedule.courses = new ArrayList<>();
-        schedule.courses.add(new Course(1,"Programming 1", 0,"Programming Prof 1"));
-        schedule.courses.add(new Course(2,"Foundations of Academic Discourse", 1,"English Prof 1"));
-        schedule.courses.add(new Course(3,"Principles of Accounting",2,"Accounting Prof 1"));
+        schedule.courses.add(new Course(1));
+        schedule.courses.add(new Course(2));
+        schedule.courses.add(new Course(3));
     }
     @Test
     void testSaveSchedule() {
