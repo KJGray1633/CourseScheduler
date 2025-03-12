@@ -11,7 +11,7 @@ public class Filter {
     private Time startTime;
     private Time endTime;
     private ArrayList<String> prof;
-    private Days days;
+    private ArrayList<Days> days;
     private String department;
     private int courseCode;
     private int referenceCode;
@@ -47,11 +47,11 @@ public class Filter {
 //        this.prof = prof;
 //    }
 
-    public Days getDays() {
+    public ArrayList<Days> getDays() {
         return days;
     }
 
-    public void setDays(Days days) {
+    public void setDays(ArrayList<Days> days) {
         this.days = days;
     }
 

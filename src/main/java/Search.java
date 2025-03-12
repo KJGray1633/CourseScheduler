@@ -135,7 +135,17 @@ public class Search {
                 searchResults.remove(c);
             }
             for (MeetingTime t : c.getTimes()) {
-                boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
+                boolean isDay = false;
+                ArrayList<Filter.Days> filterDays = filter.getDays();
+                // MWF class
+                if (filterDays.contains(Filter.Days.MWF) && (t.getDay() == Day.MONDAY || t.getDay() == Day.WEDNESDAY || t.getDay() == Day.FRIDAY)) {
+                    isDay = true;
+                }
+                // TR class
+                else if (filterDays.contains(Filter.Days.TR) &&  (t.getDay() == Day.TUESDAY || t.getDay() == Day.THURSDAY)) {
+                    isDay = true;
+                }
+                //boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
                 if (filter.getDays() != null && !isDay) {
                     c.getTimes().remove(t);
                     searchResults.remove(c);
