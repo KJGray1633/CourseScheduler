@@ -15,7 +15,7 @@ public class FirebaseInitialize {
             FileInputStream serviceAccount =
                     new FileInputStream("./serviceAccountKey.json"); // removed the serviceAccountKey
 
-            FirebaseOptions options = new FirebaseOptions.Builder()
+            FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https://bywda-e7645-default-rtdb.firebaseio.com")
                     .build();
