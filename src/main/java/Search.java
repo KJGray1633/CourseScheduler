@@ -125,7 +125,7 @@ public class Search {
             for (String prof : c.getProfessor()) {
                 if (!filter.getProf().isEmpty() && !filter.getProf().contains(prof)) {
                     searchResults.remove(c);
-                    if(i > 0) {
+                    if (i > 0) {
                         i--;
                     }
                 }
@@ -133,15 +133,19 @@ public class Search {
 
             if (filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject())) {
                 searchResults.remove(c);
-                if(i > 0){
+                if (i > 0) {
                     i--;
                 }
             }
-//
-//            // Check day, end and start times
-//            if (filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
-//                searchResults.remove(c);
-//            }
+
+
+            if (filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
+                searchResults.remove(c);
+                if (i > 0) {
+                    i--;
+                }
+            }
+            // Check day, end and start times
 //            for (MeetingTime t : c.getTimes()) {
 //                if (filter.getDays() != null) {
 //                    boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
@@ -153,13 +157,16 @@ public class Search {
 //            }
             if (filter.getName() != null && !c.getName().equals(filter.getName())) {
                 searchResults.remove(c);
-                if(i > 0){
+                if (i > 0) {
                     i--;
                 }
             }
 
 //            if (filter.getReferenceCode() != 0 && c.getReferenceNum() != filter.getReferenceCode()) {
 //                searchResults.remove(c);
+//                if (i > 0) {
+//                    i--;
+//                }
 //            }
         }
     }
