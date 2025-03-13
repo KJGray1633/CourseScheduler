@@ -201,8 +201,15 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        user = new User(1);
-        schedule = new Schedule(user.getUid());
-        run();
+//        user = new User(1);
+//        schedule = new Schedule(user.getUid());
+//        run();
+        Search s = new Search();
+        Filter f = new Filter();
+        f.setName("principles of accounting I");
+        s.filter(f);
+        for(Course se: s.getSearchResults()){
+            System.out.println(se);
+        }
     }
 }

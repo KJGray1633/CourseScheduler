@@ -3,20 +3,19 @@ import java.nio.file.Paths;
 import java.sql.Time;
 import java.util.ArrayList;
 
-//import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Search {
     private String query;
     private ArrayList<Course> searchResults;
 
-    public static List<Course> parseJSON() {
+    public static ArrayList<Course> parseJSON() {
         int id = 0;
-        List<Course> courses = new ArrayList<>();
+        ArrayList<Course> courses = new ArrayList<>();
         String content = "";
 
         try {
@@ -102,7 +101,13 @@ public class Search {
     }
 
     public Search(String query) {
-        this.query = query;
+        this.query = spellCheck(query);
+        searchResults = parseJSON();
+    }
+
+    public Search() {
+        this.query = "";
+        searchResults = parseJSON();
     }
 
     public String getQuery() {
@@ -153,15 +158,15 @@ public class Search {
     public String spellCheck(String s) {
         /**
          * Needs to be tested
-        **/
+         **/
         s = s.toLowerCase();
         String dif;
-        for(Course c : searchResults){
+        for (Course c : searchResults) {
             dif = StringUtils.difference(c.getName(), s);
-            if(dif.length() < 4){
+            if (dif.length() < 4) {
                 return c.getName();
             }
         }
-        return "Could not find match for " + s;
+        return "";
     }
 }
