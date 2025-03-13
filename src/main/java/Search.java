@@ -37,7 +37,7 @@ public class Search {
             JSONArray fac = c.getJSONArray("faculty");
             for (int j = 0; j < fac.length(); j++) {
                 String faculty = fac.getString(j);
-                currCourse.getProfessor().add(faculty);
+                currCourse.getProfessor().add(faculty.toLowerCase());
             }
             boolean isLab = c.getBoolean("is_lab");
             boolean isOpen = c.getBoolean("is_open");
@@ -46,8 +46,8 @@ public class Search {
 
             String location = c.getString("location");
             String name = c.getString("name");
-            currCourse.setLocation(location);
-            currCourse.setName(name);
+            currCourse.setLocation(location.toLowerCase());
+            currCourse.setName(name.toLowerCase());
 
             int number = c.getInt("number");
             int open_seats = c.getInt("open_seats");
@@ -57,9 +57,9 @@ public class Search {
             String section = c.getString("section");
             String semester = c.getString("semester");
             String subject = c.getString("subject");
-            currCourse.setSection(section);
-            currCourse.setSemester(semester);
-            currCourse.setSubject(subject);
+            currCourse.setSection(section.toLowerCase());
+            currCourse.setSemester(semester.toLowerCase());
+            currCourse.setSubject(subject.toLowerCase());
             id++;
 
             JSONArray times = c.getJSONArray("times");
@@ -118,7 +118,6 @@ public class Search {
     }
 
     public void filter(Filter filter) {
-        // Account for situations where filter fields are null
         for (Course c : searchResults) {
             for (String prof : c.getProfessor()) {
                 if (filter.getProf() != null && !filter.getProf().contains(prof)) {
@@ -154,16 +153,15 @@ public class Search {
     public String spellCheck(String s) {
         /**
          * Needs to be tested
-        * */
-//        String dif;
-//        for(Course c : searchResults){
-//            dif = StringUtils.difference(c.getName(), s);
-//            if(dif.length() < 4){
-//                return c.getName();
-//            }
-//
-//        }
-//        return "Could not find match for " + s;
-        return "";
+        **/
+        s = s.toLowerCase();
+        String dif;
+        for(Course c : searchResults){
+            dif = StringUtils.difference(c.getName(), s);
+            if(dif.length() < 4){
+                return c.getName();
+            }
+        }
+        return "Could not find match for " + s;
     }
 }
