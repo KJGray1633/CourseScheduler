@@ -206,7 +206,10 @@ public class Main {
 //        run();
         Search s = new Search();
         Filter f = new Filter();
-        f.setName("principles of accounting I");
+        f.setDepartment("acct");
+        System.out.println(f);
+        f.setName("principles of accounting i");
+//        f.getProf().add("graybill, keith b.");
         s.filter(f);
         for(Course se: s.getSearchResults()){
             System.out.println(se);

@@ -73,11 +73,12 @@ public class Search {
                 Time st = scanTime(start_time);
                 MeetingTime mt = new MeetingTime(st, et, day);
                 currCourse.getTimes().add(mt);
-                System.out.println(currCourse);
+                //System.out.println(currCourse);
             }
 
             int total_seats = c.getInt("total_seats");
             currCourse.setTotalSeats(total_seats);
+            courses.add(currCourse);
         }
         return courses;
     }
@@ -96,18 +97,14 @@ public class Search {
         return time;
     }
 
-    public static void main(String[] args) {
-        parseJSON();
-    }
-
     public Search(String query) {
-        this.query = spellCheck(query);
-        searchResults = parseJSON();
+        this.query = query;
+        this.searchResults = parseJSON();
     }
 
     public Search() {
         this.query = "";
-        searchResults = parseJSON();
+        this.searchResults = parseJSON();
     }
 
     public String getQuery() {
@@ -123,35 +120,47 @@ public class Search {
     }
 
     public void filter(Filter filter) {
-        for (Course c : searchResults) {
+        for (int i = 0; i < searchResults.size(); i++) {
+            Course c = searchResults.get(i);
             for (String prof : c.getProfessor()) {
-                if (filter.getProf() != null && !filter.getProf().contains(prof)) {
+                if (!filter.getProf().isEmpty() && !filter.getProf().contains(prof)) {
                     searchResults.remove(c);
+                    if(i > 0) {
+                        i--;
+                    }
                 }
             }
 
-            if (filter.getDepartment() != null && !filter.getDepartment().equals(c.getName())) {
+            if (filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject())) {
                 searchResults.remove(c);
-            }
-
-            // Check day, end and start times
-            if (filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
-                searchResults.remove(c);
-            }
-            for (MeetingTime t : c.getTimes()) {
-                boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
-                if (filter.getDays() != null && !isDay) {
-                    c.getTimes().remove(t);
-                    searchResults.remove(c);
+                if(i > 0){
+                    i--;
                 }
             }
+//
+//            // Check day, end and start times
+//            if (filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
+//                searchResults.remove(c);
+//            }
+//            for (MeetingTime t : c.getTimes()) {
+//                if (filter.getDays() != null) {
+//                    boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
+//                    if (!isDay) {
+//                        c.getTimes().remove(t);
+//                        searchResults.remove(c);
+//                    }
+//                }
+//            }
             if (filter.getName() != null && !c.getName().equals(filter.getName())) {
                 searchResults.remove(c);
+                if(i > 0){
+                    i--;
+                }
             }
 
-            if (filter.getReferenceCode() != 0 && c.getReferenceNum() != filter.getReferenceCode()) {
-                searchResults.remove(c);
-            }
+//            if (filter.getReferenceCode() != 0 && c.getReferenceNum() != filter.getReferenceCode()) {
+//                searchResults.remove(c);
+//            }
         }
     }
 
