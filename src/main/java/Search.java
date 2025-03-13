@@ -120,6 +120,9 @@ public class Search {
     }
 
     public void filter(Filter filter) {
+        /*
+         * Figure out time and ref code
+         */
         for (int i = 0; i < searchResults.size(); i++) {
             Course c = searchResults.get(i);
             for (String prof : c.getProfessor()) {

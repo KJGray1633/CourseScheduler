@@ -206,7 +206,6 @@ public class Main {
 //        run();
         Search s = new Search();
         Filter f = new Filter();
-        f.setReferenceCode();
         //f.setCourseCode(201);
         //f.setDepartment("acct");
         //f.setName("principles of accounting i");

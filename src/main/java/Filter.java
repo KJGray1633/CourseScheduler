@@ -21,7 +21,7 @@ public class Filter {
     private String name;
 
     public Filter() {
-        prof = new ArrayList<String>();
+        prof = new ArrayList<>();
 
     }
 
