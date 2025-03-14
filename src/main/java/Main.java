@@ -381,8 +381,22 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        user = new User(1);
-        schedule = new Schedule(user.getUid());
-        run();
+//        user = new User(1);
+//        schedule = new Schedule(user.getUid());
+//        run();
+//        Search s = new Search();
+//        Filter f = new Filter();
+//        f.setCourseCode(201);
+//        f.setDepartment("acct");
+//        f.setName("principles of accounting i");
+//        f.getProf().add("graybill, keith b.");
+//        s.filter(f);
+
+        // Test for spellcheck
+        Search s = new Search("matematics");
+
+        for(Course se: s.getSearchResults()){
+            System.out.println(se);
+        }
     }
 }

@@ -4,20 +4,24 @@ import java.util.ArrayList;
 public class Filter {
     // completed Days enum
     public enum Days {
-        MWF,
-        TR
+        M,
+        W,
+        F,
+        T,
+        R
     }
 
     private Time startTime;
     private Time endTime;
     private ArrayList<String> prof;
-    private ArrayList<Days> days;
+    private Days days;
     private String department;
     private int courseCode;
     private int referenceCode;
     private String name;
 
     public Filter() {
+        prof = new ArrayList<>();
 
     }
 
@@ -41,15 +45,11 @@ public class Filter {
         return prof;
     }
 
-//    public void setProf(String prof) {
-//        this.prof = prof;
-//    }
-
-    public ArrayList<Days> getDays() {
+    public Days getDays() {
         return days;
     }
 
-    public void setDays(ArrayList<Days> days) {
+    public void setDays(Days days) {
         this.days = days;
     }
 
