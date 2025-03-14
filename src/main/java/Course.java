@@ -9,6 +9,7 @@ public class Course {
     protected ArrayList<MeetingTime> times;
     private int referenceNum;
 
+
     private int credits;
     private boolean isLab;
     private boolean isOpen;
@@ -140,9 +141,14 @@ public class Course {
 
     @Override
     public String toString() {
+        String professors = "";
+        for(String p: professor){
+            professors += p + ", ";
+        }
         return "Course{" +
                 "cid=" + cid +
                 ", name='" + name + '\'' +
+                ", professors=" + professors + '\n' +
                 ", courseCode='" + courseCode + '\'' +
                 ", description='" + description + '\'' +
                 ", times=" + times +
