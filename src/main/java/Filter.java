@@ -17,8 +17,6 @@ public class Filter {
     private int referenceCode;
     private String name;
 
-
-    //Hello
     public Filter() {
 
     }

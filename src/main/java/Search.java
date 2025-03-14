@@ -23,6 +23,7 @@ public class Search {
             content = new String(Files.readAllBytes(Paths.get("data_wolfe.json")));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return null;
         }
 
         JSONObject json = new JSONObject(content);
@@ -74,7 +75,7 @@ public class Search {
                 Time st = scanTime(start_time);
                 MeetingTime mt = new MeetingTime(st, et, day);
                 currCourse.getTimes().add(mt);
-                System.out.println(currCourse);
+                //System.out.println(currCourse);
             }
 
             int total_seats = c.getInt("total_seats");

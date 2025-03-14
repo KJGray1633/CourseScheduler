@@ -1,5 +1,9 @@
-import java.sql.SQLOutput;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.text.ParseException;
 
 public class Main {
     public enum Page {
@@ -45,9 +49,7 @@ public class Main {
         ArrayList<Course> courses = schedule.getCourses();
         // Add all the courses to the string builder
         for (Course course : courses) {
-            sb.append(course.getCourseCode());
-            sb.append("\tProfessor: ");
-            sb.append(course.getProfessor());
+            sb.append(course.toString());
             sb.append("\tRemove by typing 'RM ");
             sb.append(course.getCid());
             sb.append("'");
@@ -59,9 +61,52 @@ public class Main {
 
     private static String getSearchCoursesString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("--Search--\n\n");
+        Scanner scanner = new Scanner(System.in);
+        sb.append("--Search--\n");
+        sb.append("If you would like to search for courses please type 'search'\n\n");
+
         return sb.toString();
 
+    }
+
+    /**
+     * Converts a string in the format HH:MM to a java.sql.Time object.
+     * Returns null if the string is not in the correct format or if an error occurs.
+     *
+     * @param timeString the time string in the format HH:MM
+     * @return the corresponding java.sql.Time object or null if the format is incorrect or an error occurs
+     */
+    public static Time convertStringToTime(String timeString) {
+        String timePattern = "^([01]\\d|2[0-3]):[0-5]\\d$";
+        Pattern pattern = Pattern.compile(timePattern);
+        Matcher matcher = pattern.matcher(timeString);
+
+        if (!matcher.matches()) {
+            return null;
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            long ms = dateFormat.parse(timeString).getTime();
+            return new Time(ms);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Validates if the given string matches the format XXXX 000.
+     * Returns the string if it matches the format, otherwise returns null.
+     *
+     * @param input the string to be validated
+     * @return the input string if it matches the format, null otherwise
+     */
+    public static boolean validateCourseCode(String input) {
+        String patternString = "^[A-Za-z]{4} \\d{3}$";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(input);
+
+        return matcher.matches();
     }
 
     private static void sortClassDay(ArrayList<Map.Entry<MeetingTime, Course>> meetingList) {
@@ -176,8 +221,101 @@ public class Main {
     }
 
     private static boolean parseSearchInput(String input) {
-        // TODO: Implement this method to correctly respond to commands on the search courses page
-        return false;
+        // Clean input
+        String[] inputArgs = input.toLowerCase().strip().split(" ");
+        // Make sure it's valid
+        if (!inputArgs[0].equals("search") && !inputArgs[0].equals("add")) {
+            return false;
+        }
+        if (inputArgs[0].equals("add")) {
+            // Check if the course is already in the schedule
+            for (Course c : schedule.getCourses()) {
+                if (c.getCid() == Integer.parseInt(inputArgs[1])) {
+                    System.out.println("Course already in schedule.");
+                    return false;
+                }
+            }
+            // Add the course to the schedule
+            for (Course c : search.getSearchResults()) {
+                if (c.getCid() == Integer.parseInt(inputArgs[1])) {
+                    schedule.addCourse(c);
+                    System.out.println("Course added to schedule!");
+                    return true;
+                }
+            }
+            System.out.println("Course not found.");
+            return false;
+        }
+        Scanner scanner = new Scanner(System.in);
+        // Only action on the home page is search: 'search'
+        // Get keyword search
+        System.out.print("Please enter your search keyword: ");
+        String keyword = scanner.nextLine().strip().toLowerCase();
+        // Create new search object if keywords are new
+        if (search == null || !keyword.equals(search.getQuery())) {
+            search = new Search(keyword);
+        }
+
+        // Create filter object
+        Filter filter = new Filter();
+
+        // Get day range
+        String day = null;
+        do {
+            System.out.println(((day == null) ? "" : "Invalid entry. ") + "Please enter your day range (either 'MWF' or 'TR' or 'both' for both): ");
+            day = scanner.nextLine().strip().toLowerCase();
+        } while (!day.equals("mwf") && !day.equals("tr") && !day.equals("both"));
+        // Assign the correct day to the filter
+        switch (day) {
+            case "mwf": // Just add MWF
+                filter.setDays(new ArrayList<>(Arrays.asList(Filter.Days.MWF)));
+                break;
+            case "tr": // Just add TR
+                filter.setDays(new ArrayList<>(Arrays.asList(Filter.Days.TR)));
+                break;
+            case "both": // Add both MWF and TR
+                filter.setDays(new ArrayList<>(Arrays.asList(Filter.Days.MWF, Filter.Days.TR)));
+                break;
+        }
+
+        // Get time ranges
+        Time start = null;
+        boolean first = true;
+        do {
+            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your earliest time in the form HH:MM (i.e. 14:30): ");
+            // convertStringToTime returns null if invalid input
+            start = convertStringToTime(scanner.nextLine().strip().toLowerCase());
+            first = false;
+        } while (start == null);
+        Time end = null;
+        first = true;
+        do {
+            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your latest time in the form HH:MM (i.e. 14:30): ");
+            // convertStringToTime returns null if invalid input
+            end = convertStringToTime(scanner.nextLine().strip().toLowerCase());
+            first = false;
+        } while (end == null);
+        // Assign the time ranges to the filter
+        filter.setStartTime(start);
+        filter.setEndTime(end);
+
+        // Get course codes
+        first = true;
+        String courseCode;
+        do {
+            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your desired course code of the form XXXX 000 (i.e. COMP 141): ");
+            courseCode = scanner.nextLine().strip().toLowerCase();
+        } while (!validateCourseCode(courseCode));
+
+        // Filter the results
+        search.filter(filter);
+
+        // Print out the results
+        System.out.println("Search results:");
+        for (Course c : search.getSearchResults()) {
+            System.out.println(c.toString() + " Add by typing 'ADD " + c.getCid() + "'");
+        }
+        return true;
     }
 
     private static boolean parseCalendarInput(String input) {
