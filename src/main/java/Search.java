@@ -144,7 +144,6 @@ public class Search {
                 }
             }
 
-
             if (filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
                 searchResults.remove(c);
                 if (i >= 0) {
@@ -152,15 +151,18 @@ public class Search {
                 }
             }
             // Check day, end and start times
-//            for (MeetingTime t : c.getTimes()) {
-//                if (filter.getDays() != null) {
-//                    boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
-//                    if (!isDay) {
-//                        c.getTimes().remove(t);
-//                        searchResults.remove(c);
-//                    }
-//                }
-//            }
+            /**
+             * Test
+             * **/
+            for (MeetingTime t : c.getTimes()) {
+                if (filter.getDays() != null) {
+                    boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
+                    if (!isDay) {
+                        c.getTimes().remove(t);
+                        searchResults.remove(c);
+                    }
+                }
+            }
             if (filter.getName() != null && !c.getName().equals(filter.getName())) {
                 searchResults.remove(c);
                 if (i >= 0) {
@@ -168,6 +170,9 @@ public class Search {
                 }
             }
 
+            /**
+             * Add reference nums to each course and test
+             */
 //            if (filter.getReferenceCode() != 0 && c.getReferenceNum() != filter.getReferenceCode()) {
 //                searchResults.remove(c);
 //                if (i > 0) {
