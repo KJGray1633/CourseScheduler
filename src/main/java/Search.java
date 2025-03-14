@@ -178,9 +178,6 @@ public class Search {
     }
 
     public ArrayList<Course> spellCheck(String s) {
-        /**
-         * Needs to be tested
-         **/
         ArrayList<Course> hits = new ArrayList<>();
         s = s.toLowerCase();
         String longer = s;

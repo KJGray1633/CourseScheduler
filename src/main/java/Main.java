@@ -212,7 +212,8 @@ public class Main {
 //        f.getProf().add("graybill, keith b.");
 //        s.filter(f);
 
-        Search s = new Search("psichology");
+        // Test for spellcheck
+        Search s = new Search("matematics");
 
         for(Course se: s.getSearchResults()){
             System.out.println(se);
