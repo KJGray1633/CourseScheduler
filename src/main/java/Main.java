@@ -204,13 +204,16 @@ public class Main {
 //        user = new User(1);
 //        schedule = new Schedule(user.getUid());
 //        run();
-        Search s = new Search();
-        Filter f = new Filter();
-        //f.setCourseCode(201);
-        //f.setDepartment("acct");
-        //f.setName("principles of accounting i");
+//        Search s = new Search();
+//        Filter f = new Filter();
+//        f.setCourseCode(201);
+//        f.setDepartment("acct");
+//        f.setName("principles of accounting i");
 //        f.getProf().add("graybill, keith b.");
-        s.filter(f);
+//        s.filter(f);
+
+        Search s = new Search("psichology");
+
         for(Course se: s.getSearchResults()){
             System.out.println(se);
         }

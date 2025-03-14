@@ -11,7 +11,8 @@ import java.util.Scanner;
 
 public class Search {
     private String query;
-    private ArrayList<Course> searchResults;
+    private ArrayList<Course> listings = new ArrayList<>();
+    private ArrayList<Course> searchResults = new ArrayList<>();
 
     public static ArrayList<Course> parseJSON() {
         int id = 0;
@@ -99,12 +100,14 @@ public class Search {
 
     public Search(String query) {
         this.query = query;
-        this.searchResults = parseJSON();
+        this.listings = parseJSON();
+        this.searchResults = spellCheck(this.query);
     }
 
     public Search() {
         this.query = "";
         this.searchResults = parseJSON();
+        //this.searchResults = new ArrayList<>(listings);
     }
 
     public String getQuery() {
@@ -128,7 +131,7 @@ public class Search {
             for (String prof : c.getProfessor()) {
                 if (!filter.getProf().isEmpty() && !filter.getProf().contains(prof)) {
                     searchResults.remove(c);
-                    if (i > 0) {
+                    if (i >= 0) {
                         i--;
                     }
                 }
@@ -136,7 +139,7 @@ public class Search {
 
             if (filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject())) {
                 searchResults.remove(c);
-                if (i > 0) {
+                if (i >= 0) {
                     i--;
                 }
             }
@@ -144,7 +147,7 @@ public class Search {
 
             if (filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
                 searchResults.remove(c);
-                if (i > 0) {
+                if (i >= 0) {
                     i--;
                 }
             }
@@ -160,7 +163,7 @@ public class Search {
 //            }
             if (filter.getName() != null && !c.getName().equals(filter.getName())) {
                 searchResults.remove(c);
-                if (i > 0) {
+                if (i >= 0) {
                     i--;
                 }
             }
@@ -174,18 +177,53 @@ public class Search {
         }
     }
 
-    public String spellCheck(String s) {
+    public ArrayList<Course> spellCheck(String s) {
         /**
          * Needs to be tested
          **/
+        ArrayList<Course> hits = new ArrayList<>();
         s = s.toLowerCase();
-        String dif;
-        for (Course c : searchResults) {
-            dif = StringUtils.difference(c.getName(), s);
-            if (dif.length() < 4) {
-                return c.getName();
+        String longer = s;
+        for(Course c : listings){
+            String shorter = c.getName();
+            if(s.length() < c.getName().length()){
+                longer = c.getName();
+                shorter = s;
+            }
+            int longerLength = longer.length();
+            double difference =  (longerLength - editDistance(longer, shorter)) / (double) longerLength;
+            //System.out.println(c.getName() + " " + difference);
+            if(difference > 0.4){
+                hits.add(c);
             }
         }
-        return "";
+        return hits;
+    }
+
+    public static int editDistance(String s1, String s2){
+        s1 = s1.toLowerCase();
+        s2 = s2.toLowerCase();
+        int[] costs = new int[s2.length() + 1];
+        for(int i = 0; i <= s1.length(); i++){
+           int lastValue = i;
+           for(int j = 0; j <= s2.length(); j++){
+               if(i == 0){
+                   costs[j] = j;
+               } else{
+                   if(j > 0){
+                       int newValue = costs[j-1];
+                       if(s1.charAt(i-1) != s2.charAt(j -1)){
+                           newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                       }
+                       costs[j - 1] = lastValue;
+                       lastValue = newValue;
+                   }
+               }
+           }
+           if(i > 0){
+               costs[s2.length()] = lastValue;
+           }
+        }
+        return costs[s2.length()];
     }
 }
