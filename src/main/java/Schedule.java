@@ -46,7 +46,8 @@ public class Schedule {
     }
 
     public boolean addCourse(Course course) {
-        return false;
+        courses.add(course);
+        return true;
     }
 
     public boolean dropCourse(Course course) {
