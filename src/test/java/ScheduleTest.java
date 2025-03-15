@@ -1,5 +1,8 @@
+
+
 import com.java.model.Course;
 import com.java.model.Schedule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,14 +23,14 @@ public class ScheduleTest {
     }
     @Test
     void testSaveSchedule() {
-        assertTrue(schedule.saveSchedule());
+        Assertions.assertTrue(schedule.saveSchedule());
     }
 
     @Test
     void testScheduleFromJSON() {
         Schedule loadSchedule = new Schedule("schedule.json");
         for (int i = 0; i < loadSchedule.courses.size(); i++) {
-            assertEquals(loadSchedule.courses.get(i).getCid(), schedule.courses.get(i).getCid());
+            Assertions.assertEquals(loadSchedule.courses.get(i).getCid(), schedule.courses.get(i).getCid());
         }
     }
 }
