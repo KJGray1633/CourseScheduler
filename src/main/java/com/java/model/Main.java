@@ -1,6 +1,6 @@
-import java.sql.SQLOutput;
+package com.java.model;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -19,7 +19,7 @@ public class Main {
 
     private static Page currPage;
 
-    private static String[] menu = {"Home","Search Courses","Calendar"};
+    private static String[] menu = {"Home","com.java.model.Search Courses","Calendar"};
 
     private static String getMenuString() {
         // Create a line string to be the top and bottom of command app
@@ -61,7 +61,7 @@ public class Main {
 
     private static String getSearchCoursesString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("--Search--\n\n");
+        sb.append("--com.java.model.Search--\n\n");
         return sb.toString();
 
     }
@@ -82,7 +82,7 @@ public class Main {
         // Home
         if (currPage.equals(Page.HOME))
             return getHomeString();
-        // Search Courses
+        // com.java.model.Search Courses
         if (currPage.equals(Page.SEARCH))
             return getSearchCoursesString();
         // Calendar
@@ -101,7 +101,7 @@ public class Main {
         String cleanedInput = input.toLowerCase().strip();
         // Home
         if (cleanedInput.equals(menu[0].toLowerCase())) return Page.HOME;
-        // Search Courses
+        // com.java.model.Search Courses
         if (cleanedInput.equals(menu[1].toLowerCase())) return Page.SEARCH;
         // Calendar
         if (cleanedInput.equals(menu[2].toLowerCase())) return Page.CALENDAR;

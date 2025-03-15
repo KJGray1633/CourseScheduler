@@ -1,3 +1,5 @@
+package com.java.model;
+
 import java.util.ArrayList;
 
 public class Course {
@@ -140,7 +142,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course{" +
+        return "com.java.model.Course{" +
                 "cid=" + cid +
                 ", name='" + name + '\'' +
                 ", courseCode='" + courseCode + '\'' +

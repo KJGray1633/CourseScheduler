@@ -1,3 +1,5 @@
+package com.java.model;
+
 import java.sql.Time;
 
 public class MeetingTime {
@@ -19,7 +21,7 @@ public class MeetingTime {
     //
     @Override
     public String toString() {
-        return "MeetingTime{" +
+        return "com.java.model.MeetingTime{" +
                 "startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", day='" + day + '\'' +

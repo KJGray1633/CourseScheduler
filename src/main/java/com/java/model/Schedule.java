@@ -1,3 +1,5 @@
+package com.java.model;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class Schedule {
             int courseCode = jsonCourse.getInt("courseCode");
             String name = jsonCourse.getString("name");
             int cid = jsonCourse.getInt("cid");
-            //Course course = new Course(cid, name, courseCode, professor);
+            //com.java.model.Course course = new com.java.model.Course(cid, name, courseCode, professor);
             //courses.add(course);
         }
     }

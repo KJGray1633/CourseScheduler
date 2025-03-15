@@ -1,4 +1,5 @@
-import org.junit.jupiter.api.BeforeAll;
+import com.java.model.Course;
+import com.java.model.Schedule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

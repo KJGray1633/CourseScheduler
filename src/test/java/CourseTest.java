@@ -1,3 +1,5 @@
+import com.java.model.Course;
+import com.java.model.MeetingTime;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Time;

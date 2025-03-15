@@ -1,3 +1,5 @@
+package com.java.model;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Time;
@@ -156,7 +158,7 @@ public class Search {
          * Needs to be tested
         * */
 //        String dif;
-//        for(Course c : searchResults){
+//        for(com.java.model.Course c : searchResults){
 //            dif = StringUtils.difference(c.getName(), s);
 //            if(dif.length() < 4){
 //                return c.getName();
