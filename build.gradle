@@ -14,13 +14,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.json:json:20250107'
     implementation group: 'com.google.firebase', name: 'firebase-admin', version: '9.4.3'
-    implementation 'org.springframework:spring-context:7.0.0-M2'
-    implementation 'org.springframework:spring-web:7.0.0-M3'
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.16.0'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.3'
-    implementation 'org.springframework.boot:spring-boot-configuration-processor:3.4.3'
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+
 }
 
 test {
