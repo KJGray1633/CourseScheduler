@@ -1,4 +1,5 @@
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
@@ -25,6 +26,25 @@ public class FirebaseService {
         // Check if the document exists in Firestore
         return documentSnapshot.exists();
     }
+
+    public User getUserDetails(String uid) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = dbFirestore.collection("users").document(uid);
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+
+        DocumentSnapshot document = future.get();
+
+        User user = null;
+
+        if (document.exists()) {
+            user = document.toObject(User.class);
+            return user;
+        } else {
+            return null;
+        }
+
+    }
+
 }
 
 // trying to commit these changes
