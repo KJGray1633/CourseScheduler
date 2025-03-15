@@ -1,55 +1,22 @@
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Filter {
-    // completed Days enum
-    public enum Days {
-        M,
-        W,
-        F,
-        T,
-        R
-    }
-
-    private Time startTime;
-    private Time endTime;
-    private ArrayList<String> prof;
-    private Days days;
+    private List<Day> days = new ArrayList<>();
     private String department;
     private int courseCode;
-    private int referenceCode;
     private String name;
+    private List<String> prof = new ArrayList<>();
+    private Time startTime;
+    private Time endTime;
 
-    public Filter() {
-        prof = new ArrayList<>();
-
-    }
-
-    public Time getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
-
-    public Time getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
-    }
-
-    public ArrayList<String> getProf() {
-        return prof;
-    }
-
-    public Days getDays() {
+    // Getters and setters for the fields
+    public List<Day> getDays() {
         return days;
     }
 
-    public void setDays(Days days) {
+    public void setDays(List<Day> days) {
         this.days = days;
     }
 
@@ -69,14 +36,6 @@ public class Filter {
         this.courseCode = courseCode;
     }
 
-    public int getReferenceCode() {
-        return referenceCode;
-    }
-
-    public void setReferenceCode(int referenceCode) {
-        this.referenceCode = referenceCode;
-    }
-
     public String getName() {
         return name;
     }
@@ -85,8 +44,27 @@ public class Filter {
         this.name = name;
     }
 
+    public List<String> getProf() {
+        return prof;
+    }
 
-    public ArrayList<Course> filterSearch(ArrayList<Course> searchResults) {
-        return null;
+    public void setProf(List<String> prof) {
+        this.prof = prof;
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
     }
 }

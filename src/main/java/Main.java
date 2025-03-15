@@ -268,13 +268,13 @@ public class Main {
         // Assign the correct day to the filter
         switch (day) {
             case "mwf": // Just add MWF
-                filter.setDays(new ArrayList<>(Arrays.asList(Filter.Days.MWF)));
+                filter.setDays(new ArrayList<>(Arrays.asList(Day.MONDAY, Day.WEDNESDAY, Day.FRIDAY)));
                 break;
             case "tr": // Just add TR
-                filter.setDays(new ArrayList<>(Arrays.asList(Filter.Days.TR)));
+                filter.setDays(new ArrayList<>(Arrays.asList(Day.TUESDAY, Day.THURSDAY)));
                 break;
-            case "both": // Add both MWF and TR
-                filter.setDays(new ArrayList<>(Arrays.asList(Filter.Days.MWF, Filter.Days.TR)));
+            case "both": // Add all days
+                filter.setDays(new ArrayList<>(Arrays.asList(Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY)));
                 break;
         }
 
