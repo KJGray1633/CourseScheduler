@@ -21,6 +21,16 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework/spring-web
     implementation 'org.springframework:spring-web:7.0.0-M3'
 
+    // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+    // for firebase tester
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.16.0'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+    // for firebase tester
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.3'
+
+
+
 }
 
 test {
