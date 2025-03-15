@@ -102,6 +102,9 @@ public class Main {
      * @return the input string if it matches the format, null otherwise
      */
     public static boolean validateCourseCode(String input) {
+        if (input == null || input.isEmpty()) {
+            return true;
+        }
         String patternString = "^[A-Za-z]{4} \\d{3}$";
         Pattern pattern = Pattern.compile(patternString);
         Matcher matcher = pattern.matcher(input);
@@ -228,23 +231,32 @@ public class Main {
             return false;
         }
         if (inputArgs[0].equals("add")) {
-            // Check if the course is already in the schedule
-            for (Course c : schedule.getCourses()) {
+            // Find the matching course from search results
+            Course course = null;
+            for (Course c : search.getSearchResults()) {
                 if (c.getCid() == Integer.parseInt(inputArgs[1])) {
+                    course = c;
+                    break;
+                }
+            }
+            if (course == null) {
+                System.out.println("Course not found in search results.");
+                return false;
+            }
+            // Check if the course is already in the schedule or overlaps
+            for (Course c : schedule.getCourses()) {
+                if (c.getCid() == course.getCid()) {
                     System.out.println("Course already in schedule.");
+                    return false;
+                }
+                else if (c.isOverlap(course)) {
+                    System.out.println("Course overlaps with another course in schedule.");
                     return false;
                 }
             }
             // Add the course to the schedule
-            for (Course c : search.getSearchResults()) {
-                if (c.getCid() == Integer.parseInt(inputArgs[1])) {
-                    schedule.addCourse(c);
-                    System.out.println("Course added to schedule!");
-                    return true;
-                }
-            }
-            System.out.println("Course not found.");
-            return false;
+            schedule.addCourse(course);
+            return true;
         }
         Scanner scanner = new Scanner(System.in);
         // Only action on the home page is search: 'search'
@@ -303,16 +315,26 @@ public class Main {
         first = true;
         String courseCode;
         do {
-            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your desired course code of the form XXXX 000 (i.e. COMP 141): ");
+            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your desired course code of the form XXXX 000 or empty for any (i.e. COMP 141): ");
             courseCode = scanner.nextLine().strip().toLowerCase();
+            first = false;
         } while (!validateCourseCode(courseCode));
-
+        // Assign the course code and department to the filter
+        if (courseCode.isEmpty()) {
+            filter.setDepartment(null);
+            filter.setCourseCode(0);
+        }
+        else {
+            String[] codeResults = courseCode.split(" ");
+            filter.setDepartment(codeResults[0]);
+            filter.setCourseCode(Integer.parseInt(codeResults[1]));
+        }
         // Filter the results
-        search.filter(filter);
+        ArrayList<Course> currResults = search.filter(filter);
 
         // Print out the results
         System.out.println("Search results:");
-        for (Course c : search.getSearchResults()) {
+        for (Course c : currResults) {
             System.out.println(c.toString() + " Add by typing 'ADD " + c.getCid() + "'");
         }
         return true;
@@ -381,22 +403,24 @@ public class Main {
     }
 
     public static void main(String[] args) {
-//        user = new User(1);
-//        schedule = new Schedule(user.getUid());
-//        run();
+        user = new User(1);
+        schedule = new Schedule(user.getUid());
+        run();
 //        Search s = new Search();
+
+
+//        // Test for spellcheck
+//        Search s = new Search("principles of accounting i");
+//
 //        Filter f = new Filter();
 //        f.setCourseCode(201);
 //        f.setDepartment("acct");
-//        f.setName("principles of accounting i");
-//        f.getProf().add("graybill, keith b.");
-//        s.filter(f);
-
-        // Test for spellcheck
-        Search s = new Search("psichology");
-
-        for(Course se: s.getSearchResults()){
-            System.out.println(se);
-        }
+//        //f.setName("principles of accounting i");
+//        //f.getProf().add("graybill, keith b.");
+//
+//
+//        for(Course se: s.filter(f)){
+//            System.out.println(se);
+//        }
     }
 }

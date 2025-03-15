@@ -122,40 +122,53 @@ public class Search {
         return searchResults;
     }
 
-    private int removeCourseIf(boolean condition, int index) {
-        if (condition) {
-            searchResults.remove(index);
-            return (index >= 0) ? 1 : 0;
-        }
-        return 0;
-    }
-
-    public void filter(Filter filter) {
-        for (int i = 0; i < searchResults.size(); i++) {
-            Course c = searchResults.get(i);
+    public ArrayList<Course> filter(Filter filter) {
+        ArrayList<Course> filteredResults = new ArrayList<>();
+        for (Course c : searchResults) {
+            boolean addCourse = true;
 
             // Check if the professor filter is applied and if the course's professor is not in the filter
             if (!filter.getProf().isEmpty()) {
+                boolean profFound = false;
                 for (String prof : c.getProfessor()) {
-                    i -= removeCourseIf(!filter.getProf().contains(prof), i);
+                    if (filter.getProf().contains(prof)) {
+                        profFound = true;
+                        break;
+                    }
+                }
+                if (!profFound) {
+                    addCourse = false;
                 }
             }
 
             // Check if the department filter is applied and if the course's subject does not match the filter
-            i -= removeCourseIf(filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject()), i);
+            if (addCourse && filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject())) {
+                addCourse = false;
+            }
 
             // Check if the course code filter is applied and if the course's code does not match the filter
-            i -= removeCourseIf(filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode(), i);
+            if (addCourse && filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
+                addCourse = false;
+            }
 
             // Check if the course name filter is applied and if the course's name does not match the filter
-            i -= removeCourseIf(filter.getName() != null && !c.getName().equals(filter.getName()), i);
+            if (addCourse && filter.getName() != null && !c.getName().equals(filter.getName())) {
+                addCourse = false;
+            }
 
             // Check to make sure at least one of the filter's days are part of course's days
-            if (!filter.getDays().isEmpty()) {
+            if (addCourse && !filter.getDays().isEmpty()) {
                 boolean dayFound = isDayFound(filter, c);
-                i -= removeCourseIf(!dayFound, i);
+                if (!dayFound) {
+                    addCourse = false;
+                }
+            }
+
+            if (addCourse) {
+                filteredResults.add(c);
             }
         }
+        return filteredResults;
     }
 
     private static boolean isDayFound(Filter filter, Course c) {
