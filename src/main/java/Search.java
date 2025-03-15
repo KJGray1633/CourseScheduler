@@ -122,78 +122,83 @@ public class Search {
         return searchResults;
     }
 
+    private int removeCourseIf(boolean condition, int index) {
+        if (condition) {
+            searchResults.remove(index);
+            return (index >= 0) ? 1 : 0;
+        }
+        return 0;
+    }
+
     public void filter(Filter filter) {
-        /*
-         * Figure out time and ref code
-         */
         for (int i = 0; i < searchResults.size(); i++) {
             Course c = searchResults.get(i);
-            for (String prof : c.getProfessor()) {
-                if (!filter.getProf().isEmpty() && !filter.getProf().contains(prof)) {
-                    searchResults.remove(c);
-                    if (i >= 0) {
-                        i--;
-                    }
+
+            // Check if the professor filter is applied and if the course's professor is not in the filter
+            if (!filter.getProf().isEmpty()) {
+                for (String prof : c.getProfessor()) {
+                    i -= removeCourseIf(!filter.getProf().contains(prof), i);
                 }
             }
 
-            if (filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject())) {
-                searchResults.remove(c);
-                if (i >= 0) {
-                    i--;
-                }
-            }
+            // Check if the department filter is applied and if the course's subject does not match the filter
+            i -= removeCourseIf(filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject()), i);
 
+            // Check if the course code filter is applied and if the course's code does not match the filter
+            i -= removeCourseIf(filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode(), i);
 
-            if (filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
-                searchResults.remove(c);
-                if (i >= 0) {
-                    i--;
-                }
-            }
-            // Check day, end and start times
-//            for (MeetingTime t : c.getTimes()) {
-//                if (filter.getDays() != null) {
-//                    boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
-//                    if (!isDay) {
-//                        c.getTimes().remove(t);
-//                        searchResults.remove(c);
-//                    }
-//                }
-//            }
-            if (filter.getName() != null && !c.getName().equals(filter.getName())) {
-                searchResults.remove(c);
-                if (i >= 0) {
-                    i--;
-                }
-            }
+            // Check if the course name filter is applied and if the course's name does not match the filter
+            i -= removeCourseIf(filter.getName() != null && !c.getName().equals(filter.getName()), i);
 
-//            if (filter.getReferenceCode() != 0 && c.getReferenceNum() != filter.getReferenceCode()) {
-//                searchResults.remove(c);
-//                if (i > 0) {
-//                    i--;
-//                }
-//            }
+            // Check to make sure at least one of the filter's days are part of course's days
+            if (!filter.getDays().isEmpty()) {
+                boolean dayFound = isDayFound(filter, c);
+                i -= removeCourseIf(!dayFound, i);
+            }
         }
     }
 
+    private static boolean isDayFound(Filter filter, Course c) {
+        boolean dayFound = false;
+        // Iterate through the days specified in the filter
+        for (Day day : filter.getDays()) {
+            // Iterate through the meeting times of the course
+            for (MeetingTime mt : c.getTimes()) {
+                // Check if the meeting time's day matches the filter's day
+                if (mt.getDay().equals(day)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public ArrayList<Course> spellCheck(String s) {
+        // Create a list to store courses that match the spell check criteria
         ArrayList<Course> hits = new ArrayList<>();
+        // Convert the input string to lowercase
         s = s.toLowerCase();
+        // Initialize the longer string as the input string
         String longer = s;
+        // Iterate through all courses in the listings
         for(Course c : listings){
+            // Get the name of the current course
             String shorter = c.getName();
+            // Determine which string is longer
             if(s.length() < c.getName().length()){
                 longer = c.getName();
                 shorter = s;
             }
+            // Calculate the length of the longer string
             int longerLength = longer.length();
+            // Calculate the difference ratio using edit distance
             double difference =  (longerLength - editDistance(longer, shorter)) / (double) longerLength;
-            //System.out.println(c.getName() + " " + difference);
+            // If the difference ratio is greater than 0.4, add the course to the hits list
             if(difference > 0.4){
                 hits.add(c);
             }
         }
+        // Return the list of courses that match the spell check criteria
         return hits;
     }
 

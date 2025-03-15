@@ -26,26 +26,20 @@ public class MeetingTime {
         this.endTime = endTime;
         String dayCopy = day.strip().toLowerCase();
         switch (dayCopy) {
-            case "sunday":
-                this.day = Day.SUNDAY;
-                break;
-            case "monday":
+            case "m":
                 this.day = Day.MONDAY;
                 break;
-            case "tuesday":
+            case "t":
                 this.day = Day.TUESDAY;
                 break;
-            case "wednesday":
+            case "w":
                 this.day = Day.WEDNESDAY;
                 break;
-            case "thursday":
+            case "r":
                 this.day = Day.THURSDAY;
                 break;
-            case "friday":
+            case "f":
                 this.day = Day.FRIDAY;
-                break;
-            case "saturday":
-                this.day = Day.SATURDAY;
                 break;
             default: throw new IllegalArgumentException(dayCopy + " is not a valid day");
         }

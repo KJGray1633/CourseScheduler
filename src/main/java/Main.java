@@ -393,7 +393,7 @@ public class Main {
 //        s.filter(f);
 
         // Test for spellcheck
-        Search s = new Search("matematics");
+        Search s = new Search("psichology");
 
         for(Course se: s.getSearchResults()){
             System.out.println(se);
