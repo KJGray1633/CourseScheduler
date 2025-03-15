@@ -31,4 +31,7 @@ public class User {
     public String getYear() {
         return year;
     }
+
+    public void setUsername(String username) {
+    }
 }

@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.concurrent.ExecutionException;
 
-@SpringBootTest
+@SpringBootTest(classes = FirebaseApplication.class)
 public class FirebaseControllerTest {
 
     @Mock
@@ -30,12 +30,12 @@ public class FirebaseControllerTest {
         User user = new User(0);
         user.setUsername(username);
 
-        when(firebaseService.getUserDetails(username)).thenReturn(user);
+        when(firebaseService.validateUser(user)).thenReturn(true);
 
         User result = firebaseController.getUsername(username);
 
         assertNotNull(result);
         assertEquals(username, result.getUsername());
-        verify(firebaseService, times(1)).getUserDetails(username);
+        verify(firebaseService, times(1)).validateUser(user);
     }
 }
