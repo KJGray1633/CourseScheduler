@@ -14,6 +14,8 @@ import com.java.model.User;
 @Service
 public class FirebaseService {
 
+
+    // add queries here
     public User getUserByUid(int uid) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
 
