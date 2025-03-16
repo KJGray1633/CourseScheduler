@@ -19,7 +19,7 @@ public class Main {
 
     private static Page currPage;
 
-    private static String[] menu = {"Home","com.java.model.Search Courses","Calendar"};
+    private static String[] menu = {"Home","Search Courses","Calendar"};
 
     private static String getMenuString() {
         // Create a line string to be the top and bottom of command app
@@ -61,7 +61,7 @@ public class Main {
 
     private static String getSearchCoursesString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("--com.java.model.Search--\n\n");
+        sb.append("--Search--\n\n");
         return sb.toString();
 
     }

@@ -142,7 +142,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return "com.java.model.Course{" +
+        return "Course {" +
                 "cid=" + cid +
                 ", name='" + name + '\'' +
                 ", courseCode='" + courseCode + '\'' +

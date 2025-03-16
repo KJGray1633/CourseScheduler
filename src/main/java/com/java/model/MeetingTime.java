@@ -21,7 +21,7 @@ public class MeetingTime {
     //
     @Override
     public String toString() {
-        return "com.java.model.MeetingTime{" +
+        return "MeetingTime{" +
                 "startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", day='" + day + '\'' +
