@@ -1,7 +1,9 @@
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.text.ParseException;
 
 public class Main {
     public enum Page {
@@ -47,9 +49,7 @@ public class Main {
         ArrayList<Course> courses = schedule.getCourses();
         // Add all the courses to the string builder
         for (Course course : courses) {
-            sb.append(course.getCourseCode());
-            sb.append("\tProfessor: ");
-            sb.append(course.getProfessor());
+            sb.append(course.toString());
             sb.append("\tRemove by typing 'RM ");
             sb.append(course.getCid());
             sb.append("'");
@@ -61,14 +61,104 @@ public class Main {
 
     private static String getSearchCoursesString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("--Search--\n\n");
+        Scanner scanner = new Scanner(System.in);
+        sb.append("--Search--\n");
+        sb.append("If you would like to search for courses please type 'search'\n\n");
+
         return sb.toString();
 
+    }
+
+    /**
+     * Converts a string in the format HH:MM to a java.sql.Time object.
+     * Returns null if the string is not in the correct format or if an error occurs.
+     *
+     * @param timeString the time string in the format HH:MM
+     * @return the corresponding java.sql.Time object or null if the format is incorrect or an error occurs
+     */
+    public static Time convertStringToTime(String timeString) {
+        String timePattern = "^([01]\\d|2[0-3]):[0-5]\\d$";
+        Pattern pattern = Pattern.compile(timePattern);
+        Matcher matcher = pattern.matcher(timeString);
+
+        if (!matcher.matches()) {
+            return null;
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            long ms = dateFormat.parse(timeString).getTime();
+            return new Time(ms);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Validates if the given string matches the format XXXX 000.
+     * Returns the string if it matches the format, otherwise returns null.
+     *
+     * @param input the string to be validated
+     * @return the input string if it matches the format, null otherwise
+     */
+    public static boolean validateCourseCode(String input) {
+        if (input == null || input.isEmpty()) {
+            return true;
+        }
+        String patternString = "^[A-Za-z]{4} \\d{3}$";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(input);
+
+        return matcher.matches();
+    }
+
+    private static void sortClassDay(ArrayList<Map.Entry<MeetingTime, Course>> meetingList) {
+        Collections.sort(meetingList, new Comparator<Map.Entry<MeetingTime, Course>>() {
+            @Override
+            public int compare(Map.Entry<MeetingTime, Course> entry1, Map.Entry<MeetingTime, Course> entry2) {
+                return entry1.getKey().getStartTime().compareTo(entry2.getKey().getStartTime());
+            }
+        });
     }
 
     private static String getCalendarString() {
         StringBuilder sb = new StringBuilder();
         sb.append("--Calendar--\n\n");
+        // Dictionary with class times for every day
+        Dictionary<Day, ArrayList<Map.Entry<MeetingTime, Course>>> classTimes = new Hashtable<>();
+
+        // Loop through all the different classes and their meeting times
+        for (Course course : schedule.getCourses()) {
+            for (MeetingTime meetingTime : course.getTimes()) {
+                // Add the meeting time to the correct dictionary entry
+                switch (meetingTime.getDay()) {
+                    case MONDAY:
+                        classTimes.get(Day.MONDAY).add(Map.entry(meetingTime,course));
+                        break;
+                    case TUESDAY:
+                        classTimes.get(Day.TUESDAY).add(Map.entry(meetingTime,course));
+                        break;
+                    case WEDNESDAY:
+                        classTimes.get(Day.WEDNESDAY).add(Map.entry(meetingTime,course));
+                        break;
+                    case THURSDAY:
+                        classTimes.get(Day.THURSDAY).add(Map.entry(meetingTime,course));
+                        break;
+                    case FRIDAY:
+                        classTimes.get(Day.FRIDAY).add(Map.entry(meetingTime,course));
+                        break;
+                }
+            }
+        }
+
+        Enumeration<Day> classKeys = classTimes.keys();
+
+        // Sort all the day array lists by when they start
+        while (classKeys.hasMoreElements()) {
+            Day key = classKeys.nextElement();
+            sortClassDay(classTimes.get(key));
+        }
+
         return sb.toString();
     }
 
@@ -134,8 +224,120 @@ public class Main {
     }
 
     private static boolean parseSearchInput(String input) {
-        // TODO: Implement this method to correctly respond to commands on the search courses page
-        return false;
+        // Clean input
+        String[] inputArgs = input.toLowerCase().strip().split(" ");
+        // Make sure it's valid
+        if (!inputArgs[0].equals("search") && !inputArgs[0].equals("add")) {
+            return false;
+        }
+        if (inputArgs[0].equals("add")) {
+            // Find the matching course from search results
+            Course course = null;
+            for (Course c : search.getSearchResults()) {
+                if (c.getCid() == Integer.parseInt(inputArgs[1])) {
+                    course = c;
+                    break;
+                }
+            }
+            if (course == null) {
+                System.out.println("Course not found in search results.");
+                return false;
+            }
+            // Check if the course is already in the schedule or overlaps
+            for (Course c : schedule.getCourses()) {
+                if (c.getCid() == course.getCid()) {
+                    System.out.println("Course already in schedule.");
+                    return false;
+                }
+                else if (c.isOverlap(course)) {
+                    System.out.println("Course overlaps with another course in schedule.");
+                    return false;
+                }
+            }
+            // Add the course to the schedule
+            schedule.addCourse(course);
+            return true;
+        }
+        Scanner scanner = new Scanner(System.in);
+        // Only action on the home page is search: 'search'
+        // Get keyword search
+        System.out.print("Please enter your search keyword: ");
+        String keyword = scanner.nextLine().strip().toLowerCase();
+        // Create new search object if keywords are new
+        if (search == null || !keyword.equals(search.getQuery())) {
+            search = new Search(keyword);
+        }
+
+        // Create filter object
+        Filter filter = new Filter();
+
+        // Get day range
+        String day = null;
+        do {
+            System.out.println(((day == null) ? "" : "Invalid entry. ") + "Please enter your day range (either 'MWF' or 'TR' or 'both' for both): ");
+            day = scanner.nextLine().strip().toLowerCase();
+        } while (!day.equals("mwf") && !day.equals("tr") && !day.equals("both"));
+        // Assign the correct day to the filter
+        switch (day) {
+            case "mwf": // Just add MWF
+                filter.setDays(new ArrayList<>(Arrays.asList(Day.MONDAY, Day.WEDNESDAY, Day.FRIDAY)));
+                break;
+            case "tr": // Just add TR
+                filter.setDays(new ArrayList<>(Arrays.asList(Day.TUESDAY, Day.THURSDAY)));
+                break;
+            case "both": // Add all days
+                filter.setDays(new ArrayList<>(Arrays.asList(Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY)));
+                break;
+        }
+
+        // Get time ranges
+        Time start = null;
+        boolean first = true;
+        do {
+            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your earliest time in the form HH:MM (i.e. 14:30): ");
+            // convertStringToTime returns null if invalid input
+            start = convertStringToTime(scanner.nextLine().strip().toLowerCase());
+            first = false;
+        } while (start == null);
+        Time end = null;
+        first = true;
+        do {
+            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your latest time in the form HH:MM (i.e. 14:30): ");
+            // convertStringToTime returns null if invalid input
+            end = convertStringToTime(scanner.nextLine().strip().toLowerCase());
+            first = false;
+        } while (end == null);
+        // Assign the time ranges to the filter
+        filter.setStartTime(start);
+        filter.setEndTime(end);
+
+        // Get course codes
+        first = true;
+        String courseCode;
+        do {
+            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your desired course code of the form XXXX 000 or empty for any (i.e. COMP 141): ");
+            courseCode = scanner.nextLine().strip().toLowerCase();
+            first = false;
+        } while (!validateCourseCode(courseCode));
+        // Assign the course code and department to the filter
+        if (courseCode.isEmpty()) {
+            filter.setDepartment(null);
+            filter.setCourseCode(0);
+        }
+        else {
+            String[] codeResults = courseCode.split(" ");
+            filter.setDepartment(codeResults[0]);
+            filter.setCourseCode(Integer.parseInt(codeResults[1]));
+        }
+        // Filter the results
+        ArrayList<Course> currResults = search.filter(filter);
+
+        // Print out the results
+        System.out.println("Search results:");
+        for (Course c : currResults) {
+            System.out.println(c.toString() + " Add by typing 'ADD " + c.getCid() + "'");
+        }
+        return true;
     }
 
     private static boolean parseCalendarInput(String input) {
@@ -201,22 +403,24 @@ public class Main {
     }
 
     public static void main(String[] args) {
-//        user = new User(1);
-//        schedule = new Schedule(user.getUid());
-//        run();
+        user = new User(1);
+        schedule = new Schedule(user.getUid());
+        run();
 //        Search s = new Search();
+
+
+//        // Test for spellcheck
+//        Search s = new Search("principles of accounting i");
+//
 //        Filter f = new Filter();
 //        f.setCourseCode(201);
 //        f.setDepartment("acct");
-//        f.setName("principles of accounting i");
-//        f.getProf().add("graybill, keith b.");
-//        s.filter(f);
-
-        // Test for spellcheck
-        Search s = new Search("principles of accounting i");
-
-        for(Course se: s.getSearchResults()){
-            System.out.println(se);
-        }
+//        //f.setName("principles of accounting i");
+//        //f.getProf().add("graybill, keith b.");
+//
+//
+//        for(Course se: s.filter(f)){
+//            System.out.println(se);
+//        }
     }
 }

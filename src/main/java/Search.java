@@ -1,7 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Time;
@@ -26,6 +22,7 @@ public class Search {
             content = new String(Files.readAllBytes(Paths.get("data_wolfe.json")));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return null;
         }
 
         JSONObject json = new JSONObject(content);
@@ -125,128 +122,96 @@ public class Search {
         return searchResults;
     }
 
-    public void filter(Filter filter) {
-        /*
-         * Figure out time and ref code
-         */
-        for (int i = 0; i < searchResults.size(); i++) {
-            Course c = searchResults.get(i);
-            for (String prof : c.getProfessor()) {
-                if (!filter.getProf().isEmpty() && !filter.getProf().contains(prof)) {
-                    searchResults.remove(c);
-                    if (i >= 0) {
-                        i--;
+    public ArrayList<Course> filter(Filter filter) {
+        ArrayList<Course> filteredResults = new ArrayList<>();
+        for (Course c : searchResults) {
+            boolean addCourse = true;
+
+            // Check if the professor filter is applied and if the course's professor is not in the filter
+            if (!filter.getProf().isEmpty()) {
+                boolean profFound = false;
+                for (String prof : c.getProfessor()) {
+                    if (filter.getProf().contains(prof)) {
+                        profFound = true;
+                        break;
                     }
                 }
-            }
-
-            if (filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject())) {
-                searchResults.remove(c);
-                if (i >= 0) {
-                    i--;
+                if (!profFound) {
+                    addCourse = false;
                 }
             }
 
-            if (filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
-                searchResults.remove(c);
-                if (i >= 0) {
-                    i--;
-                }
+            // Check if the department filter is applied and if the course's subject does not match the filter
+            if (addCourse && filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject())) {
+                addCourse = false;
             }
-            // Check day, end and start times
-            /**
-             * Test
-             * **/
-            for (MeetingTime t : c.getTimes()) {
-                if (filter.getDays() != null) {
-                    boolean isDay = filter.getDays().equals(Filter.Days.valueOf(t.getDay()));
-                    if (!isDay) {
-                        c.getTimes().remove(t);
-                        searchResults.remove(c);
-                    }
-                }
+
+            // Check if the course code filter is applied and if the course's code does not match the filter
+            if (addCourse && filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
+                addCourse = false;
             }
-            if (filter.getName() != null && !c.getName().equals(filter.getName())) {
-                searchResults.remove(c);
-                if (i >= 0) {
-                    i--;
+
+            // Check if the course name filter is applied and if the course's name does not match the filter
+            if (addCourse && filter.getName() != null && !c.getName().equals(filter.getName())) {
+                addCourse = false;
+            }
+
+            // Check to make sure at least one of the filter's days are part of course's days
+            if (addCourse && !filter.getDays().isEmpty()) {
+                boolean dayFound = isDayFound(filter, c);
+                if (!dayFound) {
+                    addCourse = false;
                 }
             }
 
-            /**
-             * Add reference nums to each course and test
-             */
-//            if (filter.getReferenceCode() != 0 && c.getReferenceNum() != filter.getReferenceCode()) {
-//                searchResults.remove(c);
-//                if (i > 0) {
-//                    i--;
-//                }
-//            }
+            if (addCourse) {
+                filteredResults.add(c);
+            }
         }
+        return filteredResults;
+    }
+
+    private static boolean isDayFound(Filter filter, Course c) {
+        boolean dayFound = false;
+        // Iterate through the days specified in the filter
+        for (Day day : filter.getDays()) {
+            // Iterate through the meeting times of the course
+            for (MeetingTime mt : c.getTimes()) {
+                // Check if the meeting time's day matches the filter's day
+                if (mt.getDay().equals(day)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public ArrayList<Course> spellCheck(String s) {
+        // Create a list to store courses that match the spell check criteria
         ArrayList<Course> hits = new ArrayList<>();
-        int charsDif;
+        // Convert the input string to lowercase
+        s = s.toLowerCase();
+        // Initialize the longer string as the input string
+        String longer = s;
+        // Iterate through all courses in the listings
         for(Course c : listings){
-            String name = c.getName();
-            try{
-                BufferedReader bf = new BufferedReader(new StringReader(s));
-                charsDif = 0;
-                int counter = 0;
-                char pprevChar = (char) bf.read();
-                char prevChar = (char) bf.read();
-                char currChar = (char) bf.read();
-                char nextChar = (char) bf.read();
-
-                for(int i = 2; i < name.length() - 1&& i < s.length() - 1; i++){
-                    if(name.charAt(i) == prevChar && name.charAt(i) != currChar){
-                        charsDif++;
-                        i--;
-                        nextChar = currChar;
-                        currChar = prevChar;
-                        prevChar = pprevChar;
-                    }
-                    else if(name.charAt(i) == nextChar && name.charAt(i) != currChar){
-                        charsDif++;
-                        i++;
-                        pprevChar = prevChar;
-                        prevChar = currChar;
-                        currChar = nextChar;
-                        nextChar = (char) bf.read();
-                    }
-                    else if (name.charAt(i) != currChar){
-                        charsDif++;
-                    }
-                    counter++;
-                    pprevChar = prevChar;
-                    prevChar = currChar;
-                    currChar = nextChar;
-                    nextChar = (char) bf.read();
-                }
-                if(charsDif < 5){
-                    hits.add(c);
-                }
-            } catch(IOException e){}
-
-
+            // Get the name of the current course
+            String shorter = c.getName();
+            // Determine which string is longer
+            if(s.length() < c.getName().length()){
+                longer = c.getName();
+                shorter = s;
+            }
+            // Calculate the length of the longer string
+            int longerLength = longer.length();
+            // Calculate the difference ratio using edit distance
+            double difference =  (longerLength - editDistance(longer, shorter)) / (double) longerLength;
+            // If the difference ratio is greater than 0.4, add the course to the hits list
+            if(difference > 0.4){
+                hits.add(c);
+            }
         }
-//        s = s.toLowerCase();
-//        String longer = s;
-//        for(Course c : listings){
-//            String shorter = c.getName();
-//            if(s.length() < c.getName().length()){
-//                longer = c.getName();
-//                shorter = s;
-//            }
-//            int longerLength = longer.length();
-//            double difference =  (longerLength - editDistance(longer, shorter)) / (double) longerLength;
-//            System.out.println(c.getName() + " " + difference);
-//            if(difference > 0.35){
-//                hits.add(c);
-//            }
-//        }
-
+        // Return the list of courses that match the spell check criteria
         return hits;
     }
 
