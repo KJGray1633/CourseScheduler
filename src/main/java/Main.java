@@ -204,9 +204,8 @@ public class Main {
 //        user = new User(1);
 //        schedule = new Schedule(user.getUid());
 //        run();
-        Search s = new Search();
-        Filter f = new Filter();
-
+//        Search s = new Search();
+//        Filter f = new Filter();
 //        f.setCourseCode(201);
 //        f.setDepartment("acct");
 //        f.setName("principles of accounting i");
@@ -214,7 +213,7 @@ public class Main {
 //        s.filter(f);
 
         // Test for spellcheck
-        //Search s = new Search("matematics");
+        Search s = new Search("principles of accounting i");
 
         for(Course se: s.getSearchResults()){
             System.out.println(se);

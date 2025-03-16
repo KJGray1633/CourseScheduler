@@ -1,9 +1,12 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -184,21 +187,66 @@ public class Search {
 
     public ArrayList<Course> spellCheck(String s) {
         ArrayList<Course> hits = new ArrayList<>();
-        s = s.toLowerCase();
-        String longer = s;
+        int charsDif;
         for(Course c : listings){
-            String shorter = c.getName();
-            if(s.length() < c.getName().length()){
-                longer = c.getName();
-                shorter = s;
-            }
-            int longerLength = longer.length();
-            double difference =  (longerLength - editDistance(longer, shorter)) / (double) longerLength;
-            //System.out.println(c.getName() + " " + difference);
-            if(difference > 0.4){
-                hits.add(c);
-            }
+            String name = c.getName();
+            try{
+                BufferedReader bf = new BufferedReader(new StringReader(s));
+                charsDif = 0;
+                int counter = 0;
+                char pprevChar = (char) bf.read();
+                char prevChar = (char) bf.read();
+                char currChar = (char) bf.read();
+                char nextChar = (char) bf.read();
+
+                for(int i = 2; i < name.length() - 1&& i < s.length() - 1; i++){
+                    if(name.charAt(i) == prevChar && name.charAt(i) != currChar){
+                        charsDif++;
+                        i--;
+                        nextChar = currChar;
+                        currChar = prevChar;
+                        prevChar = pprevChar;
+                    }
+                    else if(name.charAt(i) == nextChar && name.charAt(i) != currChar){
+                        charsDif++;
+                        i++;
+                        pprevChar = prevChar;
+                        prevChar = currChar;
+                        currChar = nextChar;
+                        nextChar = (char) bf.read();
+                    }
+                    else if (name.charAt(i) != currChar){
+                        charsDif++;
+                    }
+                    counter++;
+                    pprevChar = prevChar;
+                    prevChar = currChar;
+                    currChar = nextChar;
+                    nextChar = (char) bf.read();
+                }
+                if(charsDif < 5){
+                    hits.add(c);
+                }
+            } catch(IOException e){}
+
+
         }
+//        s = s.toLowerCase();
+//        String longer = s;
+//        for(Course c : listings){
+//            String shorter = c.getName();
+//            if(s.length() < c.getName().length()){
+//                longer = c.getName();
+//                shorter = s;
+//            }
+//            int longerLength = longer.length();
+//            double difference =  (longerLength - editDistance(longer, shorter)) / (double) longerLength;
+//            System.out.println(c.getName() + " " + difference);
+//            if(difference > 0.35){
+//                hits.add(c);
+//            }
+//        }
+
         return hits;
     }
 
