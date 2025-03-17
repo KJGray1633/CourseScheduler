@@ -1,22 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route } from 'react-router';
+import { Home } from './pages/home.js';
+import { Search } from './pages/search.js';
+import { Calendar } from './pages/calendar.js';
 
 function App() {
-  function searchCourses() {
-    console.log("searching courses");
-    return (
-      <div className="search-courses">)
-        <input type="text" placeholder="Search for courses" />
-        <button>Search</button>
-      </div>
-    );
-  }
   return (
-    <div className="nav-bar">
-      <button>Home</button>
-      <button onClick={() => searchCourses()}>Search Courses</button>
-      <button>Calendar</button>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/search" element={<Search />} />
+      <Route path="/calendar" element={<Calendar />} />
+    </Routes>
   );
 }
 

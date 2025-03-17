@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CourseTest {
+    //divide tests into different methods
     @Test
     void testIsOverlap() {
         Course c1 = new Course(0);

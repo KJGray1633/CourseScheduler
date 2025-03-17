@@ -109,7 +109,7 @@ public class Course {
         this.professor = new ArrayList<>();
     }
 
-
+    // fix indentation
     public boolean isOverlap(Course course) {
         // get the list of times of the other course
         ArrayList<MeetingTime> otherTimes = course.getTimes();
