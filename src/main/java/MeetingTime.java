@@ -1,13 +1,11 @@
 import java.sql.Time;
 
 enum Day {
-    SUNDAY,
     MONDAY,
     TUESDAY,
     WEDNESDAY,
     THURSDAY,
     FRIDAY,
-    SATURDAY
 }
 
 public class MeetingTime {
