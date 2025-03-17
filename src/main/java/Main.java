@@ -124,40 +124,78 @@ public class Main {
     private static String getCalendarString() {
         StringBuilder sb = new StringBuilder();
         sb.append("--Calendar--\n\n");
-        // Dictionary with class times for every day
-        Dictionary<Day, ArrayList<Map.Entry<MeetingTime, Course>>> classTimes = new Hashtable<>();
 
-        // Loop through all the different classes and their meeting times
+        // Create a map to store the schedule for each day
+        Map<Day, List<String>> dailySchedule = new HashMap<>();
+        for (Day day : Day.values()) {
+            dailySchedule.put(day, new ArrayList<>(Collections.nCopies(24, "")));
+        }
+
+        // Populate the schedule map with course information
         for (Course course : schedule.getCourses()) {
             for (MeetingTime meetingTime : course.getTimes()) {
-                // Add the meeting time to the correct dictionary entry
-                switch (meetingTime.getDay()) {
-                    case MONDAY:
-                        classTimes.get(Day.MONDAY).add(Map.entry(meetingTime,course));
-                        break;
-                    case TUESDAY:
-                        classTimes.get(Day.TUESDAY).add(Map.entry(meetingTime,course));
-                        break;
-                    case WEDNESDAY:
-                        classTimes.get(Day.WEDNESDAY).add(Map.entry(meetingTime,course));
-                        break;
-                    case THURSDAY:
-                        classTimes.get(Day.THURSDAY).add(Map.entry(meetingTime,course));
-                        break;
-                    case FRIDAY:
-                        classTimes.get(Day.FRIDAY).add(Map.entry(meetingTime,course));
-                        break;
+                int startHour = meetingTime.getStartTime().toLocalTime().getHour();
+                int endHour = meetingTime.getEndTime().toLocalTime().getHour();
+                if (meetingTime.getEndTime().toLocalTime().getMinute() >= 30) {
+                    endHour++;
+                }
+                String courseInfo = course.getSubject() + " " + course.getCourseCode();
+                for (int hour = startHour; hour < endHour; hour++) {
+                    dailySchedule.get(meetingTime.getDay()).set(hour, courseInfo);
                 }
             }
         }
 
-        Enumeration<Day> classKeys = classTimes.keys();
-
-        // Sort all the day array lists by when they start
-        while (classKeys.hasMoreElements()) {
-            Day key = classKeys.nextElement();
-            sortClassDay(classTimes.get(key));
+        // Create the header row
+        sb.append(String.format("%-10s", ""));
+        for (Day day : Day.values()) {
+            sb.append(String.format("%-15s", day));
         }
+        sb.append("\n");
+
+        // Create the schedule rows
+        for (int hour = 8; hour <= 21; hour++) {
+            sb.append(String.format("%-10s", String.format("%02d:00 %s", hour % 12 == 0 ? 12 : hour % 12, hour < 12 ? "AM" : "PM")));
+            for (Day day : Day.values()) {
+                sb.append(String.format("%-15s", dailySchedule.get(day).get(hour)));
+            }
+            sb.append("\n");
+        }
+
+//        // Dictionary with class times for every day
+//        Dictionary<Day, ArrayList<Map.Entry<MeetingTime, Course>>> classTimes = new Hashtable<>();
+//
+//        // Loop through all the different classes and their meeting times
+//        for (Course course : schedule.getCourses()) {
+//            for (MeetingTime meetingTime : course.getTimes()) {
+//                // Add the meeting time to the correct dictionary entry
+//                switch (meetingTime.getDay()) {
+//                    case MONDAY:
+//                        classTimes.get(Day.MONDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                    case TUESDAY:
+//                        classTimes.get(Day.TUESDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                    case WEDNESDAY:
+//                        classTimes.get(Day.WEDNESDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                    case THURSDAY:
+//                        classTimes.get(Day.THURSDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                    case FRIDAY:
+//                        classTimes.get(Day.FRIDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                }
+//            }
+//        }
+//
+//        Enumeration<Day> classKeys = classTimes.keys();
+//
+//        // Sort all the day array lists by when they start
+//        while (classKeys.hasMoreElements()) {
+//            Day key = classKeys.nextElement();
+//            sortClassDay(classTimes.get(key));
+//        }
 
         return sb.toString();
     }

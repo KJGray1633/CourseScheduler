@@ -1,11 +1,11 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
-
+import java.time.LocalTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.Scanner;
 
 public class Search {
@@ -68,13 +68,15 @@ public class Search {
                 String day = js.getString("day");
 
                 String end_time = js.getString("end_time");
-                Time et = scanTime(end_time);
+                LocalTime endLt = LocalTime.parse(end_time);
+                Time et = Time.valueOf(endLt);
 
                 String start_time = js.getString("start_time");
-                Time st = scanTime(start_time);
+                LocalTime startLt = LocalTime.parse(start_time);
+                Time st = Time.valueOf(startLt);
+
                 MeetingTime mt = new MeetingTime(st, et, day);
                 currCourse.getTimes().add(mt);
-                //System.out.println(currCourse);
             }
 
             int total_seats = c.getInt("total_seats");
