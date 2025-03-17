@@ -15,7 +15,7 @@ public class Schedule {
 //        courses.add(new Course(1,"Programming 1", 141));
 //        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
 //        courses.add(new Course(3,"Principles of Accounting",201));
-        this(new ArrayList<>(Arrays.asList(5, 11)));
+        this(new ArrayList<>(Arrays.asList(5, 21)));
     }
 
     public Schedule(ArrayList<Integer> cids) {
