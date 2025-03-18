@@ -165,6 +165,20 @@ public class Search {
                     addCourse = false;
                 }
             }
+            if(filter.getStartTime() != null && filter.getEndTime() != null){
+                for(MeetingTime mt : c.getTimes()){
+                    Time start = mt.getStartTime();
+                    Time end = mt.getEndTime();
+                    boolean tooEarly = start.before(filter.getStartTime()) || end.before(filter.getStartTime()) || end.equals(filter.getStartTime());
+                    boolean tooLate = end.after(filter.getEndTime()) || start.after(filter.getEndTime()) || start.equals(filter.getEndTime());
+                    if( tooEarly || tooLate){
+                        addCourse = false;
+                        break;
+                    }
+                }
+
+            }
+
 
             if (addCourse) {
                 filteredResults.add(c);
