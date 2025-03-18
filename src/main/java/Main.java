@@ -50,7 +50,7 @@ public class Main {
         // Add all the courses to the string builder
         for (Course course : courses) {
             sb.append(course.toString());
-            sb.append("\tRemove by typing 'RM ");
+            sb.append("\n\tRemove by typing 'RM ");
             sb.append(course.getCid());
             sb.append("'");
             sb.append("\n");
@@ -373,7 +373,7 @@ public class Main {
         // Print out the results
         System.out.println("Search results:");
         for (Course c : currResults) {
-            System.out.println(c.toString() + " Add by typing 'ADD " + c.getCid() + "'");
+            System.out.println(c.toString() + "\n\tAdd by typing 'ADD " + c.getCid() + "'");
         }
         return true;
     }

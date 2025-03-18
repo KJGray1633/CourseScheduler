@@ -144,7 +144,7 @@ public class Search {
             }
 
             // Check if the department filter is applied and if the course's subject does not match the filter
-            if (addCourse && filter.getDepartment() != null && !filter.getDepartment().isEmpty() && !filter.getDepartment().equals(c.getSubject())) {
+            if (addCourse && filter.getDepartment() != null && filter.getDepartment().isEmpty() && !filter.getDepartment().equals(c.getSubject())) {
                 addCourse = false;
             }
 
@@ -154,7 +154,7 @@ public class Search {
             }
 
             // Check if the course name filter is applied and if the course's name does not match the filter
-            if (addCourse && filter.getName() != null && !filter.getName().isEmpty() && !c.getName().equals(filter.getName())) {
+            if (addCourse && filter.getName() != null && filter.getName().isEmpty() && !c.getName().equals(filter.getName())) {
                 addCourse = false;
             }
 
@@ -189,6 +189,10 @@ public class Search {
     }
 
     public ArrayList<Course> spellCheck(String s) {
+        // If s is empty or null, return listings
+        if (s == null || s.isEmpty()) {
+            return listings;
+        }
         // Create a list to store courses that match the spell check criteria
         ArrayList<Course> hits = new ArrayList<>();
         // Convert the input string to lowercase

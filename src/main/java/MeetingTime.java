@@ -45,11 +45,7 @@ public class MeetingTime {
 
     @Override
     public String toString() {
-        return "MeetingTime{" +
-                "startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", day='" + day + '\'' +
-                '}';
+        return day + ": " + startTime + " - " + endTime;
     }
 
     public Time getStartTime() {
