@@ -1,13 +1,11 @@
 import java.sql.Time;
 
 enum Day {
-    SUNDAY,
     MONDAY,
     TUESDAY,
     WEDNESDAY,
     THURSDAY,
     FRIDAY,
-    SATURDAY
 }
 
 public class MeetingTime {
@@ -47,11 +45,7 @@ public class MeetingTime {
 
     @Override
     public String toString() {
-        return "MeetingTime{" +
-                "startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", day='" + day + '\'' +
-                '}';
+        return day + ": " + startTime + " - " + endTime;
     }
 
     public Time getStartTime() {

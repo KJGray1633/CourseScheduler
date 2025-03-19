@@ -149,14 +149,7 @@ public class Course {
         for(String p: professor){
             professors += p + ", ";
         }
-        return "Course{" +
-                "cid=" + cid +
-                ", name='" + name + '\'' +
-                ", professors=" + professors + '\n' +
-                ", courseCode='" + courseCode + '\'' +
-                ", description='" + description + '\'' +
-                ", times=" + times +
-                ", referenceNum=" + referenceNum +
-                '}';
+        return name +
+                " - " + professors + " - " + subject + ' ' + courseCode + ' ' + times;
     }
 }

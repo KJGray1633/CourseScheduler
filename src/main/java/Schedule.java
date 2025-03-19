@@ -6,15 +6,26 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Schedule {
     public ArrayList<Course> courses;
 
     public Schedule(int uid) {
+//        courses.add(new Course(1,"Programming 1", 141));
+//        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
+//        courses.add(new Course(3,"Principles of Accounting",201));
+        this(new ArrayList<>(Arrays.asList(5, 21)));
+    }
+
+    public Schedule(ArrayList<Integer> cids) {
         courses = new ArrayList<>();
-        courses.add(new Course(1,"Programming 1", 141));
-        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
-        courses.add(new Course(3,"Principles of Accounting",201));
+        ArrayList<Course> allCourses = Search.parseJSON();
+        for (Course c : allCourses) {
+            if (cids.contains(c.getCid())) {
+                courses.add(c);
+            }
+        }
     }
 
     public Schedule(String fileName) {

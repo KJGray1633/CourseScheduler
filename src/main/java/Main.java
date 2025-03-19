@@ -50,7 +50,7 @@ public class Main {
         // Add all the courses to the string builder
         for (Course course : courses) {
             sb.append(course.toString());
-            sb.append("\tRemove by typing 'RM ");
+            sb.append("\n\tRemove by typing 'RM ");
             sb.append(course.getCid());
             sb.append("'");
             sb.append("\n");
@@ -124,40 +124,78 @@ public class Main {
     private static String getCalendarString() {
         StringBuilder sb = new StringBuilder();
         sb.append("--Calendar--\n\n");
-        // Dictionary with class times for every day
-        Dictionary<Day, ArrayList<Map.Entry<MeetingTime, Course>>> classTimes = new Hashtable<>();
 
-        // Loop through all the different classes and their meeting times
+        // Create a map to store the schedule for each day
+        Map<Day, List<String>> dailySchedule = new HashMap<>();
+        for (Day day : Day.values()) {
+            dailySchedule.put(day, new ArrayList<>(Collections.nCopies(24, "")));
+        }
+
+        // Populate the schedule map with course information
         for (Course course : schedule.getCourses()) {
             for (MeetingTime meetingTime : course.getTimes()) {
-                // Add the meeting time to the correct dictionary entry
-                switch (meetingTime.getDay()) {
-                    case MONDAY:
-                        classTimes.get(Day.MONDAY).add(Map.entry(meetingTime,course));
-                        break;
-                    case TUESDAY:
-                        classTimes.get(Day.TUESDAY).add(Map.entry(meetingTime,course));
-                        break;
-                    case WEDNESDAY:
-                        classTimes.get(Day.WEDNESDAY).add(Map.entry(meetingTime,course));
-                        break;
-                    case THURSDAY:
-                        classTimes.get(Day.THURSDAY).add(Map.entry(meetingTime,course));
-                        break;
-                    case FRIDAY:
-                        classTimes.get(Day.FRIDAY).add(Map.entry(meetingTime,course));
-                        break;
+                int startHour = meetingTime.getStartTime().toLocalTime().getHour();
+                int endHour = meetingTime.getEndTime().toLocalTime().getHour();
+                if (meetingTime.getEndTime().toLocalTime().getMinute() >= 30) {
+                    endHour++;
+                }
+                String courseInfo = course.getSubject() + " " + course.getCourseCode();
+                for (int hour = startHour; hour < endHour; hour++) {
+                    dailySchedule.get(meetingTime.getDay()).set(hour, courseInfo);
                 }
             }
         }
 
-        Enumeration<Day> classKeys = classTimes.keys();
-
-        // Sort all the day array lists by when they start
-        while (classKeys.hasMoreElements()) {
-            Day key = classKeys.nextElement();
-            sortClassDay(classTimes.get(key));
+        // Create the header row
+        sb.append(String.format("%-10s", ""));
+        for (Day day : Day.values()) {
+            sb.append(String.format("%-15s", day));
         }
+        sb.append("\n");
+
+        // Create the schedule rows
+        for (int hour = 8; hour <= 21; hour++) {
+            sb.append(String.format("%-10s", String.format("%02d:00 %s", hour % 12 == 0 ? 12 : hour % 12, hour < 12 ? "AM" : "PM")));
+            for (Day day : Day.values()) {
+                sb.append(String.format("%-15s", dailySchedule.get(day).get(hour)));
+            }
+            sb.append("\n");
+        }
+
+//        // Dictionary with class times for every day
+//        Dictionary<Day, ArrayList<Map.Entry<MeetingTime, Course>>> classTimes = new Hashtable<>();
+//
+//        // Loop through all the different classes and their meeting times
+//        for (Course course : schedule.getCourses()) {
+//            for (MeetingTime meetingTime : course.getTimes()) {
+//                // Add the meeting time to the correct dictionary entry
+//                switch (meetingTime.getDay()) {
+//                    case MONDAY:
+//                        classTimes.get(Day.MONDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                    case TUESDAY:
+//                        classTimes.get(Day.TUESDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                    case WEDNESDAY:
+//                        classTimes.get(Day.WEDNESDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                    case THURSDAY:
+//                        classTimes.get(Day.THURSDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                    case FRIDAY:
+//                        classTimes.get(Day.FRIDAY).add(Map.entry(meetingTime,course));
+//                        break;
+//                }
+//            }
+//        }
+//
+//        Enumeration<Day> classKeys = classTimes.keys();
+//
+//        // Sort all the day array lists by when they start
+//        while (classKeys.hasMoreElements()) {
+//            Day key = classKeys.nextElement();
+//            sortClassDay(classTimes.get(key));
+//        }
 
         return sb.toString();
     }
@@ -335,7 +373,7 @@ public class Main {
         // Print out the results
         System.out.println("Search results:");
         for (Course c : currResults) {
-            System.out.println(c.toString() + " Add by typing 'ADD " + c.getCid() + "'");
+            System.out.println(c.toString() + "\n\tAdd by typing 'ADD " + c.getCid() + "'");
         }
         return true;
     }
@@ -390,7 +428,7 @@ public class Main {
                 if (pageStatus.equals(Page.INVALID)) {
                     System.out.println("'" + input + "' is an invalid input for the current page. Please try again.");
                 }
-            // Keep looping if invalid or still on the same page
+                // Keep looping if invalid or still on the same page
             } while (pageStatus.equals(Page.INVALID) || pageStatus.equals(Page.SAME));
 
             // Change the current page to a new page
@@ -410,16 +448,22 @@ public class Main {
 
 
 //        // Test for spellcheck
-//        Search s = new Search("principles of accounting i");
+        //Search s = new Search("principles of accounting i");
 //
 //        Filter f = new Filter();
+//        Day d1 = Day.MONDAY;
+//        Day d2 = Day.WEDNESDAY;
+//        Day d3 = Day.FRIDAY;
+//
+//        ArrayList<Day> d = new ArrayList<Day>();
+//        f.setDays(d);
 //        f.setCourseCode(201);
 //        f.setDepartment("acct");
-//        //f.setName("principles of accounting i");
-//        //f.getProf().add("graybill, keith b.");
+//        f.setName("principles of accounting i");
+//        f.getProf().add("graybill, keith b.");
 //
 //
-//        for(Course se: s.filter(f)){
+//        for(Course se: s.getSearchResults()){
 //            System.out.println(se);
 //        }
     }
