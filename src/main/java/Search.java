@@ -144,7 +144,7 @@ public class Search {
             }
 
             // Check if the department filter is applied and if the course's subject does not match the filter
-            if (addCourse && filter.getDepartment() != null && !filter.getDepartment().equals(c.getSubject())) {
+            if (addCourse && filter.getDepartment() != null && filter.getDepartment().isEmpty() && !filter.getDepartment().equals(c.getSubject())) {
                 addCourse = false;
             }
 
@@ -154,7 +154,7 @@ public class Search {
             }
 
             // Check if the course name filter is applied and if the course's name does not match the filter
-            if (addCourse && filter.getName() != null && !c.getName().equals(filter.getName())) {
+            if (addCourse && filter.getName() != null && filter.getName().isEmpty() && !c.getName().equals(filter.getName())) {
                 addCourse = false;
             }
 
@@ -165,7 +165,19 @@ public class Search {
                     addCourse = false;
                 }
             }
+            if(filter.getStartTime() != null && filter.getEndTime() != null){
+                for(MeetingTime mt : c.getTimes()){
+                    Time start = mt.getStartTime();
+                    Time end = mt.getEndTime();
+                    boolean tooEarly = start.before(filter.getStartTime()) || end.before(filter.getStartTime()) || end.equals(filter.getStartTime());
+                    boolean tooLate = end.after(filter.getEndTime()) || start.after(filter.getEndTime()) || start.equals(filter.getEndTime());
+                    if( tooEarly || tooLate){
+                        addCourse = false;
+                        break;
+                    }
+                }
 
+            }
             if (addCourse) {
                 filteredResults.add(c);
             }
@@ -189,6 +201,10 @@ public class Search {
     }
 
     public ArrayList<Course> spellCheck(String s) {
+        // If s is empty or null, return listings
+        if (s == null || s.isEmpty()) {
+            return listings;
+        }
         // Create a list to store courses that match the spell check criteria
         ArrayList<Course> hits = new ArrayList<>();
         // Convert the input string to lowercase
@@ -222,24 +238,24 @@ public class Search {
         s2 = s2.toLowerCase();
         int[] costs = new int[s2.length() + 1];
         for(int i = 0; i <= s1.length(); i++){
-           int lastValue = i;
-           for(int j = 0; j <= s2.length(); j++){
-               if(i == 0){
-                   costs[j] = j;
-               } else{
-                   if(j > 0){
-                       int newValue = costs[j-1];
-                       if(s1.charAt(i-1) != s2.charAt(j -1)){
-                           newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-                       }
-                       costs[j - 1] = lastValue;
-                       lastValue = newValue;
-                   }
-               }
-           }
-           if(i > 0){
-               costs[s2.length()] = lastValue;
-           }
+            int lastValue = i;
+            for(int j = 0; j <= s2.length(); j++){
+                if(i == 0){
+                    costs[j] = j;
+                } else{
+                    if(j > 0){
+                        int newValue = costs[j-1];
+                        if(s1.charAt(i-1) != s2.charAt(j -1)){
+                            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                        }
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
+                }
+            }
+            if(i > 0){
+                costs[s2.length()] = lastValue;
+            }
         }
         return costs[s2.length()];
     }

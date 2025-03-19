@@ -50,7 +50,7 @@ public class Main {
         // Add all the courses to the string builder
         for (Course course : courses) {
             sb.append(course.toString());
-            sb.append("\tRemove by typing 'RM ");
+            sb.append("\n\tRemove by typing 'RM ");
             sb.append(course.getCid());
             sb.append("'");
             sb.append("\n");
@@ -373,7 +373,7 @@ public class Main {
         // Print out the results
         System.out.println("Search results:");
         for (Course c : currResults) {
-            System.out.println(c.toString() + " Add by typing 'ADD " + c.getCid() + "'");
+            System.out.println(c.toString() + "\n\tAdd by typing 'ADD " + c.getCid() + "'");
         }
         return true;
     }
@@ -428,7 +428,7 @@ public class Main {
                 if (pageStatus.equals(Page.INVALID)) {
                     System.out.println("'" + input + "' is an invalid input for the current page. Please try again.");
                 }
-            // Keep looping if invalid or still on the same page
+                // Keep looping if invalid or still on the same page
             } while (pageStatus.equals(Page.INVALID) || pageStatus.equals(Page.SAME));
 
             // Change the current page to a new page
@@ -448,16 +448,22 @@ public class Main {
 
 
 //        // Test for spellcheck
-//        Search s = new Search("principles of accounting i");
+        //Search s = new Search("principles of accounting i");
 //
 //        Filter f = new Filter();
+//        Day d1 = Day.MONDAY;
+//        Day d2 = Day.WEDNESDAY;
+//        Day d3 = Day.FRIDAY;
+//
+//        ArrayList<Day> d = new ArrayList<Day>();
+//        f.setDays(d);
 //        f.setCourseCode(201);
 //        f.setDepartment("acct");
-//        //f.setName("principles of accounting i");
-//        //f.getProf().add("graybill, keith b.");
+//        f.setName("principles of accounting i");
+//        f.getProf().add("graybill, keith b.");
 //
 //
-//        for(Course se: s.filter(f)){
+//        for(Course se: s.getSearchResults()){
 //            System.out.println(se);
 //        }
     }
