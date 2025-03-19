@@ -15,7 +15,7 @@ public class Schedule {
 //        courses.add(new Course(1,"Programming 1", 141));
 //        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
 //        courses.add(new Course(3,"Principles of Accounting",201));
-        this(new ArrayList<>(Arrays.asList(5, 21)));
+        this();
     }
 
     public Schedule(ArrayList<Integer> cids) {
@@ -28,7 +28,7 @@ public class Schedule {
         }
     }
 
-    public Schedule(String fileName) {
+    public Schedule() {
         courses = new ArrayList<>();
         String content = "";
         try {
@@ -58,11 +58,13 @@ public class Schedule {
 
     public boolean addCourse(Course course) {
         courses.add(course);
+        saveSchedule();
         return true;
     }
 
     public boolean dropCourse(Course course) {
         courses.remove(course);
+        saveSchedule();
         return true;
     }
 
