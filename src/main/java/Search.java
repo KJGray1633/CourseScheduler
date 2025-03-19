@@ -213,6 +213,7 @@ public class Search {
         String longer = s;
         // Iterate through all courses in the listings
         for(Course c : listings){
+            // If the courseName matches exactly add the course
             if(s.equals(c.getName())){
                 hits.add(c);
                 continue;
