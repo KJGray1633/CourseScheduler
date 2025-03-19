@@ -178,8 +178,6 @@ public class Search {
                 }
 
             }
-
-
             if (addCourse) {
                 filteredResults.add(c);
             }
