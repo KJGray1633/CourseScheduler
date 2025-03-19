@@ -42,13 +42,9 @@ public class Schedule {
         JSONArray jsonCourses = json.getJSONArray("courses");
         for (int i = 0; i < jsonCourses.length(); i++) {
             JSONObject jsonCourse = jsonCourses.getJSONObject(i);
-            int referenceNum = jsonCourse.getInt("referenceNum");
-            String professor = jsonCourse.getString("professor");
-            int courseCode = jsonCourse.getInt("courseCode");
-            String name = jsonCourse.getString("name");
             int cid = jsonCourse.getInt("cid");
-            //Course course = new Course(cid, name, courseCode, professor);
-            //courses.add(course);
+            Course course = Search.createCourseFromJSON(jsonCourse, cid);
+            courses.add(course);
         }
     }
 
