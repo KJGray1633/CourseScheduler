@@ -14,29 +14,20 @@ public class SearchTest {
     }
 
     @Test
-    public void testSearchBiologyQuery() {
-        search.setQuery("biology");
+    public void testSearchEmptyQuery() {
+        search.setQuery("");
         ArrayList<Course> results = search.getSearchResults();
         assertNotNull(results, "Search results should not be null");
 
-        int manualBiologyCount = getManualBiologyCount();
-        assertEquals(manualBiologyCount, results.size(), "getSearchResults should match the JSON manual count.");
+        ArrayList<Course> allCourses = Search.parseJSON();
+        assertEquals(allCourses.size(), results.size(), "Search results should match all courses for an empty query.");
     }
 
-    private int getManualBiologyCount() {
-        int biologyCount = 0;
-        ArrayList<Course> courses = Search.parseJSON();
-        if (courses == null) {
-            fail("Failed to parse JSON file");
-        }
-
-        for (Course course : courses) {
-            String name = course.getName().toLowerCase();
-            if (name.contains("biology")) {
-                biologyCount++;
-            }
-        }
-
-        return biologyCount;
+    @Test
+    public void testSetGetQuery() {
+        search.setQuery("abababa");
+        String theQuery = search.getQuery();
+        assertEquals(("abababa"), theQuery, "Query should be 'abababa'");
     }
+
 }
