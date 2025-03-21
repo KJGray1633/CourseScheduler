@@ -227,34 +227,39 @@ public class Search {
         // Convert the input string to lowercase
         s = s.toLowerCase();
         // Initialize the longer string as the input string
-        String longer = s;
         // Iterate through all courses in the listings
         for(Course c : listings){
+            // Get course name
+            String courseName = c.getName();
             // If the courseName matches exactly add the course
-            if(s.equals(c.getName())){
+            if (s.equals(courseName)){
                 hits.add(c);
                 continue;
             }
-
-            if(c.getName().contains(s)){
+            // If the course name contains the string, add it
+            if (courseName.contains(s)){
                 hits.add(c);
                 continue;
             }
-//            // Get the name of the current course
-//            String shorter = c.getName();
-//            // Determine which string is longer
-//            if(s.length() < c.getName().length()){
-//                longer = c.getName();
-//                shorter = s;
-//            }
-//            // Calculate the length of the longer string
-//            int longerLength = longer.length();
-//            // Calculate the difference ratio using edit distance
-//            double difference =  (longerLength - editDistance(longer, shorter)) / (double) longerLength;
-//            // If the difference ratio is greater than 0.4, add the course to the hits list
-//            if(difference > 0.4){
-//                hits.add(c);
-//            }
+            // See how different teh strings are
+            String shorter;
+            String longer;
+            if (s.length() < courseName.length()) {
+                longer = courseName;
+                shorter = s;
+            }
+            else {
+                longer = s;
+                shorter = courseName;
+            }
+            // Calculate the length of the longer string
+            int longerLength = longer.length();
+            // Calculate the difference ratio using edit distance
+            double difference =  (longerLength - editDistance(longer, shorter)) / (double) longerLength;
+            // If the difference ratio is greater than 0.4, add the course to the hits list
+            if(difference > 0.5) {
+                hits.add(c);
+            }
         }
         // Return the list of courses that match the spell check criteria
         return hits;

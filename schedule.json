@@ -85,5 +85,38 @@
     "open": true,
     "cid": 707,
     "openSeats": 1
+  },
+  {
+    "subject": "psyc",
+    "courseCode": 208,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 40,
+    "referenceNum": 0,
+    "times": [
+      {
+        "startTime": "08:00:00",
+        "endTime": "08:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "08:00:00",
+        "endTime": "08:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "08:00:00",
+        "endTime": "08:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "professor": ["conway, lucian gideon iii"],
+    "credits": 3,
+    "name": "social psychology",
+    "location": "staley hall of arts & letters",
+    "semester": "2025_spring",
+    "open": true,
+    "cid": 2939,
+    "openSeats": 40
   }
 ]}
