@@ -160,7 +160,7 @@ public class Search {
                 }
             }
 
-            // Check if both department and course code filters are applied and if either does not match the course
+            // Checks if both department and course code filters are applied and if either does not match the course
             if (addCourse && filter.getDepartment() != null && !filter.getDepartment().isEmpty() && filter.getCourseCode() != 0) {
                 if (!filter.getDepartment().equals(c.getSubject()) || filter.getCourseCode() != c.getCourseCode()) {
                     addCourse = false;
