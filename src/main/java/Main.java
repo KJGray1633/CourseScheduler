@@ -70,14 +70,14 @@ public class Main {
     }
 
     /**
-     * Converts a string in the format HH:MM to a java.sql.Time object.
+     * Converts a string in the format H:MM or HH:MM to a java.sql.Time object.
      * Returns null if the string is not in the correct format or if an error occurs.
      *
-     * @param timeString the time string in the format HH:MM
+     * @param timeString the time string in the format H:MM or HH:MM
      * @return the corresponding java.sql.Time object or null if the format is incorrect or an error occurs
      */
     public static Time convertStringToTime(String timeString) {
-        String timePattern = "^([01]\\d|2[0-3]):[0-5]\\d$";
+        String timePattern = "^([0-9]|[01]\\d|2[0-3]):[0-5]\\d$";
         Pattern pattern = Pattern.compile(timePattern);
         Matcher matcher = pattern.matcher(timeString);
 
@@ -86,7 +86,7 @@ public class Main {
         }
 
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("H:mm");
             long ms = dateFormat.parse(timeString).getTime();
             return new Time(ms);
         } catch (ParseException e) {
@@ -283,7 +283,7 @@ public class Main {
             }
             // Check if the course is already in the schedule or overlaps
             for (Course c : schedule.getCourses()) {
-                if (c.getCid() == course.getCid()) {
+                if (c.getCourseCode() == course.getCourseCode() && c.getSubject().equals(course.getSubject())) {
                     System.out.println("Course already in schedule.");
                     return false;
                 }
@@ -294,6 +294,7 @@ public class Main {
             }
             // Add the course to the schedule
             schedule.addCourse(course);
+            System.out.println("Course successfully added to schedule!");
             return true;
         }
         Scanner scanner = new Scanner(System.in);
@@ -331,20 +332,26 @@ public class Main {
         // Get time ranges
         Time start = null;
         boolean first = true;
+        String response;
         do {
-            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your earliest time in the form HH:MM (i.e. 14:30): ");
+            System.out.println((first ? "" : "Invalid entry. ") + "Please enter your earliest time in the form HH:MM (i.e. 14:30) or empty for all times: ");
             // convertStringToTime returns null if invalid input
-            start = convertStringToTime(scanner.nextLine().strip().toLowerCase());
+            response = scanner.nextLine().strip().toLowerCase();
+            start = convertStringToTime(response);
             first = false;
-        } while (start == null);
+            // Accept empty input
+        } while (start == null && !response.isEmpty());
         Time end = null;
-        first = true;
-        do {
-            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your latest time in the form HH:MM (i.e. 14:30): ");
-            // convertStringToTime returns null if invalid input
-            end = convertStringToTime(scanner.nextLine().strip().toLowerCase());
-            first = false;
-        } while (end == null);
+        // If response is empty (i.e no start time), then we do not need an end time
+        if (!response.isEmpty()) {
+            first = true;
+            do {
+                System.out.println((first ? "" : "Invalid entry. ") + "Please enter your latest time in the form HH:MM (i.e. 14:30): ");
+                // convertStringToTime returns null if invalid input
+                end = convertStringToTime(scanner.nextLine().strip().toLowerCase());
+                first = false;
+            } while (end == null || end.before(start));
+        }
         // Assign the time ranges to the filter
         filter.setStartTime(start);
         filter.setEndTime(end);
@@ -353,7 +360,7 @@ public class Main {
         first = true;
         String courseCode;
         do {
-            System.out.print((first ? "" : "Invalid entry. ") + "Please enter your desired course code of the form XXXX 000 or empty for any (i.e. COMP 141): ");
+            System.out.println((first ? "" : "Invalid entry. ") + "Please enter your desired course code of the form XXXX 000 or empty for any (i.e. COMP 141): ");
             courseCode = scanner.nextLine().strip().toLowerCase();
             first = false;
         } while (!validateCourseCode(courseCode));
@@ -421,7 +428,7 @@ public class Main {
             Page pageStatus;
             do {
                 // Get user's input and make it lower case and remove outer whitespace
-                System.out.print("Please enter the name of the page you would like to navigate to or the command you would like to execute or 'exit' to quit: ");
+                System.out.println("Please enter the name of the page you would like to navigate to or the command you would like to execute or 'exit' to quit: ");
                 input = scan.nextLine().toLowerCase().strip();
                 pageStatus = parsePageInput(input);
 

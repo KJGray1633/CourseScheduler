@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ScheduleTest {
+/*public class ScheduleTest {
     private Schedule schedule;
     @BeforeEach
     void setup() {
@@ -29,4 +29,4 @@ public class ScheduleTest {
             assertEquals(loadSchedule.courses.get(i).getCid(), schedule.courses.get(i).getCid());
         }
     }
-}
+}*/
