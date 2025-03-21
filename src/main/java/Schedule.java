@@ -38,12 +38,13 @@ public class Schedule {
             return;
         }
 
+        Search search = new Search();
         JSONObject json = new JSONObject(content);
         JSONArray jsonCourses = json.getJSONArray("courses");
         for (int i = 0; i < jsonCourses.length(); i++) {
             JSONObject jsonCourse = jsonCourses.getJSONObject(i);
             int cid = jsonCourse.getInt("cid");
-            Course course = Search.createCourseFromJSON(jsonCourse, cid);
+            Course course = search.createCourseFromCid(cid);
             courses.add(course);
         }
     }
@@ -71,10 +72,8 @@ public class Schedule {
         try (FileWriter file = new FileWriter("schedule.json")) {
             file.write(jsonObject.toString(2)); // Use toString(2) for pretty printing
             file.flush();
-            System.out.print("JSON data written to schedule.json");
             return true;
         } catch (IOException e) {
-            System.err.print("Failed to write JSON data to schedule.json");
             return false;
         }
     }

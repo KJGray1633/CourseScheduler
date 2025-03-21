@@ -66,31 +66,24 @@
     "openSeats": 2
   },
   {
-    "subject": "comp",
-    "courseCode": 244,
+    "subject": "soci",
+    "courseCode": 314,
     "section": "a",
     "lab": false,
-    "totalSeats": 32,
+    "totalSeats": 30,
     "referenceNum": 0,
-    "times": [
-      {
-        "startTime": "09:30:00",
-        "endTime": "10:45:00",
-        "day": "TUESDAY"
-      },
-      {
-        "startTime": "09:30:00",
-        "endTime": "10:45:00",
-        "day": "THURSDAY"
-      }
-    ],
-    "professor": ["zhang, he"],
+    "times": [{
+      "startTime": "18:30:00",
+      "endTime": "21:00:00",
+      "day": "MONDAY"
+    }],
+    "professor": ["fleske, william a. ii"],
     "credits": 3,
-    "name": "database mgt systems",
-    "location": "stem 326",
+    "name": "criminology",
+    "location": "shal 216",
     "semester": "2023_fall",
     "open": true,
-    "cid": 136,
-    "openSeats": 2
+    "cid": 707,
+    "openSeats": 1
   }
 ]}

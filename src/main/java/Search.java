@@ -67,6 +67,18 @@ public class Search {
         return currCourse;
     }
 
+    public Course createCourseFromCid(int cid) {
+        // Make sure listings is initialized
+        if (listings.isEmpty()) listings = parseJSON();
+        // Make sure listings is not null
+        if (listings == null) return null;
+        // Find the matching course
+        for (Course c : listings) {
+            if (c.getCid() == cid) return c;
+        }
+        return null;
+    }
+
     public static ArrayList<Course> parseJSON() {
         int id = 0;
         ArrayList<Course> courses = new ArrayList<>();
