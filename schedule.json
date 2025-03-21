@@ -87,36 +87,36 @@
     "openSeats": 1
   },
   {
-    "subject": "psyc",
-    "courseCode": 208,
+    "subject": "comp",
+    "courseCode": 141,
     "section": "a",
     "lab": false,
-    "totalSeats": 40,
+    "totalSeats": 32,
     "referenceNum": 0,
     "times": [
       {
-        "startTime": "08:00:00",
-        "endTime": "08:50:00",
+        "startTime": "12:00:00",
+        "endTime": "12:50:00",
         "day": "MONDAY"
       },
       {
-        "startTime": "08:00:00",
-        "endTime": "08:50:00",
+        "startTime": "12:00:00",
+        "endTime": "12:50:00",
         "day": "WEDNESDAY"
       },
       {
-        "startTime": "08:00:00",
-        "endTime": "08:50:00",
+        "startTime": "12:00:00",
+        "endTime": "12:50:00",
         "day": "FRIDAY"
       }
     ],
-    "professor": ["conway, lucian gideon iii"],
+    "professor": ["wolfe, britton d."],
     "credits": 3,
-    "name": "social psychology",
-    "location": "staley hall of arts & letters",
-    "semester": "2025_spring",
-    "open": true,
-    "cid": 2939,
-    "openSeats": 40
+    "name": "comp programming i",
+    "location": "science technology engineering",
+    "semester": "2023_fall",
+    "open": false,
+    "cid": 127,
+    "openSeats": 0
   }
 ]}
