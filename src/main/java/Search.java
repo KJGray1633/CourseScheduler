@@ -160,14 +160,11 @@ public class Search {
                 }
             }
 
-            // Check if the department filter is applied and if the course's subject does not match the filter
-            if (addCourse && filter.getDepartment() != null && filter.getDepartment().isEmpty() && !filter.getDepartment().equals(c.getSubject())) {
-                addCourse = false;
-            }
-
-            // Check if the course code filter is applied and if the course's code does not match the filter
-            if (addCourse && filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
-                addCourse = false;
+            // Checks if both department and course code filters are applied and if either does not match the course
+            if (addCourse && filter.getDepartment() != null && !filter.getDepartment().isEmpty() && filter.getCourseCode() != 0) {
+                if (!filter.getDepartment().equals(c.getSubject()) || filter.getCourseCode() != c.getCourseCode()) {
+                    addCourse = false;
+                }
             }
 
             // Check if the course name filter is applied and if the course's name does not match the filter
