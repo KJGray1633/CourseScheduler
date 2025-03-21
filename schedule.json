@@ -1,23 +1,122 @@
 {"courses": [
   {
+    "subject": "acct",
+    "courseCode": 201,
+    "section": "e",
+    "lab": false,
+    "totalSeats": 30,
     "referenceNum": 0,
-    "professor": "Programming Prof 1",
-    "courseCode": 0,
-    "name": "Programming 1",
-    "cid": 1
+    "times": [
+      {
+        "startTime": "14:00:00",
+        "endTime": "14:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "14:00:00",
+        "endTime": "14:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "14:00:00",
+        "endTime": "14:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "professor": ["graybill, keith b."],
+    "credits": 3,
+    "name": "principles of accounting i",
+    "location": "shal 204",
+    "semester": "2023_fall",
+    "open": false,
+    "cid": 5,
+    "openSeats": 0
   },
   {
+    "subject": "biol",
+    "courseCode": 101,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 90,
     "referenceNum": 0,
-    "professor": "English Prof 1",
-    "courseCode": 1,
-    "name": "Foundations of Academic Discourse",
-    "cid": 2
+    "times": [
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "professor": ["pazehoski, kristina o."],
+    "credits": 4,
+    "name": "general biology i",
+    "location": "shal 108  w/multimedia",
+    "semester": "2023_fall",
+    "open": true,
+    "cid": 21,
+    "openSeats": 2
   },
   {
+    "subject": "soci",
+    "courseCode": 314,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 30,
     "referenceNum": 0,
-    "professor": "Accounting Prof 1",
-    "courseCode": 2,
-    "name": "Principles of Accounting",
-    "cid": 3
+    "times": [{
+      "startTime": "18:30:00",
+      "endTime": "21:00:00",
+      "day": "MONDAY"
+    }],
+    "professor": ["fleske, william a. ii"],
+    "credits": 3,
+    "name": "criminology",
+    "location": "shal 216",
+    "semester": "2023_fall",
+    "open": true,
+    "cid": 707,
+    "openSeats": 1
+  },
+  {
+    "subject": "psyc",
+    "courseCode": 208,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 40,
+    "referenceNum": 0,
+    "times": [
+      {
+        "startTime": "08:00:00",
+        "endTime": "08:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "08:00:00",
+        "endTime": "08:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "08:00:00",
+        "endTime": "08:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "professor": ["conway, lucian gideon iii"],
+    "credits": 3,
+    "name": "social psychology",
+    "location": "staley hall of arts & letters",
+    "semester": "2025_spring",
+    "open": true,
+    "cid": 2939,
+    "openSeats": 40
   }
 ]}

@@ -15,7 +15,7 @@ public class Schedule {
 //        courses.add(new Course(1,"Programming 1", 141));
 //        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
 //        courses.add(new Course(3,"Principles of Accounting",201));
-        this(new ArrayList<>(Arrays.asList(5, 21)));
+        this();
     }
 
     public Schedule(ArrayList<Integer> cids) {
@@ -28,7 +28,7 @@ public class Schedule {
         }
     }
 
-    public Schedule(String fileName) {
+    public Schedule() {
         courses = new ArrayList<>();
         String content = "";
         try {
@@ -38,17 +38,14 @@ public class Schedule {
             return;
         }
 
+        Search search = new Search();
         JSONObject json = new JSONObject(content);
         JSONArray jsonCourses = json.getJSONArray("courses");
         for (int i = 0; i < jsonCourses.length(); i++) {
             JSONObject jsonCourse = jsonCourses.getJSONObject(i);
-            int referenceNum = jsonCourse.getInt("referenceNum");
-            String professor = jsonCourse.getString("professor");
-            int courseCode = jsonCourse.getInt("courseCode");
-            String name = jsonCourse.getString("name");
             int cid = jsonCourse.getInt("cid");
-            //Course course = new Course(cid, name, courseCode, professor);
-            //courses.add(course);
+            Course course = search.createCourseFromCid(cid);
+            courses.add(course);
         }
     }
 
@@ -58,11 +55,13 @@ public class Schedule {
 
     public boolean addCourse(Course course) {
         courses.add(course);
+        saveSchedule();
         return true;
     }
 
     public boolean dropCourse(Course course) {
         courses.remove(course);
+        saveSchedule();
         return true;
     }
 
@@ -73,10 +72,8 @@ public class Schedule {
         try (FileWriter file = new FileWriter("schedule.json")) {
             file.write(jsonObject.toString(2)); // Use toString(2) for pretty printing
             file.flush();
-            System.out.print("JSON data written to schedule.json");
             return true;
         } catch (IOException e) {
-            System.err.print("Failed to write JSON data to schedule.json");
             return false;
         }
     }
