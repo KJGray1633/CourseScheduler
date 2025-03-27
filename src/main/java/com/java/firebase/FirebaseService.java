@@ -6,6 +6,7 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
+import com.java.model.Course;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.ExecutionException;
 
@@ -34,4 +35,21 @@ public class FirebaseService {
             return null;
         }
     }
+
+    // New method to add a course
+    public String addCourse(Course course) {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        CollectionReference courses = dbFirestore.collection("courses");
+
+        ApiFuture<DocumentReference> future = courses.add(course);
+
+        try {
+            return future.get().getId();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }
