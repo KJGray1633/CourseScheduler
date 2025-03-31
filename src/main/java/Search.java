@@ -233,12 +233,24 @@ public class Search {
                 hits.add(c);
                 continue;
             }
+            // If the keyword is a professor name, add the courses that have that professor
+            if(c.getProfessor().contains(s)){
+                hits.add(c);
+                continue;
+            }
+
+            // If the keyword is a department, add all the courses in that department
+            if(s.equals(c.getSubject())){
+                hits.add(c);
+                continue;
+            }
+
             // If the course name contains the string, add it
             if (courseName.contains(s)){
                 hits.add(c);
                 continue;
             }
-            // See how different teh strings are
+            // See how different the strings are
             String shorter;
             String longer;
             if (s.length() < courseName.length()) {
@@ -257,6 +269,15 @@ public class Search {
             if(difference > 0.5) {
                 hits.add(c);
             }
+            // If the keyword is a course code, add all the courses with that course code
+            try{
+                if(Integer.parseInt(s) == c.getCourseCode()){
+                    hits.add(c);
+                }
+            } catch(NumberFormatException nfe){
+
+            }
+
         }
         // Return the list of courses that match the spell check criteria
         return hits;
