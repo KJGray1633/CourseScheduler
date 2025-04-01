@@ -192,7 +192,7 @@ public class Search {
                 }
 
             }
-            if (addCourse) {
+            if (addCourse && !filteredResults.contains(c)) {
                 filteredResults.add(c);
             }
         }
@@ -226,6 +226,11 @@ public class Search {
         // Initialize the longer string as the input string
         // Iterate through all courses in the listings
         for(Course c : listings){
+            // If the keyword is a semester add classes offered in that semester
+            if(s.equals(c.getSemester())){
+                hits.add(c);
+                continue;
+            }
             // Get course name
             String courseName = c.getName();
             // If the courseName matches exactly add the course
