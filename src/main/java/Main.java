@@ -378,9 +378,13 @@ public class Main {
         ArrayList<Course> currResults = search.filter(filter);
 
         // Print out the results
-        System.out.println("Search results:");
-        for (Course c : currResults) {
-            System.out.println(c.toString() + "\n\tAdd by typing 'ADD " + c.getCid() + "'");
+        if(currResults.isEmpty()){
+            System.out.println("No results found");
+        } else{
+            System.out.println("Search results:");
+            for (Course c : currResults) {
+                System.out.println(c.toString() + "\n\tAdd by typing 'ADD " + c.getCid() + "'");
+            }
         }
         return true;
     }
