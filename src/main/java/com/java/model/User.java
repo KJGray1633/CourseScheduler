@@ -1,3 +1,5 @@
+package com.java.model;
+
 import java.util.ArrayList;
 
 public class User {
@@ -30,5 +32,9 @@ public class User {
 
     public String getYear() {
         return year;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

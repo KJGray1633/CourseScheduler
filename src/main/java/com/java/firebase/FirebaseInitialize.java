@@ -1,9 +1,11 @@
+package com.java.firebase;
+
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 
 @Service
@@ -13,9 +15,9 @@ public class FirebaseInitialize {
     public void initalize() {
         try {
             FileInputStream serviceAccount =
-                    new FileInputStream("./serviceAccountKey.json"); // removed the serviceAccountKey
+                    new FileInputStream("./serviceAccountKey.json");
 
-            FirebaseOptions options = new FirebaseOptions.Builder()
+            FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https://bywda-e7645-default-rtdb.firebaseio.com")
                     .build();

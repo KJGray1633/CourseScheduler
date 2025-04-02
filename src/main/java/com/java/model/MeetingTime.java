@@ -1,3 +1,5 @@
+package com.java.model;
+
 import java.sql.Time;
 
 enum Day {

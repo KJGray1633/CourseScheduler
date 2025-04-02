@@ -1,3 +1,4 @@
+import com.java.model.DatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,14 +15,14 @@ public class TempDbTest {
     @Test
     public void testAddCourse() {
         boolean result = db.addCourse(1, 1234);
-        assertTrue(result, "Course should be added successfully");
+        assertTrue(result, "com.java.model.Course should be added successfully");
     }
 
     @Test
     public void testDropCourse() {
         db.addCourse(1, 1234);
         boolean result = db.dropCourse(1, 1234);
-        assertTrue(result, "Course should be dropped successfully");
+        assertTrue(result, "com.java.model.Course should be dropped successfully");
     }
 
     @Test

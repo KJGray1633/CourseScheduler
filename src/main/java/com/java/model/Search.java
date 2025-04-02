@@ -1,7 +1,8 @@
+package com.java.model;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.time.LocalTime;
 import org.json.JSONArray;

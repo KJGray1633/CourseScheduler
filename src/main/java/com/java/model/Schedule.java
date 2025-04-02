@@ -1,3 +1,5 @@
+package com.java.model;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -6,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Schedule {
     public ArrayList<Course> courses;

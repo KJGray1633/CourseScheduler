@@ -1,3 +1,5 @@
+package com.java.model;
+
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.plugin.bundled.CorsPluginConfig;
@@ -22,16 +24,16 @@ public class Server {
     private void addCourse(Context ctx) {
         Course course = ctx.bodyAsClass(Course.class);
         schedule.addCourse(course);
-        ctx.result("Course added: " + course);
+        ctx.result("com.java.model.Course added: " + course);
     }
 
     private void dropCourse(Context ctx) {
         Course course = ctx.bodyAsClass(Course.class);
         boolean dropped = schedule.dropCourse(course);
         if (dropped) {
-            ctx.result("Course dropped: " + course);
+            ctx.result("com.java.model.Course dropped: " + course);
         } else {
-            ctx.status(404).result("Course not found: " + course);
+            ctx.status(404).result("com.java.model.Course not found: " + course);
         }
     }
 

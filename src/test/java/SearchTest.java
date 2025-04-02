@@ -1,3 +1,5 @@
+import com.java.model.Course;
+import com.java.model.Search;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,10 +19,10 @@ public class SearchTest {
     public void testSearchEmptyQuery() {
         search.setQuery("");
         ArrayList<Course> results = search.getSearchResults();
-        assertNotNull(results, "Search results should not be null");
+        assertNotNull(results, "com.java.model.Search results should not be null");
 
         ArrayList<Course> allCourses = Search.parseJSON();
-        assertEquals(allCourses.size(), results.size(), "Search results should match all courses for an empty query.");
+        assertEquals(allCourses.size(), results.size(), "com.java.model.Search results should match all courses for an empty query.");
     }
 
     @Test
