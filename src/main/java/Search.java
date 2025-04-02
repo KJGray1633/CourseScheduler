@@ -160,14 +160,11 @@ public class Search {
                 }
             }
 
-            // Check if the department filter is applied and if the course's subject does not match the filter
-            if (addCourse && filter.getDepartment() != null && filter.getDepartment().isEmpty() && !filter.getDepartment().equals(c.getSubject())) {
-                addCourse = false;
-            }
-
-            // Check if the course code filter is applied and if the course's code does not match the filter
-            if (addCourse && filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
-                addCourse = false;
+            // Checks if both department and course code filters are applied and if either does not match the course
+            if (addCourse && filter.getDepartment() != null && !filter.getDepartment().isEmpty() && filter.getCourseCode() != 0) {
+                if (!filter.getDepartment().equals(c.getSubject()) || filter.getCourseCode() != c.getCourseCode()) {
+                    addCourse = false;
+                }
             }
 
             // Check if the course name filter is applied and if the course's name does not match the filter
@@ -195,7 +192,7 @@ public class Search {
                 }
 
             }
-            if (addCourse) {
+            if (addCourse && !filteredResults.contains(c)) {
                 filteredResults.add(c);
             }
         }
@@ -229,6 +226,11 @@ public class Search {
         // Initialize the longer string as the input string
         // Iterate through all courses in the listings
         for(Course c : listings){
+            // If the keyword is a semester add classes offered in that semester
+            if(s.equals(c.getSemester())){
+                hits.add(c);
+                continue;
+            }
             // Get course name
             String courseName = c.getName();
             // If the courseName matches exactly add the course
@@ -236,12 +238,24 @@ public class Search {
                 hits.add(c);
                 continue;
             }
+            // If the keyword is a professor name, add the courses that have that professor
+            if(c.getProfessor().contains(s)){
+                hits.add(c);
+                continue;
+            }
+
+            // If the keyword is a department, add all the courses in that department
+            if(s.equals(c.getSubject())){
+                hits.add(c);
+                continue;
+            }
+
             // If the course name contains the string, add it
             if (courseName.contains(s)){
                 hits.add(c);
                 continue;
             }
-            // See how different teh strings are
+            // See how different the strings are
             String shorter;
             String longer;
             if (s.length() < courseName.length()) {
@@ -260,6 +274,15 @@ public class Search {
             if(difference > 0.5) {
                 hits.add(c);
             }
+            // If the keyword is a course code, add all the courses with that course code
+            try{
+                if(Integer.parseInt(s) == c.getCourseCode()){
+                    hits.add(c);
+                }
+            } catch(NumberFormatException nfe){
+
+            }
+
         }
         // Return the list of courses that match the spell check criteria
         return hits;
