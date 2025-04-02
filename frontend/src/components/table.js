@@ -1,8 +1,8 @@
-import { Navbar } from '../components/navbar.js';
-import { Table } from '../components/table.js';
+import {Link} from "react-router";
+import '../App.css';
 
-export function Home() {
-  /*fetch('http://localhost:7000/schedule')
+export function Table({ path }) {
+  fetch('http://localhost:7000/' + path)
     .then(response => response.json())
     .then(data => {
       const schedule = document.getElementById('schedule');
@@ -43,15 +43,22 @@ export function Home() {
         schedule.appendChild(tr);
       });
     })
-    .catch(error => (console.error("Error fetching data:", error)));*/
+    .catch(error => (console.error("Error fetching data:", error)));
   return (
     <div>
-      <Navbar />
-      <div>
-        <h1>Home</h1>
-        <Table path={'schedule'}/>
-
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Course Code</th>
+            <th>Times</th>
+            <th>Location</th>
+            <th>Professor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr></tr>
+        </tbody>
+      </table>
     </div>
   );
 }

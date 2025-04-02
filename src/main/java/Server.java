@@ -4,15 +4,18 @@ import io.javalin.plugin.bundled.CorsPluginConfig;
 
 public class Server {
     private final Schedule schedule;
+    private final Search search;
 
-    public Server(Schedule schedule) {
+    public Server(Schedule schedule, Search search) {
         this.schedule = schedule;
+        this.search = search;
     }
 
     public void registerRoutes(Javalin app) {
         app.get("/schedule", this::getSchedule);
         app.post("/schedule", this::addCourse);
         app.delete("/schedule", this::dropCourse);
+        app.get("/search", this::searchCourses);
     }
 
     private void getSchedule(Context ctx) {
@@ -35,9 +38,14 @@ public class Server {
         }
     }
 
+    private void searchCourses(Context ctx) {
+        ctx.json(search.getSearchResults());
+    }
+
     public static void main(String[] args) {
         Schedule schedule = new Schedule();
-        Server server = new Server(schedule);
+        Search search = new Search();
+        Server server = new Server(schedule, search);
 
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors -> {
