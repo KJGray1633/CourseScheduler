@@ -39,6 +39,8 @@ public class Server {
     }
 
     private void searchCourses(Context ctx) {
+        String query = ctx.queryParam("query");
+        search.setQuery(query);
         ctx.json(search.getSearchResults());
     }
 
