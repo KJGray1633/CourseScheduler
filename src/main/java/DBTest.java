@@ -1,14 +1,10 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.*;
-import java.sql.Statement;
-
+import java.sql.*;
+import java.util.Properties;
 
 public class DBTest {
     public static void main(String[] args) {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
         try {
             Properties info = new Properties();
 
@@ -23,20 +19,31 @@ public class DBTest {
 
             System.out.println("Connection successful!");
 
-            stmt  = conn.createStatement();
-            String creatUsersTable = "CREATE TABLE IF NOT EXISTS users ("
-                    + "id INT AUTO_INCREMENT PRIMARY KEY, "
+            // Drop the table if it exists
+            String dropTableSQL = "DROP TABLE IF EXISTS users";
+            pstmt = conn.prepareStatement(dropTableSQL);
+            pstmt.executeUpdate();
+            System.out.println("Table 'users' dropped successfully!");
+
+            // Create the new table
+            String createUsersTable = "CREATE TABLE IF NOT EXISTS users ("
                     + "uid VARCHAR(10) NOT NULL, "
-                    + "cid VARCHAR(20), ";
-            stmt.execute(creatUsersTable);
+                    + "cid VARCHAR(20), "
+                    + "PRIMARY KEY (uid, cid))";
+            pstmt = conn.prepareStatement(createUsersTable);
+            pstmt.executeUpdate();
             System.out.println("'users' table created successfully!");
+
             conn.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
         }
-
-
-
-
     }
 }
