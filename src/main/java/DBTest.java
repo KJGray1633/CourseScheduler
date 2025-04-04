@@ -28,12 +28,11 @@ public class DBTest {
             // Create the new table
             String createUsersTable = "CREATE TABLE IF NOT EXISTS users ("
                     + "uid INT NOT NULL, "
-                    + "cid INT, "
                     + "username VARCHAR(50), "
                     + "password VARCHAR(50), "
                     + "major VARCHAR(50), "
                     + "year VARCHAR(50), "
-                    + "PRIMARY KEY (uid, cid))";
+                    + "PRIMARY KEY (uid))";
             pstmt = conn.prepareStatement(createUsersTable);
             pstmt.executeUpdate();
             System.out.println("'users' table created successfully!");
@@ -57,7 +56,21 @@ public class DBTest {
             pstmt.executeUpdate();
             System.out.println("'courses' table created successfully!");
 
+            // Drop the schedule table if it exists
+            String dropScheduleTable = "DROP TABLE IF EXISTS schedule";
+            pstmt = conn.prepareStatement(dropScheduleTable);
+            pstmt.executeUpdate();
+            System.out.println("Table 'schedule' dropped successfully!");
 
+            // Create the schedule table
+            String createScheduleTable = "CREATE TABLE IF NOT EXISTS schedule ("
+                    + "cid INT NOT NULL, "
+                    + "uid INT NOT NULL, "
+                    + "PRIMARY KEY (cid, uid))";
+
+            pstmt = conn.prepareStatement(createScheduleTable);
+            pstmt.executeUpdate();
+            System.out.println("'schedule' table created successfully!");
 
             conn.close();
         } catch (SQLException ex) {
