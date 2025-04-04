@@ -1,6 +1,6 @@
 import '../App.css';
 
-export function Table({ path }) {
+export function fetchData(path) {
   fetch('http://localhost:7000/' + path)
     .then(response => response.json())
     .then(data => {
@@ -15,14 +15,12 @@ export function Table({ path }) {
         'FRIDAY': 'F'
       };
       data.forEach(item => {
-        console.log(item);
+        //console.log(item);
         const tr = document.createElement('tr');
         let td = document.createElement('td');
         td.textContent = `${item.subject.toUpperCase()} ${item.courseCode}`;
         tr.appendChild(td);
         td = document.createElement('td');
-
-
         if (item.times.length > 0) {
           let days = [];
           item.times.forEach(time => {
@@ -33,7 +31,6 @@ export function Table({ path }) {
         } else {
           td.textContent = 'TBA';
         }
-
         tr.appendChild(td);
         td = document.createElement('td');
         td.textContent = item.location.toUpperCase();
@@ -63,6 +60,10 @@ export function Table({ path }) {
       });
     })
     .catch(error => (console.error("Error fetching data:", error)));
+}
+
+export function Table({ path }) {
+  fetchData(path);
   return (
     <div>
       <table>

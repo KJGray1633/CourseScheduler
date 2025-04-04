@@ -2,9 +2,11 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
+import java.util.Map;
+
 public class Server {
     private final Schedule schedule;
-    private final Search search;
+    private Search search;
 
     public Server(Schedule schedule, Search search) {
         this.schedule = schedule;
@@ -15,7 +17,8 @@ public class Server {
         app.get("/schedule", this::getSchedule);
         app.post("/schedule", this::addCourse);
         app.delete("/schedule", this::dropCourse);
-        app.get("/search", this::searchCourses);
+        app.get("/search", this::getResults);
+        app.post("/search", this::searchCourses);
     }
 
     private void getSchedule(Context ctx) {
@@ -38,10 +41,15 @@ public class Server {
         }
     }
 
-    private void searchCourses(Context ctx) {
-        String query = ctx.queryParam("query");
-        search.setQuery(query);
+    private void getResults(Context ctx) {
         ctx.json(search.getSearchResults());
+    }
+
+    private void searchCourses(Context ctx) {
+        String query = ctx.body();
+        System.out.println("Search query: " + query);
+        search = new Search(query);
+        ctx.json(Map.of("message", "Search completed for: " + query));
     }
 
     public static void main(String[] args) {
