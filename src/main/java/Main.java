@@ -1,4 +1,6 @@
 import java.sql.Time;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -333,11 +335,19 @@ public class Main {
         Time start = null;
         boolean first = true;
         String response;
+        LocalTime et = LocalTime.of(8, 0);
         do {
             System.out.println((first ? "" : "Invalid entry. ") + "Please enter your earliest time in the form HH:MM (i.e. 14:30) or empty for all times: ");
             // convertStringToTime returns null if invalid input
             response = scanner.nextLine().strip().toLowerCase();
             start = convertStringToTime(response);
+            if(start != null){
+                LocalTime lt = LocalTime.parse(response);
+                if(!et.isAfter(lt) || et.equals(lt)){
+                    break;
+                }
+            }
+            start = null;
             first = false;
             // Accept empty input
         } while (start == null && !response.isEmpty());
@@ -345,10 +355,17 @@ public class Main {
         // If response is empty (i.e no start time), then we do not need an end time
         if (!response.isEmpty()) {
             first = true;
+            LocalTime latestTime = LocalTime.of(21, 0);
             do {
                 System.out.println((first ? "" : "Invalid entry. ") + "Please enter your latest time in the form HH:MM (i.e. 14:30): ");
                 // convertStringToTime returns null if invalid input
                 end = convertStringToTime(scanner.nextLine().strip().toLowerCase());
+                if(end != null){
+                    LocalTime lt = LocalTime.parse(response);
+                    if(!latestTime.isAfter(lt) || latestTime.equals(lt)){
+                        break;
+                    }
+                }
                 first = false;
             } while (end == null || end.before(start));
         }
@@ -477,5 +494,10 @@ public class Main {
 //        for(Course se: s.getSearchResults()){
 //            System.out.println(se);
 //        }
+    }
+    private static Time createTime(Calendar c){
+        long timeInMillis = c.getTimeInMillis();
+        Time t = new Time(timeInMillis);
+        return t;
     }
 }
