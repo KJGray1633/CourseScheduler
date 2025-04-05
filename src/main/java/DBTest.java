@@ -26,6 +26,7 @@ public class DBTest {
                 return;
             }
             insertCoursesIntoDatabase(conn, courses);
+            exampleUser(conn);
 
             conn.close();
         } catch (SQLException ex) {
@@ -38,6 +39,20 @@ public class DBTest {
             }
         }
     }
+
+    public static void exampleUser(Connection conn) throws SQLException {
+        String exampleInsertUser = "INSERT INTO users (uid, username, password, major, year) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(exampleInsertUser);
+        pstmt.setInt(1, 1);
+        pstmt.setString(2, "Sarah");
+        pstmt.setString(3, "password");
+        pstmt.setString(4, "Computer Science");
+        pstmt.setString(5, "2026");
+        pstmt.executeUpdate();
+        System.out.println("Example user inserted successfully!");
+
+    }
+
 
     public static void createTables(Connection conn) throws SQLException {
         PreparedStatement pstmt;
