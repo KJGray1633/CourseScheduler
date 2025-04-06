@@ -1,3 +1,5 @@
+// run DBTest.java before running this tester class
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,6 +12,7 @@ public class TempDbTest {
     public void setUp() {
         db = new DatabaseCalls();
     }
+
 
     @Test
     public void testAddCourse() {
@@ -59,4 +62,29 @@ public class TempDbTest {
 
         assertFalse(dropCID);
     }
+
+    @Test
+    public void testDeleteUser() {
+        boolean userDeleted = db.removeUser(1);
+        assertTrue(userDeleted);
+    }
+
+    @Test
+    public void testUserExists() {
+        boolean userExists = db.validateUser("Sarah", "password");
+        assertTrue(userExists);
+    }
+
+    @Test
+    public void testGetCourse() {
+        Course course = new Course(1, "principles of accounting i", 201);
+
+        Course retrievedCourse = db.getCourse(1);
+
+        assertNotNull(retrievedCourse);
+        assertEquals(course.getCid(), retrievedCourse.getCid());
+        assertEquals(course.getName(), retrievedCourse.getName());
+        assertEquals(course.getCourseCode(), retrievedCourse.getCourseCode());
+    }
+
 }

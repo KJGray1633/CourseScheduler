@@ -164,12 +164,90 @@ public class DatabaseCalls {
         return null;
     }
 
-    public User validateUser(String username, String password) {
-        return null;
+    public boolean validateUser(String username, String password) {
+        if (!connectToDB()) {
+            return false; // Failed to connect to DB
+        }
+
+        // check to see if username/password are in the database
+        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+        return false;
     }
 
+    public boolean addUser(int uid, String username, String password, String major, String year) {
+        if (!connectToDB()) {
+            return false; // Failed to connect to DB
+        }
+
+        String addUser = "INSERT INTO users (uid, username, password, major, year) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(addUser)) {
+            pstmt.setInt(1, uid);
+            pstmt.setString(2, username);
+            pstmt.setString(3, password);
+            pstmt.setString(4, major);
+            pstmt.setString(5, year);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        } finally {
+            closeConnection();
+        }
+    }
+
+    public boolean removeUser(int uid) {
+        if (!connectToDB()) {
+            return false; // Failed to connect to DB
+        }
+
+        String removeUser = "DELETE FROM users WHERE uid = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(removeUser)) {
+            pstmt.setInt(1, uid);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        } finally {
+            closeConnection();
+        }
+    }
+
+
+
     public Course getCourse(int cid) {
-        return null;
+        if (!connectToDB()) {
+            return null; // Failed to connect to DB
+        }
+        // check if course exists in the database
+        String checkCourseSQL = "SELECT * FROM courses WHERE cid = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(checkCourseSQL)) {
+            pstmt.setInt(1, cid);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String name = rs.getString("name");
+                int courseCode = rs.getInt("courseCode");
+                return new Course(cid, name, courseCode);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+        return null; // Course not found
     }
 
     public Schedule getSchedule(int uid) {
