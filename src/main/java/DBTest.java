@@ -20,12 +20,14 @@ public class DBTest {
 
             System.out.println("Connection successful!");
 
-            createTables(conn);
+            dropAllTables(conn);
+            createAllTables(conn);
             if (courses == null) {
                 System.out.println("No courses found.");
                 return;
             }
             insertCoursesIntoDatabase(conn, courses);
+            exampleUser(conn);
 
             conn.close();
         } catch (SQLException ex) {
@@ -39,15 +41,24 @@ public class DBTest {
         }
     }
 
-    public static void createTables(Connection conn) throws SQLException {
-        PreparedStatement pstmt;
-        // Drop the table if it exists
-        String dropTableSQL = "DROP TABLE IF EXISTS users";
-        pstmt = conn.prepareStatement(dropTableSQL);
+    public static void exampleUser(Connection conn) throws SQLException {
+        String exampleInsertUser = "INSERT INTO users (uid, username, password, major, year) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(exampleInsertUser);
+        pstmt.setInt(1, 1);
+        pstmt.setString(2, "Sarah");
+        pstmt.setString(3, "password");
+        pstmt.setString(4, "Computer Science");
+        pstmt.setString(5, "2026");
         pstmt.executeUpdate();
-        System.out.println("Table 'users' dropped successfully!");
+        System.out.println("Example user inserted successfully!");
 
-        // Create the new table
+    }
+
+
+    public static void createAllTables(Connection conn) throws SQLException {
+        PreparedStatement pstmt;
+
+        // Create the users table
         String createUsersTable = "CREATE TABLE IF NOT EXISTS users ("
                 + "uid INT NOT NULL, "
                 + "username VARCHAR(50), "
@@ -59,16 +70,11 @@ public class DBTest {
         pstmt.executeUpdate();
         System.out.println("'users' table created successfully!");
 
-        // Drop the courses table if it exists
-        String dropCourseTable = "DROP TABLE IF EXISTS courses";
-        pstmt = conn.prepareStatement(dropCourseTable);
-        pstmt.executeUpdate();
-        System.out.println("Table 'courses' dropped successfully!");
-
         // Create the courses table
         String createCoursesTable = "CREATE TABLE IF NOT EXISTS courses ("
                 + "cid INT NOT NULL, "
                 + "name VARCHAR(50), "
+                + "credits INT, "
                 + "courseCode VARCHAR(10), "
                 + "times VARCHAR(200), "
                 + "referenceNum INT, "
@@ -84,12 +90,6 @@ public class DBTest {
         pstmt.executeUpdate();
         System.out.println("'courses' table created successfully!");
 
-        // Drop the schedule table if it exists
-        String dropScheduleTable = "DROP TABLE IF EXISTS schedule";
-        pstmt = conn.prepareStatement(dropScheduleTable);
-        pstmt.executeUpdate();
-        System.out.println("Table 'schedule' dropped successfully!");
-
         // Create the schedule table
         String createScheduleTable = "CREATE TABLE IF NOT EXISTS schedule ("
                 + "cid INT NOT NULL, "
@@ -102,24 +102,36 @@ public class DBTest {
 
     }
 
+    public static void dropAllTables(Connection conn) throws SQLException {
+        String dropScheduleTable = "DROP TABLE IF EXISTS schedule";
+        String dropCourseTable = "DROP TABLE IF EXISTS courses";
+        String dropUserTable = "DROP TABLE IF EXISTS users";
+
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(dropScheduleTable);
+        stmt.executeUpdate(dropCourseTable);
+        stmt.executeUpdate(dropUserTable);
+    }
+
     public static void insertCoursesIntoDatabase(Connection conn, ArrayList<Course> courses) {
         try {
 
-            String insertSQL = "INSERT INTO courses (cid, name, courseCode, times, referenceNum, location, openSeats, section, semester, subject, totalSeats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertSQL = "INSERT INTO courses (cid, name, credits, courseCode, times, referenceNum, location, openSeats, section, semester, subject, totalSeats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(insertSQL);
 
             for (Course course : courses) {
                 pstmt.setInt(1, course.getCid());
                 pstmt.setString(2, course.getName());
-                pstmt.setString(3, String.valueOf(course.getCourseCode()));
-                pstmt.setString(4, course.getTimes().toString());
-                pstmt.setInt(5, course.getReferenceNum());
-                pstmt.setString(6, course.getLocation());
-                pstmt.setInt(7, course.getOpenSeats());
-                pstmt.setString(8, course.getSection());
-                pstmt.setString(9, course.getSemester());
-                pstmt.setString(10, course.getSubject());
-                pstmt.setInt(11, course.getTotalSeats());
+                pstmt.setInt(3, course.getCredits());
+                pstmt.setString(4, String.valueOf(course.getCourseCode()));
+                pstmt.setString(5, course.getTimes().toString());
+                pstmt.setInt(6, course.getReferenceNum());
+                pstmt.setString(7, course.getLocation());
+                pstmt.setInt(8, course.getOpenSeats());
+                pstmt.setString(9, course.getSection());
+                pstmt.setString(10, course.getSemester());
+                pstmt.setString(11, course.getSubject());
+                pstmt.setInt(12, course.getTotalSeats());
                 pstmt.addBatch();
             }
 

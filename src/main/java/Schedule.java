@@ -77,4 +77,13 @@ public class Schedule {
             return false;
         }
     }
+
+    public boolean containsCourseId(int cid) {
+        for (Course course : courses) {
+            if (course.getCid() == cid) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
