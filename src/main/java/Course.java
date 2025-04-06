@@ -7,6 +7,11 @@ public class Course {
     private String description;
     private ArrayList<String> professor;
     protected ArrayList<MeetingTime> times;
+
+    public void setReferenceNum(int referenceNum) {
+        this.referenceNum = referenceNum;
+    }
+
     private int referenceNum;
 
 
@@ -100,6 +105,7 @@ public class Course {
         this.cid = cid;
         times = new ArrayList<>();
         professor = new ArrayList<>();
+        this.referenceNum = cid + 1000;
     }
 
     public Course(int cid, String name, int courseCode) {
@@ -107,6 +113,7 @@ public class Course {
         this.name = name;
         this.courseCode = courseCode;
         this.professor = new ArrayList<>();
+        this.referenceNum = cid + 1000;
     }
 
     public boolean isOverlap(Course course) {
@@ -139,6 +146,6 @@ public class Course {
             professors += p + ", ";
         }
         return name +
-                " - " + professors + " - " + subject + ' ' + courseCode + ' ' + times;
+                " - " + professors + " - " + subject + ' ' + courseCode + ' ' + times + ' ' + referenceNum;
     }
 }
