@@ -45,8 +45,7 @@ public class DatabaseCalls {
 
         // check if user exists in the database
         String checkUserSQL = "SELECT * FROM users WHERE uid = ?";
-        try (Connection conn = this.conn;
-             PreparedStatement pstmt = conn.prepareStatement(checkUserSQL)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(checkUserSQL)) {
             pstmt.setInt(1, uid);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -160,6 +159,7 @@ public class DatabaseCalls {
     }
 
 
+    // TODO: complete this method
     public ArrayList<Course> searchCourses(String query) {
         return null;
     }
@@ -227,7 +227,6 @@ public class DatabaseCalls {
     }
 
 
-
     public Course getCourse(int cid) {
         if (!connectToDB()) {
             return null; // Failed to connect to DB
@@ -251,6 +250,33 @@ public class DatabaseCalls {
     }
 
     public Schedule getSchedule(int uid) {
+        if (!connectToDB()) {
+            return null; // Failed to connect to DB
+        }
+        // check if user exists in the database
+        String checkUserSQL = "SELECT * FROM users WHERE uid = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(checkUserSQL)) {
+            pstmt.setInt(1, uid);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                // User exists, now get the schedule
+                String getScheduleSQL = "SELECT * FROM schedule WHERE uid = ?";
+                try (PreparedStatement pstmt2 = conn.prepareStatement(getScheduleSQL)) {
+                    pstmt2.setInt(1, uid);
+                    ResultSet rs2 = pstmt2.executeQuery();
+                    ArrayList<Integer> cids = new ArrayList<>();
+                    while (rs2.next()) {
+                        cids.add(rs2.getInt("cid"));
+                    }
+//                    System.out.println("cids: " + cids);
+                    return new Schedule(cids);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
         return null;
     }
 }

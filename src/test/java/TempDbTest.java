@@ -86,5 +86,21 @@ public class TempDbTest {
         assertEquals(course.getName(), retrievedCourse.getName());
         assertEquals(course.getCourseCode(), retrievedCourse.getCourseCode());
     }
+    @Test
+    public void testGetSchedule() {
+        db.addCourse(1, 1);
+        db.addCourse(1, 2);
+        db.addCourse(1, 3);
+        db.addCourse(1, 4);
+
+        Schedule schedule = db.getSchedule(1);
+
+        assertNotNull(schedule);
+
+        assertTrue(schedule.containsCourseId(1));
+        assertTrue(schedule.containsCourseId(2));
+        assertTrue(schedule.containsCourseId(3));
+        assertTrue(schedule.containsCourseId(4));
+    }
 
 }
