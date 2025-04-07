@@ -2,13 +2,45 @@ import json
 from pathlib import Path
 from datetime import time
 from typing import Iterable
-from ai_helper import Course, MeetingTime
+from ai_helper import Course, MeetingTime, RequiredCourseInfo
 
-def courses_from_cids(cids: list[int], all_courses: Iterable[Course] | None = None) -> Iterable[Course]:
+# Create global all_courses variable to store all courses (needs diff. name)
+all_courses: list[Course]
+
+def courses_from_cids(cids: Iterable[int]) -> Iterable[Course]:
     all_courses = parse_json() if all_courses is None else all_courses
     for course in all_courses:
         if course.id in cids:
             yield course
+
+def get_required_courses(major: str) -> Iterable[RequiredCourseInfo]:
+    # TODO: Update so this function queries from the database
+    # Open the required courses file
+    with open("required_courses.txt", "r") as file:
+        # Each line contains department and then course code (i.e. "COMP 141") so pass in as RequiredCourse arguments
+        for line in file:
+            yield RequiredCourseInfo(*line.strip().split(""))
+
+def get_taken_cids() -> Iterable[int]:
+    # TODO: Update so this function queries from the database
+    # Open the taken courses file
+    with open("taken_cids.txt", "r") as file:
+        # Each line contains a course ID, so we can convert it to an integer
+        for line in file:
+            yield int(line.strip())
+
+def get_untaken_required_courses(major: str) -> Iterable[RequiredCourseInfo]:
+    # Get the taken courses
+    taken_courses: list[Course] = list(courses_from_cids(get_taken_cids()))
+    # Get the required courses for the major that are not taken
+    required_courses: Iterable[RequiredCourseInfo] = (
+        req_course for req_course in get_required_courses(major) if any(
+            req_course.course_code == taken_course.course_code and
+            req_course.department == taken_course.department
+            for taken_course in taken_courses
+        )
+    )
+    return required_courses
 
 def parse_json(file_path: str = "data_wolfe.json") -> list[Course]:
     courses = []
@@ -43,7 +75,7 @@ def create_course_from_json(c: dict, id: int) -> Course:
     curr_course.open_seats = c["open_seats"]
     curr_course.section = c["section"].lower()
     curr_course.semester = c["semester"].lower()
-    curr_course.subject = c["subject"].lower()
+    curr_course.department = c["subject"].lower()
 
     for time_entry in c["times"]:
         day = time_entry["day"]

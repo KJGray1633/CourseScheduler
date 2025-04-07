@@ -6,6 +6,11 @@ class MeetingTime:
         self.end_time = end_time
         self.day = day
 
+class RequiredCourseInfo:
+    def __init__(self, department, couurse_code):
+        self.department = department
+        self.course_code = couurse_code
+
 class Course:
     def __init__(self, id):
         self.id = id
@@ -19,7 +24,7 @@ class Course:
         self._open_seats = 0
         self._section = ""
         self._semester = ""
-        self._subject = ""
+        self._department = ""
         self._times = []
         self._total_seats = 0
 
@@ -103,12 +108,12 @@ class Course:
         self._semester = value
 
     @property
-    def subject(self):
-        return self._subject
+    def department(self):
+        return self._department
 
-    @subject.setter
-    def subject(self, value):
-        self._subject = value
+    @department.setter
+    def department(self, value):
+        self._department = value
 
     @property
     def times(self):
@@ -126,4 +131,4 @@ class Course:
         self._total_seats = value
 
     def __str__(self):
-        return f"{self.name} - {self.subject.upper()} {self.course_code}{self.section.upper()}"
+        return f"{self.name} - {self.department.upper()} {self.course_code}{self.section.upper()}"
