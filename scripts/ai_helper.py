@@ -25,7 +25,7 @@ class Course:
         self._section = ""
         self._semester = ""
         self._department = ""
-        self._times = []
+        self._times: list[MeetingTime] = []
         self._total_seats = 0
 
     @property
@@ -108,7 +108,7 @@ class Course:
         self._semester = value
 
     @property
-    def department(self):
+    def department(self):   
         return self._department
 
     @department.setter
@@ -132,3 +132,18 @@ class Course:
 
     def __str__(self):
         return f"{self.name} - {self.department.upper()} {self.course_code}{self.section.upper()}"
+
+    def has_time_conflict(self, other_course) -> bool:
+        for other_time in other_course.times:
+            for time in self.times:
+                if time.day == other_time.day:
+                    start1 = time.start_time
+                    end1 = time.end_time
+                    start2 = other_time.start_time
+                    end2 = other_time.end_time
+
+                    if ((start1 <= start2 <= end1) or
+                        (start1 <= end2 <= end1) or
+                        (start2 <= start1 <= end2)):
+                        return True
+        return False

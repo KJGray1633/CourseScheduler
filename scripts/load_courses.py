@@ -16,7 +16,7 @@ def courses_from_cids(cids: Iterable[int]) -> Iterable[Course]:
 def get_required_courses(major: str) -> Iterable[RequiredCourseInfo]:
     # TODO: Update so this function queries from the database
     # Open the required courses file
-    with open("required_courses.txt", "r") as file:
+    with open("data/required_courses.txt", "r") as file:
         # Each line contains department and then course code (i.e. "COMP 141") so pass in as RequiredCourse arguments
         for line in file:
             yield RequiredCourseInfo(*line.strip().split(""))
@@ -24,7 +24,7 @@ def get_required_courses(major: str) -> Iterable[RequiredCourseInfo]:
 def get_taken_cids() -> Iterable[int]:
     # TODO: Update so this function queries from the database
     # Open the taken courses file
-    with open("taken_cids.txt", "r") as file:
+    with open("data/taken_cids.txt", "r") as file:
         # Each line contains a course ID, so we can convert it to an integer
         for line in file:
             yield int(line.strip())
