@@ -15,12 +15,11 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.json:json:20250107'
-    implementation group: 'com.google.firebase', name: 'firebase-admin', version: '9.4.3'
-    implementation 'org.springframework:spring-context:7.0.0-M2'
     implementation 'org.apache.directory.studio:org.apache.commons.lang:2.6'
     implementation 'io.javalin:javalin:6.5.0'
     implementation("org.slf4j:slf4j-simple:2.0.16")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
+    implementation 'mysql:mysql-connector-java:8.0.33'
 }
 
 node {

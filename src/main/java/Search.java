@@ -243,6 +243,13 @@ public class Search {
                 hits.add(c);
                 continue;
             }
+            // If the keyword matches the prof's first or last name add the course
+            for(String name: c.getProfessor()){
+                if(name.contains(s)){
+                    hits.add(c);
+                    break;
+                }
+            }
 
             // If the keyword is a department, add all the courses in that department
             if(s.equals(c.getSubject())){
@@ -277,6 +284,9 @@ public class Search {
             // If the keyword is a course code, add all the courses with that course code
             try{
                 if(Integer.parseInt(s) == c.getCourseCode()){
+                    hits.add(c);
+                }
+                if(Integer.parseInt(s) == c.getReferenceNum()){
                     hits.add(c);
                 }
             } catch(NumberFormatException nfe){
