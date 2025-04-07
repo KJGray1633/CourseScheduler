@@ -286,6 +286,9 @@ public class Search {
                 if(Integer.parseInt(s) == c.getCourseCode()){
                     hits.add(c);
                 }
+                if(Integer.parseInt(s) == c.getReferenceNum()){
+                    hits.add(c);
+                }
             } catch(NumberFormatException nfe){
 
             }
