@@ -4,8 +4,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 
-public class DBTest {
-
+public class DBCreate {
     public static void main(String[] args) {
 
         Connection conn = null;
@@ -25,24 +24,13 @@ public class DBTest {
 
             System.out.println("Connection successful!");
 
-            dropAllTables(conn);
-            createAllTables(conn);
+            //dropAllTables(conn);
+            //createAllTables(conn);
             if (courses == null) {
                 System.out.println("No courses found.");
                 return;
             }
             insertCoursesIntoDatabase(conn, courses);
-            System.out.println("Enter your username: ");
-            String name = scan.next();
-            System.out.println("Enter your password: ");
-            String password = scan.next();
-            System.out.println("Enter your major: ");
-            scan.nextLine();
-            String major = scan.nextLine();
-            System.out.println("Enter your expected grad date: ");
-            String gradDate = scan.next();
-            int userId = 0;
-            createUser(conn, name, password, major, gradDate, userId++);
 
             conn.close();
         } catch (SQLException ex) {
@@ -56,26 +44,13 @@ public class DBTest {
         }
     }
 
-    public static void createUser(Connection conn, String userName, String password, String major, String gradDate, int userId) throws SQLException {
-        String exampleInsertUser = "INSERT INTO users (uid, username, password, major, year) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement pstmt = conn.prepareStatement(exampleInsertUser);
-        pstmt.setInt(1, userId);
-        pstmt.setString(2, userName);
-        pstmt.setString(3, password);
-        pstmt.setString(4, major);
-        pstmt.setString(5, gradDate);
-        pstmt.executeUpdate();
-        System.out.println("Example user inserted successfully!");
-
-    }
-
 
     public static void createAllTables(Connection conn) throws SQLException {
         PreparedStatement pstmt;
 
         // Create the users table
         String createUsersTable = "CREATE TABLE IF NOT EXISTS users ("
-                + "uid INT NOT NULL, "
+                + "uid INT NOT NULL AUTO_INCREMENT, "
                 + "username VARCHAR(50), "
                 + "password VARCHAR(50), "
                 + "major VARCHAR(50), "
