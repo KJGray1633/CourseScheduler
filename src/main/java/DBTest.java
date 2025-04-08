@@ -1,10 +1,15 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Scanner;
+
 
 public class DBTest {
+
     public static void main(String[] args) {
+
         Connection conn = null;
+        Scanner scan = new Scanner(System.in);
         ArrayList<Course> courses = Search.parseJSON();
         try {
             Properties info = new Properties();
@@ -27,7 +32,17 @@ public class DBTest {
                 return;
             }
             insertCoursesIntoDatabase(conn, courses);
-            exampleUser(conn);
+            System.out.println("Enter your username: ");
+            String name = scan.next();
+            System.out.println("Enter your password: ");
+            String password = scan.next();
+            System.out.println("Enter your major: ");
+            scan.nextLine();
+            String major = scan.nextLine();
+            System.out.println("Enter your expected grad date: ");
+            String gradDate = scan.next();
+            int userId = 0;
+            createUser(conn, name, password, major, gradDate, userId++);
 
             conn.close();
         } catch (SQLException ex) {
@@ -41,14 +56,14 @@ public class DBTest {
         }
     }
 
-    public static void exampleUser(Connection conn) throws SQLException {
+    public static void createUser(Connection conn, String userName, String password, String major, String gradDate, int userId) throws SQLException {
         String exampleInsertUser = "INSERT INTO users (uid, username, password, major, year) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(exampleInsertUser);
-        pstmt.setInt(1, 1);
-        pstmt.setString(2, "Sarah");
-        pstmt.setString(3, "password");
-        pstmt.setString(4, "Computer Science");
-        pstmt.setString(5, "2026");
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, userName);
+        pstmt.setString(3, password);
+        pstmt.setString(4, major);
+        pstmt.setString(5, gradDate);
         pstmt.executeUpdate();
         System.out.println("Example user inserted successfully!");
 
@@ -80,6 +95,7 @@ public class DBTest {
                 + "referenceNum INT, "
                 + "location VARCHAR(100), "
                 + "openSeats INT, "
+                + "professor VARCHAR(200), "
                 + "section VARCHAR(10), "
                 + "semester VARCHAR(20), "
                 + "subject VARCHAR(50), "
@@ -116,7 +132,7 @@ public class DBTest {
     public static void insertCoursesIntoDatabase(Connection conn, ArrayList<Course> courses) {
         try {
 
-            String insertSQL = "INSERT INTO courses (cid, name, credits, courseCode, times, referenceNum, location, openSeats, section, semester, subject, totalSeats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertSQL = "INSERT INTO courses (cid, name, credits, courseCode, times, referenceNum, location, openSeats, professor, section, semester, subject, totalSeats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(insertSQL);
 
             for (Course course : courses) {
@@ -128,10 +144,11 @@ public class DBTest {
                 pstmt.setInt(6, course.getReferenceNum());
                 pstmt.setString(7, course.getLocation());
                 pstmt.setInt(8, course.getOpenSeats());
-                pstmt.setString(9, course.getSection());
-                pstmt.setString(10, course.getSemester());
-                pstmt.setString(11, course.getSubject());
-                pstmt.setInt(12, course.getTotalSeats());
+                pstmt.setString(9, course.getProfessor().toString());
+                pstmt.setString(10, course.getSection());
+                pstmt.setString(11, course.getSemester());
+                pstmt.setString(12, course.getSubject());
+                pstmt.setInt(13, course.getTotalSeats());
                 pstmt.addBatch();
             }
 
