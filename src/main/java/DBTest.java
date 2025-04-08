@@ -80,6 +80,7 @@ public class DBTest {
                 + "referenceNum INT, "
                 + "location VARCHAR(100), "
                 + "openSeats INT, "
+                + "professor VARCHAR(200), "
                 + "section VARCHAR(10), "
                 + "semester VARCHAR(20), "
                 + "subject VARCHAR(50), "
@@ -116,7 +117,7 @@ public class DBTest {
     public static void insertCoursesIntoDatabase(Connection conn, ArrayList<Course> courses) {
         try {
 
-            String insertSQL = "INSERT INTO courses (cid, name, credits, courseCode, times, referenceNum, location, openSeats, section, semester, subject, totalSeats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertSQL = "INSERT INTO courses (cid, name, credits, courseCode, times, referenceNum, location, openSeats, professor, section, semester, subject, totalSeats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(insertSQL);
 
             for (Course course : courses) {
@@ -128,10 +129,11 @@ public class DBTest {
                 pstmt.setInt(6, course.getReferenceNum());
                 pstmt.setString(7, course.getLocation());
                 pstmt.setInt(8, course.getOpenSeats());
-                pstmt.setString(9, course.getSection());
-                pstmt.setString(10, course.getSemester());
-                pstmt.setString(11, course.getSubject());
-                pstmt.setInt(12, course.getTotalSeats());
+                pstmt.setString(9, course.getProfessor().toString());
+                pstmt.setString(10, course.getSection());
+                pstmt.setString(11, course.getSemester());
+                pstmt.setString(12, course.getSubject());
+                pstmt.setInt(13, course.getTotalSeats());
                 pstmt.addBatch();
             }
 
