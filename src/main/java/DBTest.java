@@ -1,24 +1,27 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Scanner;
 
 
 public class DBTest {
+
     public static void main(String[] args) {
+
         Connection conn = null;
+        Scanner scan = new Scanner(System.in);
         ArrayList<Course> courses = Search.parseJSON();
         try {
             Properties info = new Properties();
 
-            String username = "ruby";
-            String pass = "BYWpassword1";
+            String username = "root";
+            String pass = "bywpassword";
             String schema = "coursescheduler";
 
             info.put("user", username);
             info.put("password", pass);
 
-            String remoteHost = "NZXT";
-            conn = DriverManager.getConnection("jdbc:mysql://" + remoteHost + ":3306/" + schema, info);
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + schema, info);
 
             System.out.println("Connection successful!");
 
@@ -29,7 +32,17 @@ public class DBTest {
                 return;
             }
             insertCoursesIntoDatabase(conn, courses);
-            exampleUser(conn);
+            System.out.println("Enter your username: ");
+            String name = scan.next();
+            System.out.println("Enter your password: ");
+            String password = scan.next();
+            System.out.println("Enter your major: ");
+            scan.nextLine();
+            String major = scan.nextLine();
+            System.out.println("Enter your expected grad date: ");
+            String gradDate = scan.next();
+            int userId = 0;
+            createUser(conn, name, password, major, gradDate, userId++);
 
             conn.close();
         } catch (SQLException ex) {
@@ -43,14 +56,14 @@ public class DBTest {
         }
     }
 
-    public static void exampleUser(Connection conn) throws SQLException {
+    public static void createUser(Connection conn, String userName, String password, String major, String gradDate, int userId) throws SQLException {
         String exampleInsertUser = "INSERT INTO users (uid, username, password, major, year) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(exampleInsertUser);
-        pstmt.setInt(1, 1);
-        pstmt.setString(2, "Sarah");
-        pstmt.setString(3, "password");
-        pstmt.setString(4, "Computer Science");
-        pstmt.setString(5, "2026");
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, userName);
+        pstmt.setString(3, password);
+        pstmt.setString(4, major);
+        pstmt.setString(5, gradDate);
         pstmt.executeUpdate();
         System.out.println("Example user inserted successfully!");
 
