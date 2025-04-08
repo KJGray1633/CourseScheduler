@@ -1,14 +1,11 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Scanner;
-
 
 public class DBCreate {
     public static void main(String[] args) {
 
         Connection conn = null;
-        Scanner scan = new Scanner(System.in);
         ArrayList<Course> courses = Search.parseJSON();
         try {
             Properties info = new Properties();
@@ -24,8 +21,8 @@ public class DBCreate {
 
             System.out.println("Connection successful!");
 
-            //dropAllTables(conn);
-            //createAllTables(conn);
+            dropAllTables(conn);
+            createAllTables(conn);
             if (courses == null) {
                 System.out.println("No courses found.");
                 return;
