@@ -9,14 +9,15 @@ public class DBTest {
         try {
             Properties info = new Properties();
 
-            String username = "root";
-            String pass = "bywpassword";
+            String username = "ruby";
+            String pass = "BYWpassword1";
             String schema = "coursescheduler";
 
             info.put("user", username);
             info.put("password", pass);
 
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + schema, info);
+            String remoteHost = "NZXT";
+            conn = DriverManager.getConnection("jdbc:mysql://" + remoteHost + ":3306/" + schema, info);
 
             System.out.println("Connection successful!");
 
