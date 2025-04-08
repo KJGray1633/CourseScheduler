@@ -4,6 +4,7 @@ export function fetchData(path) {
   fetch('http://localhost:7000/' + path)
     .then(response => response.json())
     .then(data => {
+      console.log('Data fetched:', data);
       const content = document.getElementById('content');
       // Clear the table body before appending new rows
       content.innerHTML = '';
