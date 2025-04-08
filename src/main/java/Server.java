@@ -7,10 +7,12 @@ import java.util.Map;
 public class Server {
     private final Schedule schedule;
     private Search search;
+    private Filter filter;
 
-    public Server(Schedule schedule, Search search) {
-        this.schedule = schedule;
-        this.search = search;
+    public Server() {
+        this.schedule = new Schedule();
+        this.search = new Search();
+        this.filter = new Filter();
     }
 
     public void registerRoutes(Javalin app) {
@@ -19,6 +21,8 @@ public class Server {
         app.delete("/schedule", this::dropCourse);
         app.get("/search", this::getResults);
         app.post("/search", this::searchCourses);
+        app.get("/filter", this::getFilteredResults);
+        app.post("/filter", this::filterCourses);
     }
 
     private void getSchedule(Context ctx) {
@@ -52,10 +56,31 @@ public class Server {
         ctx.json(Map.of("message", "Search completed for: " + query));
     }
 
+    private void getFilteredResults(Context ctx) {
+        ctx.json(search.filter(filter));
+    }
+
+    private void filterCourses(Context ctx) {
+        try {
+            Filter filter = ctx.bodyAsClass(Filter.class);
+            System.out.println("Filter criteria: " + filter);
+            System.out.println("Filter days: " + filter.getDays());
+            System.out.println("Filter department: " + filter.getDepartment());
+            System.out.println("Filter course code: " + filter.getCourseCode());
+            System.out.println("Filter name: " + filter.getName());
+            System.out.println("Filter professors: " + filter.getProf());
+            System.out.println("Filter start time: " + filter.getStartTime());
+            System.out.println("Filter end time: " + filter.getEndTime());
+            this.filter = filter;
+            ctx.json(Map.of("message", "Filter applied"));
+        } catch (Exception e) {
+            System.err.println("Error processing filter request: " + e.getMessage());
+            ctx.status(400).json(Map.of("error", "Invalid filter criteria"));
+        }
+    }
+
     public static void main(String[] args) {
-        Schedule schedule = new Schedule();
-        Search search = new Search();
-        Server server = new Server(schedule, search);
+        Server server = new Server();
 
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors -> {
