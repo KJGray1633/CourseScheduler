@@ -191,13 +191,12 @@ public class DatabaseCalls {
             return false; // Failed to connect to DB
         }
 
-        String addUser = "INSERT INTO users (uid, username, password, major, year) VALUES (?, ?, ?, ?, ?)";
+        String addUser = "INSERT INTO users (username, password, major, year) VALUES ( ?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(addUser)) {
-            pstmt.setInt(1, uid);
-            pstmt.setString(2, username);
-            pstmt.setString(3, password);
-            pstmt.setString(4, major);
-            pstmt.setString(5, year);
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.setString(3, major);
+            pstmt.setString(4, year);
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
