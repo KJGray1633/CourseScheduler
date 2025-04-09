@@ -1,6 +1,8 @@
 import '../App.css';
+import React, { useState, useEffect } from 'react';
 
 export function fetchData(path) {
+  /*console.log('Fetching data from:', path);
   fetch('http://localhost:7000/' + path)
     .then(response => response.json())
     .then(data => {
@@ -60,11 +62,37 @@ export function fetchData(path) {
         content.appendChild(tr);
       });
     })
-    .catch(error => (console.error("Error fetching data:", error)));
+    .catch(error => (console.error("Error fetching data:", error)));*/
 }
 
-export function Table({ path }) {
-  fetchData(path);
+export function Table({ tableData }) {
+  console.log('Table data:', tableData);
+  /*const [tableData, setTableData] = useState([]);
+
+  function fetchData(tableData) {
+    console.log('Fetching data from:', path);
+    fetch('http://localhost:7000/' + path)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data fetched:', data);
+        setTableData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }
+
+  fetchData(tableData);
+
+  useEffect(() => {
+    console.log('Fetching data from:', path);
+    fetch('http://localhost:7000/' + path)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data fetched:', data);
+        setTableData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, [path]); // Fetch data only when `path` changes*/
+
   return (
     <div>
       <table>
@@ -76,8 +104,29 @@ export function Table({ path }) {
             <th>Professor</th>
           </tr>
         </thead>
-        <tbody id="content">
-          <tr></tr>
+        <tbody>
+          {Array.isArray(tableData) && tableData.length > 0 ? (
+            tableData.map((item, index) => (
+              <tr key={index}>
+                <td>{`${item.subject.toUpperCase()} ${item.courseCode}`}</td>
+                <td>
+                  {item.times.length > 0
+                  ? `${item.times.map(time => time.day[0]).join('/')} ${item.times[0].startTime} - ${item.times[0].endTime}`
+                  : 'TBA'}
+                </td>
+                <td>{item.location.toUpperCase()}</td>
+                <td>
+                  {item.professor.length > 0
+                  ? item.professor.join(', ')
+                  : 'TBA'}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">No data available</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

@@ -2,21 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from '../components/navbar.js';
 import { Table, fetchData } from '../components/table.js';
 
-function searchCourses(query) {
-  console.log('Searching for courses...');
-  fetch("http://localhost:7000/search", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: query
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Search results:', data);
-    fetchData("search");
-  })
-}
+
 
 function filterCourses(filters) {
   console.log('Filtering courses...');
@@ -36,7 +22,7 @@ function filterCourses(filters) {
 }
 
 export function Search() {
-  const [query, setQuery] = useState('');
+  //const [query, setQuery] = useState('');
   const [filters, setFilters] = useState({
     days: [], // List of days
     department: null,
@@ -46,14 +32,74 @@ export function Search() {
     startTime: null,
     endTime: null
   });
+  const [tableData, setTableData] = useState([]);
 
-  useEffect(() => {
+  /*useEffect(() => {
+    console.log('Fetching data from: search');
+    fetch('http://localhost:7000/search')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data fetched:', data);
+        setTableData(data);
+      })
+      .catch(error => {
+        console.error('Error fetching search results:', error);
+      });
+  }, []);*/
+
+  function searchCourses(query) {
+    console.log('Searching for courses...');
+    console.log('Query:', query);
+    fetch("http://localhost:7000/search", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: query
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Search results:', data);
+      //const table = document.getElementById('table');
+      // Clear the table body before appending new rows
+      //table.innerHTML = '';
+      //table.appendChild(<Table path={"search"} />);
+      //fetchData("search");
+    })
+    .catch(error => {
+      console.error('Error fetching search results:', error);
+    });
+    fetchData();
+  }
+
+  function fetchData() {
+    console.log('Fetching data from: search');
+    fetch('http://localhost:7000/search')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data fetched:', data);
+        setTableData(data);
+      })
+      .catch(error => {
+        console.error('Error fetching search results:', error);
+      });
+  }
+
+  /*useEffect(() => {
     searchCourses(query)
-  }, [query]);
+  }, [query]);*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     filterCourses(filters)
-  }, [filters]);
+  }, [filters]);*/
+
+  const handleQueryChange = (event) => {
+    const newQuery = event.target.value;
+    //setQuery(newQuery); // Update the query state
+    searchCourses(newQuery); // Pass the updated query to searchCourses
+    //fetchData();
+    //console.log(tableData);// Fetch data based on the new query
+  };
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -72,6 +118,7 @@ export function Search() {
           newDays = newDays.filter(day => day !== 'TUESDAY' && day !== 'THURSDAY');
         }
       }
+      filterCourses(filters)
       return {
         ...prevFilters,
         days: newDays
@@ -88,7 +135,7 @@ export function Search() {
           type="text"
           id="query"
           placeholder="Search for courses..."
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleQueryChange}
         />
         <label htmlFor="MWF">
           <input
@@ -110,7 +157,7 @@ export function Search() {
           />
           T/R
         </label>
-        <Table path={'search'}/>
+        <Table tableData={tableData} />
       </div>
     </div>
   );
