@@ -64,13 +64,6 @@ public class Server {
         try {
             Filter filter = ctx.bodyAsClass(Filter.class);
             System.out.println("Filter criteria: " + filter);
-            System.out.println("Filter days: " + filter.getDays());
-            System.out.println("Filter department: " + filter.getDepartment());
-            System.out.println("Filter course code: " + filter.getCourseCode());
-            System.out.println("Filter name: " + filter.getName());
-            System.out.println("Filter professors: " + filter.getProf());
-            System.out.println("Filter start time: " + filter.getStartTime());
-            System.out.println("Filter end time: " + filter.getEndTime());
             this.filter = filter;
             ctx.json(Map.of("message", "Filter applied"));
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 import '../App.css';
 
 export function fetchData(path) {
+  console.log(`Fetching data for path: ${path}`);
   fetch('http://localhost:7000/' + path)
     .then(response => response.json())
     .then(data => {
