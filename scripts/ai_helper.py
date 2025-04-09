@@ -7,9 +7,10 @@ class MeetingTime:
         self.day = day
 
 class RequiredCourseInfo:
-    def __init__(self, department, couurse_code):
+    def __init__(self, department, couurse_code, semester_num):
         self.department = department
         self.course_code = couurse_code
+        self.semester_number = int(semester_num)
 
 class Course:
     def __init__(self, id):
@@ -131,7 +132,7 @@ class Course:
         self._total_seats = value
 
     def __str__(self):
-        return f"{self.name} - {self.department.upper()} {self.course_code}{self.section.upper()}"
+        return f"{self.name} - {self.department.upper()} {self.course_code}{self.section.upper()}"  
 
     def has_time_conflict(self, other_course) -> bool:
         for other_time in other_course.times:
