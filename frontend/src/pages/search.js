@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Navbar } from '../components/navbar.js';
+import { ScheduleContext } from '../components/scheduleContext.js';
 
 export function Search() {
   const [filters, setFilters] = useState({
@@ -16,7 +17,9 @@ export function Search() {
     TR: false,
   });
   const [tableData, setTableData] = useState([]);
-  const [schedule, setSchedule] = useState([]);
+  const { query, setQuery, handleAddCourse, handleDropCourse, isCourseInSchedule } = useContext(ScheduleContext);
+
+  console.log(query);
 
   useEffect(() => {
     console.log('Fetching data from: search');
@@ -29,7 +32,7 @@ export function Search() {
       .catch(error => {
         console.error('Error fetching search results:', error);
       });
-    fetch('http://localhost:7000/schedule')
+    /*fetch('http://localhost:7000/schedule')
       .then(response => response.json())
       .then(data => {
         console.log('Schedule fetched:', data);
@@ -37,49 +40,8 @@ export function Search() {
       })
       .catch(error => {
         console.error('Error fetching schedule:', error);
-      });
+      });*/
   }, []);
-
-  function isCourseInSchedule(course) {
-    return schedule.some(scheduled => scheduled.courseCode === course.courseCode);
-  }
-
-  function handleAddCourse(course) {
-    setSchedule(prevSchedule => [...prevSchedule, course]);
-    const javaCourse = {
-      cid: course.cid,
-      name: course.name,
-      courseCode: course.courseCode,
-      description: course.description,
-      professor: course.professor,
-      times: course.times,
-    }
-    console.log(course);
-    console.log(javaCourse);
-    fetch('http://localhost:7000/schedule', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(javaCourse)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Course added:', data);
-      })
-      .catch(error => {
-        console.error('Error adding course:', error);
-      });
-  }
-
-  function handleDropCourse(course) {
-    setSchedule(prevSchedule => prevSchedule.filter(scheduled => scheduled.courseCode !== course.courseCode));
-  }
 
   function fetchSearchData() {
     console.log('Fetching data from: search');
@@ -148,6 +110,8 @@ export function Search() {
 
   async function handleQueryChange(event) {
     const newQuery = event.target.value;
+    setQuery(newQuery);
+    console.log(query);
 
     // Wait for updateQuery to complete
     await updateQuery(newQuery);
@@ -288,7 +252,7 @@ export function Search() {
         <input
           type="text"
           id="query"
-          placeholder="Search for courses..."
+          value={query}
           onChange={handleQueryChange}
         />
         <div>
