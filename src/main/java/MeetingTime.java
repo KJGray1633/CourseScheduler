@@ -9,9 +9,11 @@ enum Day {
 }
 
 public class MeetingTime {
-    private final Time startTime;
-    private final Time endTime;
-    private final Day day;
+    private Time startTime;
+    private Time endTime;
+    private Day day;
+
+    public MeetingTime() {}
 
     /**
      *
