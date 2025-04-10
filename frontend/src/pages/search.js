@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Navbar } from '../components/navbar.js';
 import { ScheduleContext } from '../components/scheduleContext.js';
+import { Table } from '../components/table.js';
 
 export function Search() {
   const [filters, setFilters] = useState({
@@ -32,15 +33,6 @@ export function Search() {
       .catch(error => {
         console.error('Error fetching search results:', error);
       });
-    /*fetch('http://localhost:7000/schedule')
-      .then(response => response.json())
-      .then(data => {
-        console.log('Schedule fetched:', data);
-        setSchedule(data);
-      })
-      .catch(error => {
-        console.error('Error fetching schedule:', error);
-      });*/
   }, []);
 
   function fetchSearchData() {
@@ -338,44 +330,12 @@ export function Search() {
           </label>
           <button onClick={clearFilters}>Clear Filters</button>
         </div>
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Course Code</th>
-                <th>Times</th>
-                <th>Location</th>
-                <th>Professor</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tableData.map((item, index) => (
-                <tr key={index}>
-                  <td>{`${item.subject.toUpperCase()} ${item.courseCode}`}</td>
-                  <td>
-                    {item.times.length > 0
-                      ? `${item.times.map(time => time.day[0]).join('/')} ${item.times[0].startTime} - ${item.times[0].endTime}`
-                      : 'TBA'}
-                  </td>
-                  <td>{item.location.toUpperCase()}</td>
-                  <td>
-                    {item.professor.length > 0
-                    ? item.professor.join(', ')
-                    : 'TBA'}
-                  </td>
-                  <td>
-                    {!isCourseInSchedule(item) && (
-                      <button onClick={() => handleAddCourse(item)}>Add</button>
-                    )}
-                    {isCourseInSchedule(item) && (
-                      <button onClick={() => handleDropCourse(item)}>Drop</button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table
+          tableData={tableData}
+          isCourseInSchedule={isCourseInSchedule}
+          handleAddCourse={handleAddCourse}
+          handleDropCourse={handleDropCourse}
+        />
       </div>
     </div>
   );

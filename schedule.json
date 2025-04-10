@@ -415,5 +415,137 @@
     "open": false,
     "cid": 22,
     "openSeats": 0
+  },
+  {
+    "subject": "biol",
+    "courseCode": 101,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 90,
+    "referenceNum": 1021,
+    "professor": ["pazehoski, kristina o."],
+    "times": [
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "credits": 4,
+    "name": "general biology i",
+    "location": "shal 108  w/multimedia",
+    "semester": "2023_fall",
+    "open": true,
+    "cid": 21,
+    "openSeats": 2
+  },
+  {
+    "subject": "biol",
+    "courseCode": 101,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 90,
+    "referenceNum": 1021,
+    "professor": ["pazehoski, kristina o."],
+    "times": [
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "credits": 4,
+    "name": "general biology i",
+    "location": "shal 108  w/multimedia",
+    "semester": "2023_fall",
+    "open": true,
+    "cid": 21,
+    "openSeats": 2
+  },
+  {
+    "subject": "biol",
+    "courseCode": 101,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 90,
+    "referenceNum": 1021,
+    "professor": ["pazehoski, kristina o."],
+    "times": [
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "credits": 4,
+    "name": "general biology i",
+    "location": "shal 108  w/multimedia",
+    "semester": "2023_fall",
+    "open": true,
+    "cid": 21,
+    "openSeats": 2
+  },
+  {
+    "subject": "comp",
+    "courseCode": 141,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 32,
+    "referenceNum": 1127,
+    "professor": ["wolfe, britton d."],
+    "times": [
+      {
+        "startTime": "12:00:00",
+        "endTime": "12:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "12:00:00",
+        "endTime": "12:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "12:00:00",
+        "endTime": "12:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "credits": 3,
+    "name": "comp programming i",
+    "location": "science technology engineering",
+    "semester": "2023_fall",
+    "open": false,
+    "cid": 127,
+    "openSeats": 0
   }
 ]}
