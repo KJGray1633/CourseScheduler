@@ -1,6 +1,6 @@
 import { Navbar } from '../components/navbar.js';
 import React, { useState, useEffect } from 'react';
-import { format, startOfWeek, addDays } from 'date-fns';
+import { format, startOfWeek, addDays } from 'date-fns'; // npm install date-fns
 import '../Calendar.css';
 
 export function Calendar() {
