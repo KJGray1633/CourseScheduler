@@ -1,28 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from '../components/navbar.js';
-import { Table, fetchData } from '../components/table.js';
-
-
-
-function filterCourses(filters) {
-  console.log('Filtering courses...');
-  console.log('Filters:', filters);
-  fetch("http://localhost:7000/filter", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(filters)
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Filtered results:', data);
-    fetchData("filter");
-  })
-}
 
 export function Search() {
-  //const [query, setQuery] = useState('');
   const [filters, setFilters] = useState({
     days: [], // List of days
     department: null,
@@ -34,7 +13,7 @@ export function Search() {
   });
   const [tableData, setTableData] = useState([]);
 
-  /*useEffect(() => {
+  useEffect(() => {
     console.log('Fetching data from: search');
     fetch('http://localhost:7000/search')
       .then(response => response.json())
@@ -45,64 +24,88 @@ export function Search() {
       .catch(error => {
         console.error('Error fetching search results:', error);
       });
-  }, []);*/
+  }, []);
 
-  function searchCourses(query) {
+  function fetchSearchData() {
+    console.log('Fetching data from: search');
+    fetch('http://localhost:7000/search')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data fetched:', data);
+        setTableData(data);
+      })
+      .catch(error => {
+        console.error('Error fetching search results:', error);
+      });
+  }
+
+  function fetchFilterData() {
+    console.log('Fetching data from: filter');
+    fetch('http://localhost:7000/filter')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data fetched:', data);
+        setTableData(data);
+      })
+      .catch(error => {
+        console.error('Error fetching filter results:', error);
+      });
+  }
+
+  async function updateQuery(query) {
     console.log('Searching for courses...');
     console.log('Query:', query);
-    fetch("http://localhost:7000/search", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: query
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Search results:', data);
-      //const table = document.getElementById('table');
-      // Clear the table body before appending new rows
-      //table.innerHTML = '';
-      //table.appendChild(<Table path={"search"} />);
-      //fetchData("search");
-    })
-    .catch(error => {
-      console.error('Error fetching search results:', error);
-    });
-    fetchData();
-  }
 
-  function fetchData() {
-    console.log('Fetching data from: search');
-    fetch('http://localhost:7000/search')
-      .then(response => response.json())
-      .then(data => {
-        console.log('Data fetched:', data);
-        setTableData(data);
-      })
-      .catch(error => {
-        console.error('Error fetching search results:', error);
+    try {
+      const response = await fetch("http://localhost:7000/search", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: query // Ensure query is sent as JSON
       });
+
+      const data = await response.json();
+      console.log('Search results:', data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  }
+  
+  async function updateFilters(filters) {
+    console.log('Filtering courses...');
+    console.log('Filters:', filters);
+    
+    try {
+      const response = await fetch("http://localhost:7000/filter", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(filters)
+      });
+      const data = await response.json();
+      console.log('Search results:', data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
   }
 
-  /*useEffect(() => {
-    searchCourses(query)
-  }, [query]);*/
-
-  /*useEffect(() => {
-    filterCourses(filters)
-  }, [filters]);*/
-
-  const handleQueryChange = (event) => {
+  async function handleQueryChange(event) {
     const newQuery = event.target.value;
-    //setQuery(newQuery); // Update the query state
-    searchCourses(newQuery); // Pass the updated query to searchCourses
-    //fetchData();
-    //console.log(tableData);// Fetch data based on the new query
-  };
 
-  const handleCheckboxChange = (event) => {
+    // Wait for updateQuery to complete
+    await updateQuery(newQuery);
+
+    // Perform another fetch request after updateQuery completes
+    console.log('Making another fetch request...');
+    fetchSearchData(); // Example of another fetch function
+  }
+
+  async function handleCheckboxChange(event) {
     const { name, checked } = event.target;
+    console.log('Checkbox changed:', name, checked);
+
     setFilters(prevFilters => {
       let newDays = [...prevFilters.days];
       if (name === 'MWF') {
@@ -118,13 +121,40 @@ export function Search() {
           newDays = newDays.filter(day => day !== 'TUESDAY' && day !== 'THURSDAY');
         }
       }
-      filterCourses(filters)
-      return {
+      const updatedFilters = {
         ...prevFilters,
         days: newDays
       };
+      console.log('Filters after change (inside setFilters):', updatedFilters);
+      return updatedFilters;
     });
-  };
+
+    // Use a useEffect to react to changes in filters or pass the updated filters directly
+    await updateFilters({
+      ...filters,
+      days: checked
+        ? [...filters.days, ...(name === 'MWF' ? ['MONDAY', 'WEDNESDAY', 'FRIDAY'] : ['TUESDAY', 'THURSDAY'])]
+        : filters.days.filter(day => !['MONDAY', 'WEDNESDAY', 'FRIDAY', 'TUESDAY', 'THURSDAY'].includes(day)),
+    });
+    fetchFilterData();
+  }
+
+  async function handleInputChange(event) {
+    const { name, value } = event.target;
+    console.log('Input changed:', name, value);
+
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value
+    }));
+
+    // Use a useEffect to react to changes in filters or pass the updated filters directly
+    await updateFilters({
+      ...filters,
+      [name]: value
+    });
+    fetchFilterData();
+  }
 
   return (
     <div>
@@ -157,7 +187,86 @@ export function Search() {
           />
           T/R
         </label>
-        <Table tableData={tableData} />
+        <label htmlFor="department">
+          Department:
+          <input
+            type="text"
+            id="department"
+            name="department"
+            value={filters.department}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label htmlFor="courseCode">
+          Course Code:
+          <input
+            type="number"
+            id="courseCode"
+            name="courseCode"
+            value={filters.courseCode}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label htmlFor="name">
+          Course Name:
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={filters.name}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label htmlFor="prof">
+          Professor:
+          <input
+            type="text"
+            id="prof"
+            name="prof"
+            value={filters.prof}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label htmlFor="startTime">
+          Start Time:
+          <input
+            type="time"
+            id="startTime"
+            name="startTime"
+            value={filters.startTime}
+            onChange={handleInputChange}
+          />
+        </label>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>Course Code</th>
+                <th>Times</th>
+                <th>Location</th>
+                <th>Professor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map((item, index) => (
+                <tr key={index}>
+                  <td>{`${item.subject.toUpperCase()} ${item.courseCode}`}</td>
+                  <td>
+                    {item.times.length > 0
+                      ? `${item.times.map(time => time.day[0]).join('/')} ${item.times[0].startTime} - ${item.times[0].endTime}`
+                      : 'TBA'}
+                    </td>
+                    <td>{item.location.toUpperCase()}</td>
+                    <td>
+                      {item.professor.length > 0
+                      ? item.professor.join(', ')
+                      : 'TBA'}
+                    </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
