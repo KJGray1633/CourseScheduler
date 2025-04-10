@@ -1,18 +1,20 @@
+import json
 from typing import Iterable
 from ai_helper import Course, RequiredCourseInfo
+from load_courses import courses_from_required_course_info
 
 # Make a CSP algorithm that goes through an iterable of RequiredCourseInfo objects that still need to be taken and returns a 
 #   list of courses that do not conflict with each other, prioritizing courses with lower semester_number values, trying to get 5 classes
-def recommend_courses(required_courses: Iterable[RequiredCourseInfo], all_courses: list[Course]) -> list[RequiredCourseInfo]:
+def recommend_courses(required_courses: Iterable[RequiredCourseInfo], desired_credits: int, verbosity: int = 0) -> str | None:
     """
     Recommends a list of up to 5 courses that do not conflict with each other,
     prioritizing courses with lower semester_number values.
 
     Args:
-        required_courses (iterable): An iterable of RequiredCourseInfo objects.
+        required_courses (iterable): An iterable of RequiredCourseInfo objects representing required courses not yet taken.
 
     Returns:
-        list: A list of up to 5 non-conflicting RequiredCourseInfo objects.
+        list: A list of up to non-conflicting RequiredCourseInfo objects.
     """
     # Sort courses by semester_number (ascending)
     sorted_courses: list[RequiredCourseInfo] = sorted(required_courses, key=lambda course: course.semester_number)
@@ -20,20 +22,35 @@ def recommend_courses(required_courses: Iterable[RequiredCourseInfo], all_course
     # Initialize the result list
     selected_courses: list[Course] = []
 
-    # Check for conflicts and select up to 5 courses
-    for course in sorted_courses:
-        if len(selected_courses) >= 5:
-            break
+    # Run the recursive method to find non-conflicting courses for a schedule
+    result_courses: list[Course] | None = _recommend_course(sorted_courses, selected_courses, desired_credits)
 
-        # Check if the course conflicts with any already selected course
-        conflict = False
-        for selected_course in selected_courses:
-            if course.is_overlap(selected_course):
-                conflict = True
-                break
+    # Display the resulting schedule if verbosity is greater than 0
+    if verbosity > 0 and result_courses is not None:
+        print(f"Recommended Schedule:\n\t{"\n\t".join([str(c) for c in result_courses])}\n")
 
-        # If no conflict, add the course to the selected list
-        if not conflict:
-            selected_courses.append(course)
+    # Convert the result to a JSON string containing only the cids
+    if result_courses is not None:
+        cids = [course.cid for course in result_courses]
+        return json.dumps(cids, indent=4)
+    return None
 
-    return selected_courses
+def _recommend_course(sorted_required_courses_remaining: list[RequiredCourseInfo], selected_courses: list[Course], 
+                      credits_remaining: int) -> list[Course] | None:
+    if credits_remaining <= 0:
+        return None
+    # Loop through all remaining required courses
+    for required_info in sorted_required_courses_remaining:
+        # Get all courses for the current required course info
+        for course in courses_from_required_course_info(required_info):
+            # If no conflict...
+            if course not in selected_courses:
+                # Add course to selected courses and recurse
+                result = _recommend_course(
+                    sorted_required_courses_remaining = [info for info in sorted_required_courses_remaining if info != required_info], 
+                    selected_courses = selected_courses + [course], 
+                    credits_remaining = credits_remaining - course.credits)
+                # If result is not None, return it
+                if result is not None:
+                    return result
+

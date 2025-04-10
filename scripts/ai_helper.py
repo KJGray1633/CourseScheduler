@@ -1,4 +1,6 @@
+from __future__ import annotations
 from datetime import time
+from typing import Iterable
 
 class MeetingTime:
     def __init__(self, start_time, end_time, day):
@@ -12,9 +14,15 @@ class RequiredCourseInfo:
         self.course_code = couurse_code
         self.semester_number = int(semester_num)
 
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, RequiredCourseInfo):
+            return False
+        return self.department == value.department and self.course_code == value.course_code\
+            and self.semester_number == value.semester_number
+
 class Course:
     def __init__(self, id):
-        self.id = id
+        self.cid = id
         self._credits = 0
         self._professors = []
         self._is_lab = False
@@ -134,17 +142,37 @@ class Course:
     def __str__(self):
         return f"{self.name} - {self.department.upper()} {self.course_code}{self.section.upper()}"  
 
-    def has_time_conflict(self, other_course) -> bool:
-        for other_time in other_course.times:
-            for time in self.times:
-                if time.day == other_time.day:
-                    start1 = time.start_time
-                    end1 = time.end_time
-                    start2 = other_time.start_time
-                    end2 = other_time.end_time
+    def has_time_conflict(self, other_course: Course | None = None, other_courses: list[Course] | None = None) -> bool:
+        # If other_course is None and other_courses is provided, check for conflicts with each course in other_courses
+        if other_course is None and other_courses is not None:
+            for curr_course in other_courses:
+                # Recursively check for time conflicts with each course in the list
+                if self.has_time_conflict(other_course=curr_course):
+                    return True
+            return False
+        # If other_course is provided and other_courses is None, check for conflicts with the given course
+        elif other_course is not None and other_courses is None:
+            for other_time in other_course.times:
+                for time in self.times:
+                    # Check if the days match
+                    if time.day == other_time.day:
+                        start1 = time.start_time
+                        end1 = time.end_time
+                        start2 = other_time.start_time
+                        end2 = other_time.end_time
 
-                    if ((start1 <= start2 <= end1) or
-                        (start1 <= end2 <= end1) or
-                        (start2 <= start1 <= end2)):
-                        return True
-        return False
+                        # Check for overlapping time intervals
+                        if ((start1 <= start2 <= end1) or
+                            (start1 <= end2 <= end1) or
+                            (start2 <= start1 <= end2)):
+                            return True
+            return False
+        # Raise an error if both or neither of other_course and other_courses are provided
+        else:
+            raise ValueError("Only one of other_course and other_courses must be provided.")
+
+def courses_have_time_conflict(courses: Iterable[Course], course: Course) -> bool:
+    for curr_course in courses:
+        if curr_course.has_time_conflict(course):
+            return True
+    return False

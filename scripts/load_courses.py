@@ -5,12 +5,24 @@ from typing import Iterable
 from ai_helper import Course, MeetingTime, RequiredCourseInfo
 
 # Create global all_courses variable to store all courses (needs diff. name)
-all_courses: list[Course]
+all_courses: list[Course] | None = None
 
 def courses_from_cids(cids: Iterable[int]) -> Iterable[Course]:
+    global all_courses
+    # Check if all_courses is None and parse the JSON file if it is
     all_courses = parse_json() if all_courses is None else all_courses
+    # Filter the courses based on the provided cids
     for course in all_courses:
-        if course.id in cids:
+        if course.cid in cids:
+            yield course
+
+def courses_from_required_course_info(req_course: RequiredCourseInfo) -> Iterable[Course]:
+    global all_courses
+    # Check if all_courses is None and parse the JSON file if it is
+    all_courses = parse_json() if all_courses is None else all_courses
+    # Filter the courses based on the provided RequiredCourseInfo
+    for course in all_courses:
+        if course.course_code == req_course.course_code and course.department == req_course.department:
             yield course
 
 def get_required_courses(major: str) -> Iterable[RequiredCourseInfo]:
@@ -49,8 +61,7 @@ def parse_json(file_path: str = "data_wolfe.json") -> list[Course]:
         content = Path(file_path).read_text()
         data = json.loads(content)
     except Exception as e:
-        print(f"Error reading JSON file: {e}")
-        return None
+        raise ValueError("Error reading JSON file: " + str(e))
 
     # Parse the JSON data
     classes = data.get("classes", [])
