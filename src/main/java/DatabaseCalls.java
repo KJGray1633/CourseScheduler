@@ -79,7 +79,6 @@ public class DatabaseCalls {
         if (!connectToDB()) {
             return false;
         }
-
         if (userExists(uid) && courseExists(cid) && !inSchedule(uid, cid)) {
             String addCourseSQL = "INSERT INTO schedule (cid, uid) VALUES (?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(addCourseSQL)) {

@@ -8,8 +8,12 @@ public class User {
     private String major;
     private String year;
 
-    public User(int uid) {
-
+    public User(int uid, String username, String password, String major, String year) {
+        this.uid = uid;
+        this.username = username;
+        this.password = password;
+        this.major = major;
+        this.year = year;
     }
 
     public int getUid() {
