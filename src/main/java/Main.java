@@ -256,6 +256,8 @@ public class Main {
         for (Course c : schedule.getCourses()) {
             if (c.getCid() == removeCid) {
                 schedule.dropCourse(c);
+                DatabaseCalls dbc = new DatabaseCalls();
+                dbc.dropCourse(user.getUid(), c.getCid());
                 return true;
             }
         }
@@ -296,6 +298,8 @@ public class Main {
             }
             // Add the course to the schedule
             schedule.addCourse(course);
+            DatabaseCalls dbc = new DatabaseCalls();
+            dbc.addCourse(user.getUid(), course.getCid());
             System.out.println("Course successfully added to schedule!");
             return true;
         }
