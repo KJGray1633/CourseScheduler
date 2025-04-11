@@ -1,7 +1,7 @@
 import json
 from typing import Iterable
 from ai_helper import Course, RequiredCourseInfo
-from load_courses import courses_from_required_course_info
+from load_courses import courses_from_required_course_info, get_required_courses
 
 # Make a CSP algorithm that goes through an iterable of RequiredCourseInfo objects that still need to be taken and returns a 
 #   list of courses that do not conflict with each other, prioritizing courses with lower semester_number values, trying to get 5 classes
@@ -38,7 +38,7 @@ def recommend_courses(required_courses: Iterable[RequiredCourseInfo], desired_cr
 def _recommend_course(sorted_required_courses_remaining: list[RequiredCourseInfo], selected_courses: list[Course], 
                       credits_remaining: int) -> list[Course] | None:
     if credits_remaining <= 0:
-        return None
+        return selected_courses
     # Loop through all remaining required courses
     for required_info in sorted_required_courses_remaining:
         # Get all courses for the current required course info
@@ -53,4 +53,13 @@ def _recommend_course(sorted_required_courses_remaining: list[RequiredCourseInfo
                 # If result is not None, return it
                 if result is not None:
                     return result
+                
+def main():
+    # Call recommend courses with a list of required courses and desired credits from files
+    required_courses = get_required_courses("")
+    schedule: str | None = recommend_courses(required_courses, 15, 1)
+    print(schedule)
+
+if __name__ == '__main__':
+    main()
 

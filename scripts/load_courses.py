@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 from datetime import time
@@ -28,10 +29,14 @@ def courses_from_required_course_info(req_course: RequiredCourseInfo) -> Iterabl
 def get_required_courses(major: str) -> Iterable[RequiredCourseInfo]:
     # TODO: Update so this function queries from the database
     # Open the required courses file
-    with open("data/required_courses.txt", "r") as file:
+    path: str = os.path.join(os.path.dirname(__file__),"data/required_courses.txt")
+    with open(path, "r") as file:
         # Each line contains department and then course code (i.e. "COMP 141") so pass in as RequiredCourse arguments
         for line in file:
-            yield RequiredCourseInfo(*line.strip().split(""))
+            line = line.strip().split(" ")
+            if len(line) < 3: continue
+            department, course_code, semester_num = line[0], line[1], line[2]
+            yield RequiredCourseInfo(department.lower(), int(course_code), int(semester_num))
 
 def get_taken_cids() -> Iterable[int]:
     # TODO: Update so this function queries from the database
@@ -54,11 +59,12 @@ def get_untaken_required_courses(major: str) -> Iterable[RequiredCourseInfo]:
     )
     return required_courses
 
-def parse_json(file_path: str = "data_wolfe.json") -> list[Course]:
+def parse_json(file_name: str = "data_wolfe.json") -> list[Course]:
     courses = []
     try:
         # Read the JSON file
-        content = Path(file_path).read_text()
+        path: str = os.path.join(os.path.dirname(__file__),f"../{file_name}")
+        content = Path(path).read_text()
         data = json.loads(content)
     except Exception as e:
         raise ValueError("Error reading JSON file: " + str(e))

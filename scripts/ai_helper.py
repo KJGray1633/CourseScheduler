@@ -9,10 +9,10 @@ class MeetingTime:
         self.day = day
 
 class RequiredCourseInfo:
-    def __init__(self, department, couurse_code, semester_num):
+    def __init__(self, department, course_code, semester_num):
         self.department = department
-        self.course_code = couurse_code
-        self.semester_number = int(semester_num)
+        self.course_code: int = course_code
+        self.semester_number: int = int(semester_num)
 
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, RequiredCourseInfo):
