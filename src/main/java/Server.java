@@ -32,14 +32,16 @@ public class Server {
     private void addCourse(Context ctx) {
         Course course = ctx.bodyAsClass(Course.class);
         schedule.addCourse(course);
-        ctx.result("Course added: " + course);
+        schedule.saveSchedule();
+        ctx.json(Map.of("message", "Course added", "course", course));
     }
 
     private void dropCourse(Context ctx) {
         Course course = ctx.bodyAsClass(Course.class);
         boolean dropped = schedule.dropCourse(course);
         if (dropped) {
-            ctx.result("Course dropped: " + course);
+            ctx.json(Map.of("message", "Course removed", "course", course));
+            schedule.saveSchedule();
         } else {
             ctx.status(404).result("Course not found: " + course);
         }

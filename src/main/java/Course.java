@@ -101,6 +101,10 @@ public class Course {
 
     public void setTotalSeats(int totalSeats) {this.totalSeats = totalSeats;}
 
+    public Course() {
+
+    }
+
     public Course(int cid) {
         this.cid = cid;
         times = new ArrayList<>();
