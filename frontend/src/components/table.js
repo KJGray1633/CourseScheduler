@@ -25,14 +25,12 @@ const TableRow = memo(({ item, isCourseInSchedule, handleAddCourse, handleDropCo
         ? item.professor.map(capitalizeName).join(' / ')
         : 'TBA'}
       </td>
-      <td>
-        {!isCourseInSchedule(item) && (
-          <button onClick={() => handleAddCourse(item)}>Add</button>
-        )}
-        {isCourseInSchedule(item) && (
-          <button onClick={() => handleDropCourse(item)}>Drop</button>
-        )}
-      </td>
+      {!isCourseInSchedule(item) && (
+        <button onClick={() => handleAddCourse(item)}>Add</button>
+      )}
+      {isCourseInSchedule(item) && (
+        <button onClick={() => handleDropCourse(item)}>Drop</button>
+      )}
     </tr>
   )
 });
