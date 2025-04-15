@@ -16,6 +16,10 @@ public class User {
         this.year = year;
     }
 
+    public User(int uid) {
+
+    }
+
     public int getUid() {
         return uid;
     }
