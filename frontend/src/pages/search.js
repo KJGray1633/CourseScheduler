@@ -18,7 +18,8 @@ export function Search() {
     TR: false,
   });
   const [tableData, setTableData] = useState([]);
-  const { query, setQuery, handleAddCourse, handleDropCourse, isCourseInSchedule } = useContext(ScheduleContext);
+  const { setSchedule, query, setQuery, handleDropCourse, isCourseInSchedule } = useContext(ScheduleContext);
+  const [flashMessage, setFlashMessage] = useState('');
 
   console.log(query);
 
@@ -218,6 +219,30 @@ export function Search() {
     }
   }
 
+  async function addCourseWithFeedback(course) {
+    try {
+      const response = await fetch('http://localhost:7000/schedule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(course),
+      });
+
+      if (response.ok) {
+        setSchedule(prevSchedule => [...prevSchedule, course]);
+        const data = await response.json();
+        setFlashMessage(`Success: ${data.message}`);
+      } else {
+        const error = await response.json();
+        setFlashMessage(`Error: ${error.message}`);
+      }
+    } catch (err) {
+      setFlashMessage('Error: Could not add the course.');
+    }
+
+    // Clear the flash message after 3 seconds
+    setTimeout(() => setFlashMessage(''), 3000);
+  }
+
   function clearFilters() {
     console.log('Clearing filters');
     setFilters({
@@ -241,6 +266,7 @@ export function Search() {
       <Navbar />
       <div>
         <h1>Search</h1>
+        {flashMessage && <div className="flash-message">{flashMessage}</div>}
         <input
           type="text"
           id="query"
@@ -333,7 +359,7 @@ export function Search() {
         <Table
           tableData={tableData}
           isCourseInSchedule={isCourseInSchedule}
-          handleAddCourse={handleAddCourse}
+          handleAddCourse={addCourseWithFeedback}
           handleDropCourse={handleDropCourse}
         />
       </div>

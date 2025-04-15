@@ -54,6 +54,11 @@ public class Schedule {
     }
 
     public boolean addCourse(Course course) {
+        for (Course c : courses) {
+            if (c.isOverlap(course)) {
+                return false;
+            }
+        }
         courses.add(course);
         saveSchedule();
         return true;

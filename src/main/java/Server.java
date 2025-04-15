@@ -31,9 +31,14 @@ public class Server {
 
     private void addCourse(Context ctx) {
         Course course = ctx.bodyAsClass(Course.class);
-        schedule.addCourse(course);
-        schedule.saveSchedule();
-        ctx.json(Map.of("message", "Course added", "course", course));
+        boolean added = schedule.addCourse(course); // Check if the course was successfully added
+
+        if (added) {
+            schedule.saveSchedule();
+            ctx.status(200).json(Map.of("message", "Course added successfully", "course", course));
+        } else {
+            ctx.status(400).json(Map.of("error", "Course could not be added due to a conflict or overlap"));
+        }
     }
 
     private void dropCourse(Context ctx) {
