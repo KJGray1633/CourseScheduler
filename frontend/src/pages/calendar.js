@@ -1,91 +1,69 @@
+import { useCalendarApp, ScheduleXCalendar } from '@schedule-x/react';
+import {
+  createViewWeek,
+} from '@schedule-x/calendar';
+import { createEventsServicePlugin } from '@schedule-x/events-service';
+import { useState, useEffect } from 'react';
+import '@schedule-x/theme-default/dist/index.css';
+
 import { Navbar } from '../components/navbar.js';
-import React, { useState, useEffect } from 'react';
-import { format, startOfWeek, addDays } from 'date-fns'; // npm install date-fns
 import '../Calendar.css';
+import CustomTimeGridEvent from '../components/CustomTimeGridEvent.js';
+import CustomWeekGridHour from '../components/CustomWeekGridHour.js';
 
-export function Calendar() {
-  const [courses, setCourses] = useState([]);
+const customComponents = {
+  timeGridEvent: CustomTimeGridEvent,
+//  weekGridHour: CustomWeekGridHour,
+};
 
-  const fetchTimes = (path) => {
-    fetch('http://localhost:7000/' + path)
-      .then(response => {
+function CalendarApp() {
+  const eventsService = useState(() => createEventsServicePlugin())[0];
+  const [events, setEvents] = useState([]);
+
+  const calendar = useCalendarApp({
+    defaultView: 'week',
+    views: [
+      createViewWeek({
+        id: 'week',
+      }),
+    ],
+    events,
+    plugins: [eventsService],
+  });
+
+  useEffect(() => {
+    fetch('http://localhost:7000/schedule')
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to fetch course times');
+          throw new Error('Failed to fetch course schedule');
         }
         return response.json();
       })
-      .then(data => {
-        const times = data.map(item => ({
-          courseCode: item.courseCode,
-          startTime: item.times.length > 0 ? item.times[0].startTime : 'TBA',
-          endTime: item.times.length > 0 ? item.times[0].endTime : 'TBA',
-          days: item.times.map(time => time.day),
+      .then((data) => {
+        const mappedEvents = data.map((course) => ({
+          id: course.courseCode,
+          title: course.courseCode,
+          start: `${course.startTime}`,
+          end: `${course.endTime}`,
         }));
-        setCourses(times); // Update state with processed times
+        setEvents(mappedEvents);
       })
-      .catch(error => {
-        console.error('Error fetching course times:', error);
+      .catch((error) => {
+        console.error('Error fetching course schedule:', error);
       });
-  };
-
-  useEffect(() => {
-    fetchTimes('schedule'); // Fetch course times from the backend
   }, []);
 
-  const RenderCalendar = () => {
-    const [currentDate, setCurrentDate] = useState(new Date());
-    const startOfTheWeek = startOfWeek(currentDate, { weekStartsOn: 0 });
-
-    const days = [];
-    for (let i = 0; i < 7; i++) {
-      const day = addDays(startOfTheWeek, i);
-      days.push(day);
-    }
-
-    // adding time increments
-    const timeIncrements = [];
-    for (let hour  = 8; hour <= 20; hour++) {
-        for (let minute = 0; minute < 60; minute += 35) {
-            timeIncrements.push(`${hour}:${minute < 10 ? '0' : ''}${minute}`);
-        }
-    }
-
-    return (
-      <div>
-        <h2>{format(startOfTheWeek, 'MMMM yyyy')}</h2>
-        <div className="calendar-container">
-            <div className="time-column">
-                {timeIncrements.map((time, index) => (
-                    <div key={index} className="time-slot">
-                    {time}
-                    </div>
-                ))}
-            </div>
-          {days.map((day) => (
-            <div key={day.toString()} className="calendar-day">
-              <h3>{format(day, 'EEE')}</h3>
-              <p>{format(day, 'd')}</p>
-              {courses
-                .filter(course => course.days.includes(format(day, 'EEEE').toUpperCase()))
-                .map((course, index) => (
-                  <div key={index} className="calendar_default_event_inner">
-                    {course.courseCode} - {course.startTime} to {course.endTime}
-                  </div>
-                ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <div>
+    <>
       <Navbar />
-      <div>
-        <h1>Calendar</h1>
-        <RenderCalendar />
+      <div className="calendar-container">
+        <ScheduleXCalendar
+          calendarApp={calendar}
+          customComponents={customComponents}
+        />
       </div>
-    </div>
+    </>
   );
 }
+
+export default CalendarApp;
