@@ -65,7 +65,12 @@ public class Schedule {
     }
 
     public boolean dropCourse(Course course) {
-        courses.remove(course);
+        for (Course c : courses) {
+            if (c.getCid() == course.getCid()) {
+                courses.remove(c);
+                break;
+            }
+        }
         saveSchedule();
         return true;
     }
