@@ -65,21 +65,15 @@ public class Schedule {
 
     public boolean dropCourse(Course course) {
         courses.remove(course);
-        saveSchedule(uid);
+        saveSchedule();
         return true;
     }
 
     public boolean saveSchedule() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("courses", courses);
-
-        try (FileWriter file = new FileWriter("schedule.json")) {
-            file.write(jsonObject.toString(2)); // Use toString(2) for pretty printing
-            file.flush();
-            return true;
-        } catch (IOException e) {
-            return false;
+        for(int i = 0; i < courses.size(); i++){
+            dbc.addCourse(uid, courses.get(i).getCid());
         }
+        return true;
     }
 
     public boolean containsCourseId(int cid) {

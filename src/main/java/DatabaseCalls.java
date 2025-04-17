@@ -193,12 +193,25 @@ public class DatabaseCalls {
         }
     }
 
-    public User getUser() {
+    public User getUser(int uid) {
         if (!connectToDB()) {
             return null;
         }
-
-
+        String checkScheduleSQL = "SELECT username, password, major, year FROM users WHERE uid = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(checkScheduleSQL)) {
+            pstmt.setInt(1, uid);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String name = rs.getString("username");
+                String password = rs.getString("password");
+                String major = rs.getString("major");
+                String year = rs.getString("year");
+                return new User(uid, name, password, major, year);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 
 
