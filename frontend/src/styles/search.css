@@ -1,3 +1,21 @@
+.content-container {
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 10px; /* Rounds the corners of the container */
+  width: 75%; /* Sets a max width for the container */
+  margin: 20px auto; /* Centers the container */
+  padding: 20px; /* Adds padding around the container */
+}
+
+.search-and-filter-container {
+  align-items: center; /* Centers the content horizontally */
+  padding: 20px; /* Adds padding around the container */
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 10px; /* Rounds the corners of the container */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  width: 60%; /* Sets a max width for the container */
+  margin: 0 auto; /* Centers the container */
+}
+
 .query-container {
   display: flex;
   justify-content: center; /* Centers horizontally */
@@ -34,6 +52,7 @@
   gap: 20px; /* Adds spacing between filters */
   align-items: center; /* Aligns items vertically */
   justify-content: center; /* Centers the filters horizontally */
+  margin: 20px 0; /* Adds spacing around the filters */
 }
 
 .filters-container label {

@@ -1,4 +1,5 @@
 import '../App.css';
+import '../styles/table.css'; // Add styles for the table
 
 import React, { memo } from 'react';
 
@@ -45,6 +46,7 @@ export const Table = memo(({ tableData, isCourseInSchedule, handleAddCourse, han
         <th>Times</th>
         <th>Location</th>
         <th>Professor</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>

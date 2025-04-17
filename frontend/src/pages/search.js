@@ -268,120 +268,121 @@ export function Search() {
   return (
     <div>
       <Navbar />
-      <div>
-        <h1>Search</h1>
+      <div className="content-container">
         {showModal && (
           <Modal
             message={flashMessage}
             onClose={() => setShowModal(false)} // Close the modal
           />
         )}
-        <div className="query-container">
-          <div className="query-input-wrapper">
-            <span className="search-icon">🔍</span>
-            <input
-              type="text"
-              id="query"
-              value={query}
-              onChange={handleQueryChange}
-              className="query-input"
-            />
-          </div>
-        </div>
-        <div className="filters-container">
-          <div>
-            <label htmlFor="MWF">
-              <input
-                type="checkbox"
-                id="MWF"
-                name="MWF"
-                checked={checkboxes.MWF}
-                onChange={handleCheckboxChange}
-              />
-              M/W/F
-            </label>
-            <br />
-            <label htmlFor="TR">
-              <input
-                type="checkbox"
-                id="TR"
-                name="TR"
-                checked={checkboxes.TR}
-                onChange={handleCheckboxChange}
-              />
-              T/R
-            </label>
-          </div>
-          <div>
-            <label htmlFor="startTime">
-              Start Time:
-              <input
-                type="time"
-                id="startTime"
-                name="startTime"
-                value={filters.startTime || ""} // Use empty string if filters.startTime is null
-                onChange={handleTimeChange}
-              />
-            </label>
-            <br />
-            <label htmlFor="endTime">
-              End Time:
-              <input
-                type="time"
-                id="endTime"
-                name="endTime"
-                value={filters.endTime || ""} // Use empty string if filters.endTime is null
-                onChange={handleTimeChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="name">
-              Course Name:
+        <div className="search-and-filter-container">
+          <div className="query-container">
+            <div className="query-input-wrapper">
+              <span className="search-icon">🔍</span>
               <input
                 type="text"
-                id="name"
-                name="name"
-                value={filters.name || ""} // Use empty string if filters.name is null
-                onChange={handleInputChange}
+                id="query"
+                value={query}
+                onChange={handleQueryChange}
+                className="query-input"
               />
-            </label>
-            <br />
-            <label htmlFor="courseCode">
-              Course Code:
-              <input
-                type="number"
-                id="courseCode"
-                name="courseCode"
-                value={filters.courseCode || 0} // Use 0 if filters.courseCode is null
-                onChange={handleInputChange}
-              />
-            </label>
+            </div>
           </div>
-          <div>
-            <label htmlFor="prof">
-              Professor:
-              <input
-                type="text"
-                id="prof"
-                name="prof"
-                value={filters.prof}
-                onChange={handleProfInput}
-              />
-            </label>
-            <br />
-            <label htmlFor="department">
-              Department:
-              <input
-                type="text"
-                id="department"
-                name="department"
-                value={filters.department || ""} // Use empty string if filters.department is null
-                onChange={handleInputChange}
-              />
-            </label>
+          <div className="filters-container">
+            <div>
+              <label htmlFor="MWF">
+                <input
+                  type="checkbox"
+                  id="MWF"
+                  name="MWF"
+                  checked={checkboxes.MWF}
+                  onChange={handleCheckboxChange}
+                />
+                M/W/F
+              </label>
+              <br />
+              <label htmlFor="TR">
+                <input
+                  type="checkbox"
+                  id="TR"
+                  name="TR"
+                  checked={checkboxes.TR}
+                  onChange={handleCheckboxChange}
+                />
+                T/R
+              </label>
+            </div>
+            <div>
+              <label htmlFor="startTime">
+                Start Time:
+                <input
+                  type="time"
+                  id="startTime"
+                  name="startTime"
+                  value={filters.startTime || ""} // Use empty string if filters.startTime is null
+                  onChange={handleTimeChange}
+                />
+              </label>
+              <br />
+              <label htmlFor="endTime">
+                End Time:
+                <input
+                  type="time"
+                  id="endTime"
+                  name="endTime"
+                  value={filters.endTime || ""} // Use empty string if filters.endTime is null
+                  onChange={handleTimeChange}
+                />
+              </label>
+            </div>
+            <div>
+              <label htmlFor="name">
+                Course Name:
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={filters.name || ""} // Use empty string if filters.name is null
+                  onChange={handleInputChange}
+                />
+              </label>
+              <br />
+              <label htmlFor="courseCode">
+                Course Code:
+                <input
+                  type="number"
+                  id="courseCode"
+                  name="courseCode"
+                  value={filters.courseCode || 0} // Use 0 if filters.courseCode is null
+                  onChange={handleInputChange}
+                />
+              </label>
+            </div>
+            <div>
+              <label htmlFor="prof">
+                Professor:
+                <input
+                  type="text"
+                  id="prof"
+                  name="prof"
+                  value={filters.prof}
+                  onChange={handleProfInput}
+                />
+              </label>
+              <br />
+              <label htmlFor="department">
+                Department:
+                <input
+                  type="text"
+                  id="department"
+                  name="department"
+                  value={filters.department || ""} // Use empty string if filters.department is null
+                  onChange={handleInputChange}
+                />
+              </label>
+            </div>
+            <button onClick={clearFilters}>Clear Filters</button>
           </div>
-          <button onClick={clearFilters}>Clear Filters</button>
         </div>
         <Table
           tableData={tableData}
