@@ -11,11 +11,13 @@ import java.util.Arrays;
 public class Schedule {
     public ArrayList<Course> courses;
     DatabaseCalls dbc;
+    int uid;
 
     public Schedule(int uid) {
 //        courses.add(new Course(1,"Programming 1", 141));
 //        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
 //        courses.add(new Course(3,"Principles of Accounting",201));
+        this.uid = uid;
         dbc = new DatabaseCalls();
         dbc.getSchedule(uid);
     }
@@ -63,7 +65,7 @@ public class Schedule {
 
     public boolean dropCourse(Course course) {
         courses.remove(course);
-        saveSchedule();
+        saveSchedule(uid);
         return true;
     }
 
