@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Navbar } from '../components/navbar.js';
 import { ScheduleContext } from '../components/scheduleContext.js';
 import { Table } from '../components/table.js';
+import { Modal } from '../components/modal.js';
+import '../styles/search.css'; // Import your CSS file here
 
 export function Search() {
   const [filters, setFilters] = useState({
@@ -20,6 +22,7 @@ export function Search() {
   const [tableData, setTableData] = useState([]);
   const { setSchedule, query, setQuery, handleDropCourse, isCourseInSchedule } = useContext(ScheduleContext);
   const [flashMessage, setFlashMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   console.log(query);
 
@@ -221,26 +224,27 @@ export function Search() {
 
   async function addCourseWithFeedback(course) {
     try {
+      console.log('Adding course:', course);
       const response = await fetch('http://localhost:7000/schedule', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(course),
       });
 
+      const data = await response.json(); // Parse the response JSON
+      console.log('Server response:', data); // Debugging log
+
       if (response.ok) {
         setSchedule(prevSchedule => [...prevSchedule, course]);
-        const data = await response.json();
-        setFlashMessage(`Success: ${data.message}`);
+        //setFlashMessage(`Success: ${data.message || 'Course added successfully'}`); // Fallback message
       } else {
-        const error = await response.json();
-        setFlashMessage(`Error: ${error.message}`);
+        setFlashMessage(`Error: ${data.error || 'An error occurred'}`); // Fallback error message
+        setShowModal(true);
       }
     } catch (err) {
+      console.error('Error adding course:', err); // Debugging log
       setFlashMessage('Error: Could not add the course.');
     }
-
-    // Clear the flash message after 3 seconds
-    setTimeout(() => setFlashMessage(''), 3000);
   }
 
   function clearFilters() {
@@ -266,7 +270,12 @@ export function Search() {
       <Navbar />
       <div>
         <h1>Search</h1>
-        {flashMessage && <div className="flash-message">{flashMessage}</div>}
+        {showModal && (
+          <Modal
+            message={flashMessage}
+            onClose={() => setShowModal(false)} // Close the modal
+          />
+        )}
         <input
           type="text"
           id="query"

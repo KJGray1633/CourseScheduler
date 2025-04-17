@@ -1,1 +1,33 @@
-{"courses": []}
+{"courses": [{
+  "subject": "acct",
+  "courseCode": 310,
+  "section": "a",
+  "lab": false,
+  "totalSeats": 25,
+  "referenceNum": 1008,
+  "professor": ["stone, jennifer nicole"],
+  "times": [
+    {
+      "startTime": "09:00:00",
+      "endTime": "09:50:00",
+      "day": "MONDAY"
+    },
+    {
+      "startTime": "09:00:00",
+      "endTime": "09:50:00",
+      "day": "WEDNESDAY"
+    },
+    {
+      "startTime": "09:00:00",
+      "endTime": "09:50:00",
+      "day": "FRIDAY"
+    }
+  ],
+  "credits": 3,
+  "name": "data analytics for accounting",
+  "semester": "2023_fall",
+  "location": "shal 114",
+  "open": true,
+  "cid": 8,
+  "openSeats": 9
+}]}

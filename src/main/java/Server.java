@@ -31,6 +31,7 @@ public class Server {
 
     private void addCourse(Context ctx) {
         Course course = ctx.bodyAsClass(Course.class);
+        System.out.println("Adding course: " + course);
         boolean added = schedule.addCourse(course); // Check if the course was successfully added
 
         if (added) {
