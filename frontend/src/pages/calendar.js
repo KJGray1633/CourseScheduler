@@ -3,7 +3,8 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Navbar } from '../components/navbar.js';
-import '../Calendar.css';
+import '../styles/calendar.css';
+
 
 const localizer = momentLocalizer(moment);
 
