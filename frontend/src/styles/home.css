@@ -1,0 +1,14 @@
+.content-container {
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 10px; /* Rounds the corners of the container */
+  width: 75%; /* Sets a max width for the container */
+  margin: 20px auto; /* Centers the container */
+  padding: 20px; /* Adds padding around the container */
+}
+
+.content-container h1 {
+  font-size: 24px; /* Increases the font size */
+  margin-bottom: 20px; /* Adds spacing below the title */
+  font-weight: bold; /* Makes the title bold */
+  text-align: center; /* Centers the title */
+}

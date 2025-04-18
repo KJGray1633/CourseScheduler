@@ -2,6 +2,7 @@ import { Navbar } from '../components/navbar.js';
 import { useContext } from 'react';
 import { ScheduleContext } from '../components/scheduleContext.js';
 import { Table } from '../components/table.js';
+import '../styles/home.css';
 
 export function Home() {
   const { schedule, handleAddCourse, handleDropCourse, isCourseInSchedule } = useContext(ScheduleContext);
@@ -9,8 +10,8 @@ export function Home() {
   return (
     <div>
       <Navbar />
-      <div>
-        <h1>Home</h1>
+      <div className="content-container">
+        <h1>My Schedule</h1>
         <Table
           tableData={schedule}
           isCourseInSchedule={isCourseInSchedule}

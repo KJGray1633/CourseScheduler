@@ -54,13 +54,23 @@ public class Schedule {
     }
 
     public boolean addCourse(Course course) {
+        for (Course c : courses) {
+            if (c.isOverlap(course)) {
+                return false;
+            }
+        }
         courses.add(course);
         saveSchedule();
         return true;
     }
 
     public boolean dropCourse(Course course) {
-        courses.remove(course);
+        for (Course c : courses) {
+            if (c.getCid() == course.getCid()) {
+                courses.remove(c);
+                break;
+            }
+        }
         saveSchedule();
         return true;
     }

@@ -1,0 +1,18 @@
+table {
+  display: table; /* Ensures the element behaves like a table */
+  border-collapse: collapse; /* Ensures borders don't double up */
+  width: 100%; /* Makes the table take up the full width */
+  margin: 20px auto; /* Centers the table */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+}
+
+table th, table td {
+  border: 1px solid #ccc; /* Adds a border to each cell */
+  padding: 8px; /* Adds padding inside cells */
+  text-align: left; /* Aligns text to the left */
+}
+
+table th {
+  background-color: #f4f4f4; /* Adds a background color to the header */
+  text-align: center; /* Centers the header text */
+}
