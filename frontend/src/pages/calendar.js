@@ -28,20 +28,7 @@ function WeekViewCalendar() {
     return <span>{moment(date).format('dddd')}</span>;
   };
 
-  const [events, setEvents] = useState([
-    {
-      id: '1',
-      title: 'Test Event',
-      start: new Date(2025, 3, 14, 10, 0),
-      end: new Date(2025, 3, 14, 12, 0),
-    },
-    {
-      id: '2',
-      title: 'Another Event',
-      start: new Date(2025, 3, 15, 9, 0),
-      end: new Date(2025, 3, 15, 11, 0),
-    },
-  ]);
+  const [events, setEvents] = useState([]);
 
   const [calendarHeight, setCalendarHeight] = useState(window.innerHeight);
   const calendarContainerRef = useRef(null);
