@@ -1,0 +1,26 @@
+/* stylesheet for calendar */
+
+
+
+.calendar-container {
+  height: 80%;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+}
+
+.react-big-calendar {
+  height: 100%;
+  width: 100%;
+}
+
+.rbc-today {
+  background-color: transparent !important;
+}
+
+.rbc-current-time-indicator {
+  display: none !important;
+}

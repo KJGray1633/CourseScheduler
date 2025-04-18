@@ -1,33 +1,101 @@
-{"courses": [{
-  "subject": "acct",
-  "courseCode": 310,
-  "section": "a",
-  "lab": false,
-  "totalSeats": 25,
-  "referenceNum": 1008,
-  "professor": ["stone, jennifer nicole"],
-  "times": [
-    {
-      "startTime": "09:00:00",
-      "endTime": "09:50:00",
-      "day": "MONDAY"
-    },
-    {
-      "startTime": "09:00:00",
-      "endTime": "09:50:00",
-      "day": "WEDNESDAY"
-    },
-    {
-      "startTime": "09:00:00",
-      "endTime": "09:50:00",
-      "day": "FRIDAY"
-    }
-  ],
-  "credits": 3,
-  "name": "data analytics for accounting",
-  "semester": "2023_fall",
-  "location": "shal 114",
-  "open": true,
-  "cid": 8,
-  "openSeats": 9
-}]}
+{"courses": [
+  {
+    "subject": "acct",
+    "courseCode": 310,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 25,
+    "referenceNum": 1008,
+    "professor": ["stone, jennifer nicole"],
+    "times": [
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "credits": 3,
+    "name": "data analytics for accounting",
+    "location": "shal 114",
+    "semester": "2023_fall",
+    "open": true,
+    "cid": 8,
+    "openSeats": 9
+  },
+  {
+    "subject": "acct",
+    "courseCode": 201,
+    "section": "d",
+    "lab": false,
+    "totalSeats": 30,
+    "referenceNum": 1004,
+    "professor": ["shultz, tricia michele"],
+    "times": [
+      {
+        "startTime": "13:00:00",
+        "endTime": "13:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "13:00:00",
+        "endTime": "13:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "13:00:00",
+        "endTime": "13:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "credits": 3,
+    "name": "principles of accounting i",
+    "location": "shal 204",
+    "semester": "2023_fall",
+    "open": false,
+    "cid": 4,
+    "openSeats": 0
+  },
+  {
+    "subject": "acct",
+    "courseCode": 201,
+    "section": "e",
+    "lab": false,
+    "totalSeats": 30,
+    "referenceNum": 1005,
+    "professor": ["graybill, keith b."],
+    "times": [
+      {
+        "startTime": "14:00:00",
+        "endTime": "14:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "14:00:00",
+        "endTime": "14:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "14:00:00",
+        "endTime": "14:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "credits": 3,
+    "name": "principles of accounting i",
+    "location": "shal 204",
+    "semester": "2023_fall",
+    "open": false,
+    "cid": 5,
+    "openSeats": 0
+  }
+]}
