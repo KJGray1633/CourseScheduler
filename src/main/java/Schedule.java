@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-
+//Made changes
 public class Schedule {
     public ArrayList<Course> courses;
     DatabaseCalls dbc = new DatabaseCalls();

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.sql.*;
 import java.util.Properties;
 
+//Made changes
 public class DatabaseCalls {
 
     private static Connection conn = null;
