@@ -26,7 +26,7 @@ const dayMap = {
 function WeekViewCalendar() {
 
     const CustomDateHeader = ({ date }) => {
-      return <span>{moment(date).format('dddd')}</span>; // "Sun", "Mon", "Tue", etc.
+      return <span>{moment(date).format('dddd')}</span>;
     };
 
 
@@ -34,7 +34,7 @@ function WeekViewCalendar() {
     {
       id: 'test-event',
       title: 'Test Event',
-      start: new Date(2025, 3, 14, 10, 0), // Monday 10 AM
+      start: new Date(2025, 3, 14, 10, 0),
       end: new Date(2025, 3, 14, 12, 0),
     },
   ]);
@@ -47,7 +47,7 @@ function WeekViewCalendar() {
         return response.json();
       })
       .then((data) => {
-        console.log('Fetched schedule data:', data); // ✅ Log data
+        console.log('Fetched schedule data:', data);
 
         const mappedEvents = data.courses.flatMap((course) =>
           course.times.map((time) => {
@@ -66,7 +66,7 @@ function WeekViewCalendar() {
           })
         );
 
-        console.log('Mapped events:', mappedEvents); // ✅ Log events
+        console.log('Mapped events:', mappedEvents);
         setEvents(mappedEvents);
       })
       .catch((error) => console.error('Error fetching schedule:', error));
@@ -84,10 +84,10 @@ function WeekViewCalendar() {
           endAccessor="end"
           defaultView="week"
           views={['week']}
-          defaultDate={staticWeekStart.toDate()} // Static start of the calendar
+          defaultDate={staticWeekStart.toDate()}
           style={{ height: '100%' }}
-          min={new Date(2025, 3, 13, 7, 0, 0)} // 7 AM
-          max={new Date(2025, 3, 13, 23, 0, 0)} // 11 PM
+          min={new Date(2025, 3, 13, 7, 0, 0)}
+          max={new Date(2025, 3, 13, 23, 0, 0)}
           step={30}
           timeslots={2}
           toolbar={false}
