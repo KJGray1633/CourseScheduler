@@ -3,9 +3,18 @@
 
 
 .calendar-container {
+  height: 80%;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+}
+
+.react-big-calendar {
+  height: 100%;
   width: 100%;
-  max-width: 1400px; /* Set desired width */
-  margin: 40px auto; /* Center the calendar */
 }
 
 .rbc-today {
