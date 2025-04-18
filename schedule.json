@@ -1,33 +1,68 @@
-{"courses": [{
-  "subject": "acct",
-  "courseCode": 310,
-  "section": "a",
-  "lab": false,
-  "totalSeats": 25,
-  "referenceNum": 1008,
-  "professor": ["stone, jennifer nicole"],
-  "times": [
-    {
-      "startTime": "09:00:00",
-      "endTime": "09:50:00",
-      "day": "MONDAY"
-    },
-    {
-      "startTime": "09:00:00",
-      "endTime": "09:50:00",
-      "day": "WEDNESDAY"
-    },
-    {
-      "startTime": "09:00:00",
-      "endTime": "09:50:00",
-      "day": "FRIDAY"
-    }
-  ],
-  "credits": 3,
-  "name": "data analytics for accounting",
-  "semester": "2023_fall",
-  "location": "shal 114",
-  "open": true,
-  "cid": 8,
-  "openSeats": 9
-}]}
+{"courses": [
+  {
+    "subject": "acct",
+    "courseCode": 310,
+    "section": "a",
+    "lab": false,
+    "totalSeats": 25,
+    "referenceNum": 1008,
+    "times": [
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "09:00:00",
+        "endTime": "09:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "professor": ["stone, jennifer nicole"],
+    "credits": 3,
+    "name": "data analytics for accounting",
+    "location": "shal 114",
+    "semester": "2023_fall",
+    "open": true,
+    "cid": 8,
+    "openSeats": 9
+  },
+  {
+    "subject": "biol",
+    "courseCode": 101,
+    "section": "b",
+    "lab": false,
+    "totalSeats": 90,
+    "referenceNum": 1022,
+    "times": [
+      {
+        "startTime": "10:00:00",
+        "endTime": "10:50:00",
+        "day": "MONDAY"
+      },
+      {
+        "startTime": "10:00:00",
+        "endTime": "10:50:00",
+        "day": "WEDNESDAY"
+      },
+      {
+        "startTime": "10:00:00",
+        "endTime": "10:50:00",
+        "day": "FRIDAY"
+      }
+    ],
+    "professor": ["pazehoski, kristina o."],
+    "credits": 4,
+    "name": "general biology i",
+    "location": "shal 108  w/multimedia",
+    "semester": "2023_fall",
+    "open": false,
+    "cid": 22,
+    "openSeats": 0
+  }
+]}
