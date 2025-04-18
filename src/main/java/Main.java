@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.text.ParseException;
-//Made changes
+
 public class Main {
     private static DatabaseCalls dbc = new DatabaseCalls();
     public enum Page {
