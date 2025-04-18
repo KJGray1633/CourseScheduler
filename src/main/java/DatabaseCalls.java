@@ -206,7 +206,7 @@ public class DatabaseCalls {
                 String password = rs.getString("password");
                 String major = rs.getString("major");
                 String year = rs.getString("year");
-                return new User(uid, name, password, major, year);
+                return new User(name, password, major, year);
             }
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());

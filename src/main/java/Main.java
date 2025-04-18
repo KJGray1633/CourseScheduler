@@ -472,9 +472,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int uid = dbc.addUser("Bob", "123", "Art", "2025");
-        user = new User(uid);
-        schedule =  dbc.getSchedule(uid);
+        user = new User("Bob", "123", "Art", "2025");
+        schedule =  dbc.getSchedule(user.getUid());
         run();
 //        Search s = new Search();
 

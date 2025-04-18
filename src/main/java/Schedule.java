@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class Schedule {
     public ArrayList<Course> courses;
-    DatabaseCalls dbc;
+    DatabaseCalls dbc = new DatabaseCalls();
     int uid;
 
     public Schedule(int uid) {
@@ -18,7 +18,6 @@ public class Schedule {
 //        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
 //        courses.add(new Course(3,"Principles of Accounting",201));
         this.uid = uid;
-        dbc = new DatabaseCalls();
         dbc.getSchedule(uid);
     }
 

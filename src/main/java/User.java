@@ -18,12 +18,12 @@ public class User {
     private String year;
     private DatabaseCalls dbc = new DatabaseCalls();
 
-    public User(int uid, String username, String password, String major, String year) {
-        this.uid = uid;
+    public User(String username, String password, String major, String year) {
         this.username = username;
         this.password = password;
         this.major = major;
         this.year = year;
+        this.uid = dbc.addUser(this.username, this.password, this.major, this.year);
     }
 
     public User(int uid) {
