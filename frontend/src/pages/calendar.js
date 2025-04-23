@@ -19,6 +19,10 @@ const dayMap = {
 };
 
 function WeekViewCalendar() {
+    const CustomDateHeader = ({ date }) => {
+        return <span>{moment(date).format('dddd')}</span>;
+    };
+
   const [events, setEvents] = useState([]);
   const [calendarHeight, setCalendarHeight] = useState(window.innerHeight);
   const calendarContainerRef = useRef(null);
@@ -105,6 +109,9 @@ function WeekViewCalendar() {
           step={30}
           timeslots={2}
           toolbar={false}
+          components={{
+                  header: CustomDateHeader,
+          }}
         />
       </div>
     </>
