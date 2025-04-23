@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@daypilot/daypilot-lite-react": "^3.32.1",
+    "date-fns": "^4.1.0"
+  }
+}

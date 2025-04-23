@@ -10,12 +10,15 @@ import java.util.Arrays;
 
 public class Schedule {
     public ArrayList<Course> courses;
+    DatabaseCalls dbc = new DatabaseCalls();
+    int uid;
 
     public Schedule(int uid) {
 //        courses.add(new Course(1,"Programming 1", 141));
 //        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
 //        courses.add(new Course(3,"Principles of Accounting",201));
-        this();
+        this.uid = uid;
+        dbc.getSchedule(uid);
     }
 
     public Schedule(ArrayList<Integer> cids) {
@@ -54,28 +57,32 @@ public class Schedule {
     }
 
     public boolean addCourse(Course course) {
+        for (Course c : courses) {
+            if (c.isOverlap(course)) {
+                return false;
+            }
+        }
         courses.add(course);
         saveSchedule();
         return true;
     }
 
     public boolean dropCourse(Course course) {
-        courses.remove(course);
+        for (Course c : courses) {
+            if (c.getCid() == course.getCid()) {
+                courses.remove(c);
+                break;
+            }
+        }
         saveSchedule();
         return true;
     }
 
     public boolean saveSchedule() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("courses", courses);
-
-        try (FileWriter file = new FileWriter("schedule.json")) {
-            file.write(jsonObject.toString(2)); // Use toString(2) for pretty printing
-            file.flush();
-            return true;
-        } catch (IOException e) {
-            return false;
+        for(int i = 0; i < courses.size(); i++){
+            dbc.addCourse(uid, courses.get(i).getCid());
         }
+        return true;
     }
 
     public boolean containsCourseId(int cid) {

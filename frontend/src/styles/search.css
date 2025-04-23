@@ -1,0 +1,63 @@
+.content-container {
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 10px; /* Rounds the corners of the container */
+  width: 75%; /* Sets a max width for the container */
+  margin: 20px auto; /* Centers the container */
+  padding: 20px; /* Adds padding around the container */
+}
+
+.search-and-filter-container {
+  align-items: center; /* Centers the content horizontally */
+  padding: 20px; /* Adds padding around the container */
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 10px; /* Rounds the corners of the container */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  width: 60%; /* Sets a max width for the container */
+  margin: 0 auto; /* Centers the container */
+}
+
+.query-container {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  margin: 20px 0; /* Adds spacing around the input box */
+}
+
+.query-input-wrapper {
+  position: relative;
+  width: 75%; /* Adjust the width as needed */
+}
+
+.query-input-wrapper input {
+  width: 90%; /* Adjusts the width of the input box */
+  height: 20px; /* Adjusts the height of the input box */
+  font-size: 16px; /* Increases the font size */
+  padding: 10px 10px 10px 40px; /* Adds padding inside the input box */
+  border: 1px solid #ccc; /* Adds a border */
+  border-radius: 5px; /* Rounds the corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px; /* Adjust the position */
+  transform: translateY(-50%);
+  font-size: 18px; /* Adjust the size of the icon */
+  color: #888; /* Icon color */
+}
+
+.filters-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping if there are too many filters */
+  gap: 20px; /* Adds spacing between filters */
+  align-items: center; /* Aligns items vertically */
+  justify-content: center; /* Centers the filters horizontally */
+  margin: 20px 0; /* Adds spacing around the filters */
+}
+
+.filters-container label {
+  display: flex;
+  flex-direction: column; /* Keeps label and input stacked */
+  font-size: 14px;
+  align-items: center; /* Centers the label and input */
+}

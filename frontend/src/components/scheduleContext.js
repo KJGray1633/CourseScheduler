@@ -1,10 +1,23 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 
 export const ScheduleContext = createContext();
 
 export function ScheduleProvider({ children }) {
   const [schedule, setSchedule] = useState([]);
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    console.log('Fetching data from: schedule');
+    fetch('http://localhost:7000/schedule')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data fetched:', data);
+        setSchedule(data);
+      })
+      .catch(error => {
+        console.error('Error fetching search results:', error);
+      });
+  }, []);
 
   function isCourseInSchedule(course) {
     return schedule.some(scheduled => scheduled.cid === course.cid);

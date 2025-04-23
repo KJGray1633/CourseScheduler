@@ -79,7 +79,6 @@ public class DatabaseCalls {
         if (!connectToDB()) {
             return false;
         }
-
         if (userExists(uid) && courseExists(cid) && !inSchedule(uid, cid)) {
             String addCourseSQL = "INSERT INTO schedule (cid, uid) VALUES (?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(addCourseSQL)) {
@@ -140,25 +139,40 @@ public class DatabaseCalls {
         return false;
     }
 
-    public boolean addUser(String username, String password, String major, String year) {
+    public int addUser(String username, String password, String major, String year) {
+        int uid = -1;
         if (!connectToDB()) {
-            return false;
+            return -1;
         }
-
         String addUser = "INSERT INTO users (username, password, major, year) VALUES ( ?, ?, ?, ?)";
+        String getUid = "SELECT uid FROM users WHERE username = ? AND password = ? AND major = ? AND year = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(addUser)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setString(3, major);
             pstmt.setString(4, year);
             pstmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-            return false;
+            closeConnection();
+            return -1;
+        } try (PreparedStatement pstmt = conn.prepareStatement(getUid)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.setString(3, major);
+            pstmt.setString(4, year);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                uid = rs.getInt("uid");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            closeConnection();
+            return -1;
         } finally {
             closeConnection();
         }
+        return uid;
     }
 
     public boolean removeUser(int uid) {
@@ -177,6 +191,27 @@ public class DatabaseCalls {
         } finally {
             closeConnection();
         }
+    }
+
+    public User getUser(int uid) {
+        if (!connectToDB()) {
+            return null;
+        }
+        String checkScheduleSQL = "SELECT username, password, major, year FROM users WHERE uid = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(checkScheduleSQL)) {
+            pstmt.setInt(1, uid);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String name = rs.getString("username");
+                String password = rs.getString("password");
+                String major = rs.getString("major");
+                String year = rs.getString("year");
+                return new User(name, password, major, year);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 
 

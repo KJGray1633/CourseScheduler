@@ -2,7 +2,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 // run DBCreate.java before running this tester class
 public class DatabaseTest {
 
@@ -19,9 +18,8 @@ public class DatabaseTest {
         String password = "password";
         String major = "Computer Science";
         String year = "2026";
-
-        boolean userAdded = db.addUser(username, password, major, year);
-        assertTrue(userAdded);
+        User myUser = new User(username, password, major, year);
+        assertTrue(db.validateUser(username, password));
     }
 
     @Test

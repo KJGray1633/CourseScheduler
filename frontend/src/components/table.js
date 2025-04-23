@@ -1,4 +1,5 @@
 import '../App.css';
+import '../styles/table.css'; // Add styles for the table
 
 import React, { memo } from 'react';
 
@@ -26,14 +27,14 @@ const TableRow = memo(({ item, isCourseInSchedule, handleAddCourse, handleDropCo
         : 'TBA'}
       </td>
       <td>
-        {!isCourseInSchedule(item) && (
-          <button onClick={() => handleAddCourse(item)}>Add</button>
-        )}
-        {isCourseInSchedule(item) && (
+        {isCourseInSchedule(item) ? (
           <button onClick={() => handleDropCourse(item)}>Drop</button>
+        ) : (
+          <button onClick={() => handleAddCourse(item)}>Add</button>
         )}
       </td>
     </tr>
+
   )
 });
 
@@ -45,6 +46,7 @@ export const Table = memo(({ tableData, isCourseInSchedule, handleAddCourse, han
         <th>Times</th>
         <th>Location</th>
         <th>Professor</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
