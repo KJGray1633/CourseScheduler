@@ -2,6 +2,7 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
+import java.util.List;
 import java.util.Map;
 
 public class Server {
@@ -11,10 +12,10 @@ public class Server {
     private User user;
 
     public Server() {
+        this.user = new User(1);
         this.schedule = new Schedule();
         this.search = new Search();
         this.filter = new Filter();
-        this.user = new User(1);
     }
 
     public void registerRoutes(Javalin app) {
@@ -34,9 +35,12 @@ public class Server {
     }
 
     private void getSchedule(Context ctx) {
-        ctx.json(schedule.getCourses());
+        var courses = schedule.getCourses();
+        if (courses == null) {
+            ctx.json(List.of()); // Return an empty list if null
+        }
+        ctx.json(courses);
     }
-
     private void addCourse(Context ctx) {
         Course course = ctx.bodyAsClass(Course.class);
         System.out.println("Adding course: " + course);
