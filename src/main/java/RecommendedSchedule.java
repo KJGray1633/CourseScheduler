@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class RecommendedSchedule {
 
-    ArrayList<Course> courses;
+    private ArrayList<Course> courses;
 
     public RecommendedSchedule(String major, int desiredCredits) {
         courses = new ArrayList<>();
@@ -47,6 +47,10 @@ public class RecommendedSchedule {
             Course course = search.createCourseFromCid(id);
             courses.add(course);
         }
+    }
+
+    public ArrayList<Course> getCourses() {
+        return courses;
     }
 
     public static void main(String[] args) {
