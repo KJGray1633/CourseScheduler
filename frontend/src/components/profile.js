@@ -138,6 +138,7 @@ export function Profile() {
   return (
     <div>
       <form className="profile-form">
+        <h1>Profile</h1>
         <label>
           Year:
           <input type="text" name="year" placeholder="Enter your year" value={year}
