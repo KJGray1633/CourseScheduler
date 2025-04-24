@@ -25,7 +25,7 @@ export function Home() {
           handleDropCourse={handleDropCourse}
         />
       </div>
-      <button className="ai-scheduler" onClick={toggleModal}>AI Scheduler</button>
+      <button className="ai-scheduler-button" onClick={toggleModal}>AI Scheduler</button>
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
@@ -33,6 +33,7 @@ export function Home() {
             <AIScheduler />
           </div>
         </div>
-      )}    </div>
+      )}
+    </div>
   );
 }

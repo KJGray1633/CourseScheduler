@@ -28,9 +28,9 @@ const TableRow = memo(({ item, isCourseInSchedule, handleAddCourse, handleDropCo
       </td>
       <td>
         {isCourseInSchedule(item) ? (
-          <button onClick={() => handleDropCourse(item)}>Drop</button>
+          <button className="dropButton" onClick={() => handleDropCourse(item)}>Drop</button>
         ) : (
-          <button onClick={() => handleAddCourse(item)}>Add</button>
+          <button className="addButton" onClick={() => handleAddCourse(item)}>Add</button>
         )}
       </td>
     </tr>

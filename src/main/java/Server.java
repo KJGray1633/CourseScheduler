@@ -33,6 +33,17 @@ public class Server {
         app.get("/major", this::getMajor);
         app.post("/courseHistory", this::saveCourseHistory);
         app.get("/courseHistory", this::getCourseHistory);
+        app.get("/recommendSchedule", this::getRecommendedSchedule);
+    }
+
+    private void getRecommendedSchedule(Context ctx) {
+        String major = ctx.queryParam("major");
+        int desiredCredits = Integer.parseInt(ctx.queryParam("desiredCredits"));
+        System.out.println("Major: " + major);
+        System.out.println("Desired Credits: " + desiredCredits);
+        RecommendedSchedule recommendedSchedule = new RecommendedSchedule(major, desiredCredits);
+        List<Course> courses = recommendedSchedule.getCourses();
+        ctx.json(courses);
     }
 
     private void getSchedule(Context ctx) {
@@ -43,6 +54,7 @@ public class Server {
         }
         ctx.json(courses);
     }
+
     private void addCourse(Context ctx) {
         Course course = ctx.bodyAsClass(Course.class);
         System.out.println("Adding course: " + course);

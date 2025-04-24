@@ -12,3 +12,32 @@
   font-weight: bold; /* Makes the title bold */
   text-align: center; /* Centers the title */
 }
+
+.modal-content {
+  background-color: #f9f9f9; /* Light background color */
+  padding: 20px; /* Adds padding inside the modal */
+  border-radius: 8px; /* Rounds the corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  width: 90%; /* Makes the modal much wider */
+  max-width: 1200px; /* Sets a larger maximum width */
+  text-align: center; /* Centers the content */
+}
+
+.ai-scheduler-button {
+  background: linear-gradient(45deg, #6a11cb, #2575fc); /* Gradient background */
+  color: white;
+  border: none;
+  border-radius: 25px; /* Rounded corners */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover effect */
+  margin-left: 30px;
+}
+
+.ai-scheduler-button:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Enhance shadow on hover */
+}
