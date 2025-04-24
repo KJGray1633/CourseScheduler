@@ -2,6 +2,7 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class Server {
 
     public Server() {
         this.user = new User(1);
-        this.schedule = new Schedule();
+        this.schedule = new Schedule(user.getUid());
         this.search = new Search();
         this.filter = new Filter();
     }
@@ -37,7 +38,8 @@ public class Server {
     private void getSchedule(Context ctx) {
         var courses = schedule.getCourses();
         if (courses == null) {
-            ctx.json(List.of()); // Return an empty list if null
+            ctx.json(new ArrayList<Course>()); // Return an empty list if null
+            return;
         }
         ctx.json(courses);
     }

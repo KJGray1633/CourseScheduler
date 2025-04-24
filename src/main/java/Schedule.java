@@ -17,8 +17,9 @@ public class Schedule {
 //        courses.add(new Course(1,"Programming 1", 141));
 //        courses.add(new Course(2,"Foundations of Academic Discourse", 101));
 //        courses.add(new Course(3,"Principles of Accounting",201));
+        courses = new ArrayList<>();
         this.uid = uid;
-        dbc.getSchedule(uid);
+        courses = dbc.getSchedule(uid).getCourses();
     }
 
     public Schedule(ArrayList<Integer> cids) {
@@ -63,8 +64,7 @@ public class Schedule {
             }
         }
         courses.add(course);
-        //dbc.addCourse(uid, course.getCid());
-        saveSchedule();
+        dbc.addCourse(uid, course.getCid());
         return true;
     }
 
@@ -75,15 +75,7 @@ public class Schedule {
                 break;
             }
         }
-        //dbc.dropCourse(uid, course.getCid());
-        saveSchedule();
-        return true;
-    }
-
-    public boolean saveSchedule() {
-        for(int i = 0; i < courses.size(); i++){
-            dbc.addCourse(uid, courses.get(i).getCid());
-        }
+        dbc.dropCourse(uid, course.getCid());
         return true;
     }
 
