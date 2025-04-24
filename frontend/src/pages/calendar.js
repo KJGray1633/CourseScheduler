@@ -91,9 +91,11 @@ function WeekViewCalendar() {
   return (
     <>
       <Navbar />
-      <button onClick={exportToOutlook} className="export-button">
-              Export to Outlook
-      </button>
+      <div className="export-button-container">
+        <button onClick={exportToOutlook} className="export-button">
+                Export to Outlook
+        </button>
+      </div>
       <div className="calendar-container" ref={calendarContainerRef}>
         <Calendar
           localizer={localizer}

@@ -74,3 +74,25 @@
   font-size: 20px;
   cursor: pointer;
 }
+
+/* Profile button styling */
+.profile-button {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Add padding */
+  font-size: 16px; /* Adjust font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+}
+
+.profile-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.profile-button:active {
+  background-color: #3e8e41; /* Even darker green when clicked */
+  transform: scale(0.95); /* Slightly shrink on click */
+}

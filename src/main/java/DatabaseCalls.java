@@ -144,35 +144,88 @@ public class DatabaseCalls {
         if (!connectToDB()) {
             return -1;
         }
-        String addUser = "INSERT INTO users (username, password, major, year) VALUES ( ?, ?, ?, ?)";
-        String getUid = "SELECT uid FROM users WHERE username = ? AND password = ? AND major = ? AND year = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(addUser)) {
+
+        // Check if the user already exists
+        String checkUserSQL = "SELECT uid FROM users WHERE username = ?";
+        try (PreparedStatement checkStmt = conn.prepareStatement(checkUserSQL)) {
+            checkStmt.setString(1, username);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("uid"); // Return existing user's uid
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking user: " + e.getMessage());
+            closeConnection();
+            return -1;
+        }
+
+        // Add new user if not exists
+        String addUserSQL = "INSERT INTO users (username, password, major, year) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(addUserSQL, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setString(3, major);
             pstmt.setString(4, year);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-            closeConnection();
-            return -1;
-        } try (PreparedStatement pstmt = conn.prepareStatement(getUid)) {
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            pstmt.setString(3, major);
-            pstmt.setString(4, year);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                uid = rs.getInt("uid");
+
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                uid = generatedKeys.getInt(1); // Get the newly generated uid
             }
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-            closeConnection();
-            return -1;
+            System.out.println("Error adding user: " + e.getMessage());
         } finally {
             closeConnection();
         }
         return uid;
+    }
+
+    public void saveUserYear(int uid, String year) {
+        if (!connectToDB()) {
+            return;
+        }
+        String updateYearSQL = "UPDATE users SET year = ? WHERE uid = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(updateYearSQL)) {
+            pstmt.setString(1, year);
+            pstmt.setInt(2, uid);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating year: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+    }
+
+    public void saveUserMajor(int uid, String major) {
+        if (!connectToDB()) {
+            return;
+        }
+        String updateMajorSQL = "UPDATE users SET major = ? WHERE uid = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(updateMajorSQL)) {
+            pstmt.setString(1, major);
+            pstmt.setInt(2, uid);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating major: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+    }
+
+    public void saveUserCourseHistory(int uid, String courseHistory) {
+        if (!connectToDB()) {
+            return;
+        }
+        String updateCourseHistorySQL = "UPDATE users SET courseHistory = ? WHERE uid = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(updateCourseHistorySQL)) {
+            pstmt.setString(1, courseHistory);
+            pstmt.setInt(2, uid);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating course history: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
     }
 
     public boolean removeUser(int uid) {

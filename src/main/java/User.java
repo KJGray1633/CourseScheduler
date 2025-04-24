@@ -4,8 +4,10 @@ public class User {
     private int uid;
     private String username;
     private String password;
-    private ArrayList<Course> courseHistory;
+    private String courseHistory;
     private String major;
+    private String year;
+    private DatabaseCalls dbc = new DatabaseCalls();
 
     public String getPassword() {
         return password;
@@ -14,9 +16,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    private String year;
-    private DatabaseCalls dbc = new DatabaseCalls();
 
     public User(String username, String password, String major, String year) {
         this.username = username;
@@ -42,15 +41,30 @@ public class User {
         return username;
     }
 
-    public ArrayList<Course> getCourseHistory() {
-        return courseHistory;
+    public String getCourseHistory() {
+        return courseHistory != null ? courseHistory : "";
+    }
+
+    public void setCourseHistory(String courseHistory) {
+        this.courseHistory = courseHistory;
+        dbc.saveUserCourseHistory(this.uid, this.courseHistory);
     }
 
     public String getMajor() {
         return major;
     }
 
+    public void setMajor(String major) {
+        this.major = major;
+        dbc.saveUserMajor(this.uid, this.major);
+    }
+
     public String getYear() {
         return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+        dbc.saveUserYear(this.uid, this.year);
     }
 }
