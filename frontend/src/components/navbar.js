@@ -1,10 +1,25 @@
+import { useState } from "react";
 import { NavLink } from "react-router";
 import '../App.css';
 import '../styles/navbar.css';
+import { Profile } from '../components/profile.js';
 
 export function Navbar() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function handleProfileClick() {
+    setIsModalOpen(true);
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+  }
+
   return (
     <nav className="navbar">
+      <button className="profile-button" onClick={handleProfileClick}>
+        Profile
+      </button>
       <div className="navbar-links">
         <NavLink
           className={({ isActive }) => isActive ? "link-styles active-link" : "link-styles"}
@@ -25,6 +40,16 @@ export function Navbar() {
           Calendar
         </NavLink>
       </div>
+      {isModalOpen && (
+              <div className="modal">
+                <div className="modal-content">
+                  <button className="close-button" onClick={closeModal}>
+                    &times;
+                  </button>
+                  <Profile />
+                </div>
+              </div>
+            )}
     </nav>
   );
 }

@@ -15,7 +15,7 @@ export function ScheduleProvider({ children }) {
         setSchedule(data);
       })
       .catch(error => {
-        console.error('Error fetching search results:', error);
+        console.error('Error fetching schedule results:', error);
       });
   }, []);
 

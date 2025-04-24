@@ -63,6 +63,7 @@ public class Schedule {
             }
         }
         courses.add(course);
+        //dbc.addCourse(uid, course.getCid());
         saveSchedule();
         return true;
     }
@@ -74,6 +75,7 @@ public class Schedule {
                 break;
             }
         }
+        //dbc.dropCourse(uid, course.getCid());
         saveSchedule();
         return true;
     }

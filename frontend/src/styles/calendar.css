@@ -21,11 +21,14 @@
   display: none !important;
 }
 
+.export-button-container {
+  display: flex;
+  justify-content: left; /* Center the button horizontally */
+  margin-top: 20px; /* Add spacing below the navbar */
+  margin-left: 20px; /* Add spacing to the left */
+}
 
 .export-button {
-  position: absolute;
-  top: 10px;
-  left: 20px;
   background-color: #0078d4;
   color: white;
   border: none;

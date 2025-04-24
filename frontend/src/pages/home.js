@@ -19,6 +19,7 @@ export function Home() {
           handleDropCourse={handleDropCourse}
         />
       </div>
+      <button className="ai-scheduler">AI Scheduler</button>
     </div>
   );
 }
