@@ -203,23 +203,33 @@ export function Search() {
 
   async function handleProfInput(event) {
     const input = event.target.value.trim(); // Get the input value and trim whitespace
+
     if (input) {
       const profArray = input.split('/').map(prof => prof.trim()).filter(prof => prof); // Convert to array and clean up
 
       setFilters(prevFilters => ({
         ...prevFilters,
-        prof: [...profArray] // Add the new professors to the array
+        prof: profArray // Update the prof array
       }));
 
-      // Perform an asynchronous operation, e.g., updating filters on the server
       await updateFilters({
         ...filters,
-        prof: [...profArray]
+        prof: profArray
       });
+    } else {
+      // If input is empty, clear the prof array
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        prof: []
+      }));
 
-      // Optionally fetch updated data
-      fetchFilterData();
+      await updateFilters({
+        ...filters,
+        prof: []
+      });
     }
+
+    fetchFilterData(); // Optionally fetch updated data
   }
 
   async function addCourseWithFeedback(course) {
@@ -353,7 +363,7 @@ export function Search() {
                   type="number"
                   id="courseCode"
                   name="courseCode"
-                  value={filters.courseCode || 0} // Use 0 if filters.courseCode is null
+                  value={filters.courseCode || ""} // Use 0 if filters.courseCode is null
                   onChange={handleInputChange}
                 />
               </label>
