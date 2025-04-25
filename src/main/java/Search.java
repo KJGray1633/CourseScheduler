@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.time.LocalTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Search {
@@ -143,6 +145,20 @@ public class Search {
 
     public ArrayList<Course> filter(Filter filter) {
         ArrayList<Course> filteredResults = new ArrayList<>();
+        if (!filter.getProf().isEmpty()) {
+            List<String> profs = new ArrayList<>();
+            for (String prof : filter.getProf()) {
+                profs.add(prof.toLowerCase());
+            }
+            filter.setProf(profs);
+        }
+        if (filter.getDepartment() != null) {
+            filter.setDepartment(filter.getDepartment().toLowerCase());
+        }
+        if (filter.getName() != null) {
+            filter.setName(filter.getName().toLowerCase());
+        }
+        System.out.println(filter.getProf());
         for (Course c : searchResults) {
             boolean addCourse = true;
 
@@ -150,8 +166,13 @@ public class Search {
             if (!filter.getProf().isEmpty()) {
                 boolean profFound = false;
                 for (String prof : c.getProfessor()) {
-                    if (filter.getProf().contains(prof)) {
-                        profFound = true;
+                    for (String filterProf : filter.getProf()) {
+                        if (prof.toLowerCase().contains(filterProf)) {
+                            profFound = true;
+                            break;
+                        }
+                    }
+                    if (profFound) {
                         break;
                     }
                 }
@@ -160,15 +181,18 @@ public class Search {
                 }
             }
 
-            // Checks if both department and course code filters are applied and if either does not match the course
-            if (addCourse && filter.getDepartment() != null && !filter.getDepartment().isEmpty() && filter.getCourseCode() != 0) {
-                if (!filter.getDepartment().equals(c.getSubject()) || filter.getCourseCode() != c.getCourseCode()) {
-                    addCourse = false;
-                }
+            // Check department filter
+            if (addCourse && filter.getDepartment() != null && !filter.getDepartment().isEmpty() && !c.getSubject().contains(filter.getDepartment())) {
+                addCourse = false;
+            }
+
+            // Check course code filter
+            if (addCourse && filter.getCourseCode() != 0 && filter.getCourseCode() != c.getCourseCode()) {
+                addCourse = false;
             }
 
             // Check if the course name filter is applied and if the course's name does not match the filter
-            if (addCourse && filter.getName() != null && filter.getName().isEmpty() && !c.getName().equals(filter.getName())) {
+            if (addCourse && filter.getName() != null && !filter.getName().isEmpty() && !c.getName().contains(filter.getName())) {
                 addCourse = false;
             }
 
