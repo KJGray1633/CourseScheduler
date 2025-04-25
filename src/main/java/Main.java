@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import java.text.ParseException;
 
 public class Main {
+    private static DatabaseCalls dbc = new DatabaseCalls();
     public enum Page {
         HOME,
         SEARCH,
@@ -256,6 +257,7 @@ public class Main {
         for (Course c : schedule.getCourses()) {
             if (c.getCid() == removeCid) {
                 schedule.dropCourse(c);
+                dbc.dropCourse(1, c.getCid());
                 return true;
             }
         }
@@ -296,6 +298,7 @@ public class Main {
             }
             // Add the course to the schedule
             schedule.addCourse(course);
+            dbc.addCourse(1, course.getCid());
             System.out.println("Course successfully added to schedule!");
             return true;
         }
@@ -469,8 +472,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        user = new User(1);
-        schedule = new Schedule(user.getUid());
+        user = new User("Bob", "123", "Art", "2025");
+        schedule =  dbc.getSchedule(user.getUid());
         run();
 //        Search s = new Search();
 

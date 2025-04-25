@@ -1,0 +1,38 @@
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.profile-form label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.profile-form input,
+.profile-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.profile-form textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.profile-form input:focus,
+.profile-form textarea:focus {
+  border-color: #00bcd4;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 188, 212, 0.5);
+}

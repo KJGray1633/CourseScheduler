@@ -6,7 +6,7 @@ export function Modal({ message, onClose }) {
     <div className="modal-overlay">
       <div className="modal-content">
         <p>{message}</p>
-        <button onClick={onClose}>Close</button>
+        <button className="close-modal" onClick={onClose}>&times;</button>
       </div>
     </div>
   );

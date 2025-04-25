@@ -1,3 +1,4 @@
+import sys
 import json
 from typing import Iterable
 from ai_helper import Course, RequiredCourseInfo
@@ -54,12 +55,14 @@ def _recommend_course(sorted_required_courses_remaining: list[RequiredCourseInfo
                 if result is not None:
                     return result
                 
-def main():
+def main(major, num_credits):
     # Call recommend courses with a list of required courses and desired credits from files
-    required_courses = get_required_courses("")
-    schedule: str | None = recommend_courses(required_courses, 15, 1)
+    required_courses = get_required_courses(major)
+    schedule: str | None = recommend_courses(required_courses, num_credits, 0)
     print(schedule)
 
 if __name__ == '__main__':
-    main()
+    major, num_credits = sys.argv[1], int(sys.argv[2])
+    main(major, num_credits)
+
 

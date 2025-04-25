@@ -1,0 +1,54 @@
+.calendar-container {
+  position: relative;
+  height: 80%;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.react-big-calendar {
+  height: 100%;
+  width: 100%;
+}
+
+.rbc-today {
+  background-color: transparent !important;
+}
+
+.rbc-current-time-indicator {
+  display: none !important;
+}
+
+.export-button-container {
+  display: flex;
+  justify-content: left; /* Center the button horizontally */
+  margin-top: 20px; /* Add spacing below the navbar */
+  margin-left: 20px; /* Add spacing to the left */
+}
+
+.export-button {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.export-button:hover {
+  background-color: #005a9e;
+}
+
+.export-button:active {
+  background-color: #004578;
+}
+
+.export-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px #0078d4;
+}

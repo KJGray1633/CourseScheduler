@@ -1,11 +1,17 @@
 import { Navbar } from '../components/navbar.js';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ScheduleContext } from '../components/scheduleContext.js';
 import { Table } from '../components/table.js';
+import { AIScheduler } from '../components/AIScheduler.js';
 import '../styles/home.css';
 
 export function Home() {
   const { schedule, handleAddCourse, handleDropCourse, isCourseInSchedule } = useContext(ScheduleContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <div>
@@ -19,6 +25,15 @@ export function Home() {
           handleDropCourse={handleDropCourse}
         />
       </div>
+      <button className="ai-scheduler-button" onClick={toggleModal}>AI Scheduler</button>
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <button className="close-modal" onClick={toggleModal}>Close</button>
+            <AIScheduler />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

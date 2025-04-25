@@ -52,10 +52,18 @@ public class DBCreate {
                 + "password VARCHAR(50), "
                 + "major VARCHAR(50), "
                 + "year VARCHAR(50), "
+                + "courseHistory VARCHAR(5000), "
                 + "PRIMARY KEY (uid))";
         pstmt = conn.prepareStatement(createUsersTable);
         pstmt.executeUpdate();
         System.out.println("'users' table created successfully!");
+
+        // Insert default user into users table
+        String insertDefaultUser = "INSERT INTO users (uid, username, password, major, year, courseHistory) "
+                + "VALUES (1, '', '', '', '', '')";
+        pstmt = conn.prepareStatement(insertDefaultUser);
+        pstmt.executeUpdate();
+        System.out.println("Default user with uid=1 created successfully!");
 
         // Create the courses table
         String createCoursesTable = "CREATE TABLE IF NOT EXISTS courses ("

@@ -16,3 +16,33 @@ table th {
   background-color: #f4f4f4; /* Adds a background color to the header */
   text-align: center; /* Centers the header text */
 }
+
+/* Add button styling */
+.addButton {
+  background-color: #28a745; /* Green background */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  padding: 8px 12px; /* Add padding */
+  border-radius: 4px; /* Round corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 14px; /* Set font size */
+}
+
+.addButton:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Drop button styling */
+.dropButton {
+  background-color: #dc3545; /* Red background */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  padding: 8px 12px; /* Add padding */
+  border-radius: 4px; /* Round corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 14px; /* Set font size */
+}
+
+.dropButton:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
