@@ -89,7 +89,8 @@ public class Server {
     }
 
     private void getFilteredResults(Context ctx) {
-        ctx.json(search.filter(filter));
+        var results = search.filter(filter);
+        ctx.json(results);
     }
 
     private void filterCourses(Context ctx) {
@@ -174,6 +175,7 @@ public class Server {
 
     // Get course history method
     private void getCourseHistory(Context ctx) {
-        ctx.json(Map.of("courseHistory", user.getCourseHistory()));
+        var courseHistory = user.getCourseHistory();
+        ctx.json(Map.of("courseHistory", courseHistory));
     }
 }
