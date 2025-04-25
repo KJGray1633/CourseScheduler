@@ -267,6 +267,24 @@ public class DatabaseCalls {
         return null;
     }
 
+    public String getUserCourseHistory(int uid) {
+        if (!connectToDB()) {
+            return null;
+        }
+        String getCourseHistorySQL = "SELECT courseHistory FROM users WHERE uid = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(getCourseHistorySQL)) {
+            pstmt.setInt(1, uid);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("courseHistory");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+        return null;
+    }
 
     public Course getCourse(int cid) {
         if (!connectToDB()) {
