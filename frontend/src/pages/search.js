@@ -105,18 +105,16 @@ export function Search() {
   }
 
   async function handleQueryChange(event) {
-    if (event.key === 'Enter') { // Check if the Enter key is pressed
-      const newQuery = event.target.value;
-      setQuery(newQuery);
-      console.log(query);
+    const newQuery = event.target.value;
+    setQuery(newQuery);
+    console.log(query);
 
-      // Wait for updateQuery to complete
-      await updateQuery(newQuery);
+    // Wait for updateQuery to complete
+    await updateQuery(newQuery);
 
-      // Perform another fetch request after updateQuery completes
-      console.log('Making another fetch request...');
-      fetchSearchData(); // Example of another fetch function
-    }
+    // Perform another fetch request after updateQuery completes
+    console.log('Making another fetch request...');
+    fetchSearchData(); // Example of another fetch function
   }
 
   async function handleCheckboxChange(event) {
@@ -163,22 +161,20 @@ export function Search() {
   }
 
   async function handleInputChange(event) {
-    if (event.key === 'Enter') { // Check if the Enter key is pressed
-      const { name, value } = event.target;
-      console.log('Input changed:', name, value);
+    const { name, value } = event.target;
+    console.log('Input changed:', name, value);
 
-      setFilters(prevFilters => ({
-        ...prevFilters,
-        [name]: value
-      }));
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value
+    }));
 
-      // Use a useEffect to react to changes in filters or pass the updated filters directly
-      await updateFilters({
-        ...filters,
-        [name]: value
-      });
-      fetchFilterData();
-    }
+    // Use a useEffect to react to changes in filters or pass the updated filters directly
+    await updateFilters({
+      ...filters,
+      [name]: value
+    });
+    fetchFilterData();
   }
 
   async function handleTimeChange(event) {
@@ -206,37 +202,35 @@ export function Search() {
   }
 
   async function handleProfInput(event) {
-    if (event.key === 'Enter') { // Check if the Enter key is pressed
-      const input = event.target.value.trim(); // Get the input value and trim whitespace
+    const input = event.target.value.trim(); // Get the input value and trim whitespace
 
-      if (input) {
-        // Split the input into an array of professors using a delimiter (e.g., comma or slash)
-        const profArray = input.split(/[,/]/).map(prof => prof.trim()).filter(prof => prof);
+    if (input) {
+      // Split the input into an array of professors using a delimiter (e.g., comma or slash)
+      const profArray = input.split(/[,/]/).map(prof => prof.trim()).filter(prof => prof);
 
-        setFilters(prevFilters => ({
-          ...prevFilters,
-          prof: profArray // Update the prof array
-        }));
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        prof: profArray // Update the prof array
+      }));
 
-        await updateFilters({
-          ...filters,
-          prof: profArray
-        });
-      } else {
-        // If input is empty, clear the prof array
-        setFilters(prevFilters => ({
-          ...prevFilters,
-          prof: []
-        }));
+      await updateFilters({
+        ...filters,
+        prof: profArray
+      });
+    } else {
+      // If input is empty, clear the prof array
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        prof: []
+      }));
 
-        await updateFilters({
-          ...filters,
-          prof: []
-        });
-      }
-
-      fetchFilterData(); // Optionally fetch updated data
+      await updateFilters({
+        ...filters,
+        prof: []
+      });
     }
+
+    fetchFilterData(); // Optionally fetch updated data
   }
 
   async function addCourseWithFeedback(course) {
@@ -301,7 +295,7 @@ export function Search() {
                 id="query"
                 value={query || ""} // Display the query or an empty string if null
                 onChange={(e) => setQuery(e.target.value)} // Update query state on input change
-                onKeyDown={handleQueryChange}
+                onBlur={handleQueryChange}
                 className="query-input"
               />
             </div>
@@ -360,7 +354,7 @@ export function Search() {
                   type="text"
                   id="name"
                   name="name"
-                  onKeyDown={handleInputChange}
+                  onBlur={handleInputChange}
                 />
               </label>
               <br />
@@ -370,7 +364,7 @@ export function Search() {
                   type="number"
                   id="courseCode"
                   name="courseCode"
-                  onKeyDown={handleInputChange}
+                  onBlur={handleInputChange}
                 />
               </label>
             </div>
@@ -381,7 +375,7 @@ export function Search() {
                   type="text"
                   id="prof"
                   name="prof"
-                  onKeyDown={handleProfInput}
+                  onBlur={handleProfInput}
                 />
               </label>
               <br />
@@ -391,7 +385,7 @@ export function Search() {
                   type="text"
                   id="department"
                   name="department"
-                  onKeyDown={handleInputChange}
+                  onBlur={handleInputChange}
                 />
               </label>
             </div>
