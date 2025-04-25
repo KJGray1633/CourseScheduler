@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Course {
@@ -138,6 +139,15 @@ public class Course {
                         return true;
                     }
                 }
+            }
+        }
+        return false;
+    }
+
+    public boolean isOverlap(ArrayList<Course> courses) {
+        for (Course course : courses) {
+            if (isOverlap(course)) {
+                return true;
             }
         }
         return false;

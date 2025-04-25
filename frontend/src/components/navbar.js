@@ -42,7 +42,7 @@ export function Navbar() {
       </div>
       {isModalOpen && (
               <div className="modal">
-                <div className="modal-content">
+                <div className="modal-content profile-modal">
                   <button className="close-button" onClick={closeModal}>
                     &times;
                   </button>

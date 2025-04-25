@@ -23,6 +23,10 @@
   text-align: center; /* Centers the content */
 }
 
+.profile-modal {
+  max-width: 470px;
+}
+
 .ai-scheduler-button {
   background: linear-gradient(45deg, #6a11cb, #2575fc); /* Gradient background */
   color: white;

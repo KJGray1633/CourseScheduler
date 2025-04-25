@@ -42,7 +42,8 @@ public class User {
     }
 
     public String getCourseHistory() {
-        return courseHistory != null ? courseHistory : "";
+        var c = dbc.getUserCourseHistory(uid);
+        return c != null ? c : "";
     }
 
     public void setCourseHistory(String courseHistory) {
