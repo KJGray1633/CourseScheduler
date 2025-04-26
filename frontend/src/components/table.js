@@ -12,9 +12,23 @@ const TableRow = memo(({ item, isCourseInSchedule, handleAddCourse, handleDropCo
       .join(' ');
   };
 
+  const capitalizeCourseName = (name) => {
+    return name
+      .split(' ')
+      .map(word => {
+        if (['i', 'ii', 'iii', 'iv', 'v'].includes(word.toLowerCase())) {
+          return word.toUpperCase(); // Convert Roman numerals to uppercase
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); // Capitalize other words
+      })
+      .join(' ');
+  };
+
   return (
     <tr>
       <td>{`${item.subject.toUpperCase()} ${item.courseCode}`}</td>
+      <td>{capitalizeCourseName(item.name)}</td>
+      <td>{item.cid}</td>
       <td>
         {item.times.length > 0
           ? `${item.times.map(time => time.day[0]).join('/')} ${item.times[0].startTime} - ${item.times[0].endTime}`
@@ -43,6 +57,8 @@ export const Table = memo(({ tableData, isCourseInSchedule, handleAddCourse, han
     <thead>
       <tr>
         <th>Course Code</th>
+        <th>Course Name</th>
+        <th>Reference Number</th>
         <th>Times</th>
         <th>Location</th>
         <th>Professor</th>
