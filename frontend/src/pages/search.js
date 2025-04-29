@@ -26,20 +26,32 @@ export function Search() {
 
   console.log(query);
 
-  useEffect(() => {
-    console.log('Fetching data from: search');
-    fetch('http://localhost:7000/search')
-      .then(response => response.json())
-      .then(data => {
-        console.log('Data fetched:', data);
-        setTableData(data);
-      })
-      .catch(error => {
-        console.error('Error fetching search results:', error);
-      });
-  }, []);
+useEffect(() => {
+  async function fetchData() {
+    try {
+      // Post the current filters to the server
+      console.log('Posting filters to the server...');
+      await updateFilters(filters);
 
-  function fetchSearchData() {
+      // Fetch the search results
+      console.log('Fetching data from: search');
+      const response = await fetch('http://localhost:7000/search');
+      const data = await response.json();
+      console.log('Data fetched:', data);
+      setTableData(data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  }
+
+  fetchData();
+}, [filters]);
+
+  async function fetchSearchData() {
+    // Post the current filters to the server
+    await updateFilters(filters);
+    console.log("Filters updated");
+
     console.log('Fetching data from: search');
     fetch('http://localhost:7000/search')
       .then(response => response.json())

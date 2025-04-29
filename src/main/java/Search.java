@@ -203,18 +203,26 @@ public class Search {
                     addCourse = false;
                 }
             }
-            if(filter.getStartTime() != null && filter.getEndTime() != null){
-                for(MeetingTime mt : c.getTimes()){
+            if (filter.getStartTime() != null) {
+                for (MeetingTime mt : c.getTimes()) {
                     Time start = mt.getStartTime();
                     Time end = mt.getEndTime();
-                    boolean tooEarly = start.before(filter.getStartTime()) || end.before(filter.getStartTime()) || end.equals(filter.getStartTime());
-                    boolean tooLate = end.after(filter.getEndTime()) || start.after(filter.getEndTime()) || start.equals(filter.getEndTime());
-                    if( tooEarly || tooLate){
+                    if (start.before(filter.getStartTime()) || end.before(filter.getStartTime()) || end.equals(filter.getStartTime())) {
                         addCourse = false;
                         break;
                     }
                 }
+            }
 
+            if (filter.getEndTime() != null) {
+                for (MeetingTime mt : c.getTimes()) {
+                    Time start = mt.getStartTime();
+                    Time end = mt.getEndTime();
+                    if (end.after(filter.getEndTime()) || start.after(filter.getEndTime()) || start.equals(filter.getEndTime())) {
+                        addCourse = false;
+                        break;
+                    }
+                }
             }
             if (addCourse && !filteredResults.contains(c)) {
                 filteredResults.add(c);
