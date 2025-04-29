@@ -78,7 +78,12 @@ public class Server {
     }
 
     private void getResults(Context ctx) {
-        ctx.json(search.getSearchResults());
+        if (filter == null) {
+            ctx.json(search.getSearchResults());
+        }
+        else {
+            ctx.json(search.filter(filter));
+        }
     }
 
     private void searchCourses(Context ctx) {
