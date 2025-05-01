@@ -354,6 +354,8 @@ export function Search() {
                   type="text"
                   id="name"
                   name="name"
+                  value={filters.name || ""} // Use empty string if filters.name is null
+                  onChange={(e) => setFilters({ ...filters, name: e.target.value })}
                   onBlur={handleInputChange}
                 />
               </label>
@@ -364,6 +366,8 @@ export function Search() {
                   type="number"
                   id="courseCode"
                   name="courseCode"
+                  value={filters.courseCode || ""} // Use empty string if filters.courseCode is null
+                  onChange={(e) => setFilters({ ...filters, courseCode: e.target.value })}
                   onBlur={handleInputChange}
                 />
               </label>
@@ -375,6 +379,8 @@ export function Search() {
                   type="text"
                   id="prof"
                   name="prof"
+                  value={filters.prof} // Join the array into a string for display
+                  onChange={(e) => setFilters({ ...filters, prof: e.target.value })}
                   onBlur={handleProfInput}
                 />
               </label>
@@ -385,6 +391,8 @@ export function Search() {
                   type="text"
                   id="department"
                   name="department"
+                  value={filters.department || ""} // Use empty string if filters.department is null
+                  onChange={(e) => setFilters({ ...filters, department: e.target.value })}
                   onBlur={handleInputChange}
                 />
               </label>
